@@ -1,0 +1,87 @@
+@use "variables" as *;
+
+// About page bio block
+// ---------------------------------------------------------------------------
+.about-grid {
+    align-items: center;
+}
+
+.about-image img {
+    border-radius: $radius-lg;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-bio p {
+    color: var(--light-gray);
+    line-height: 1.8;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+
+    & + p {
+        margin-top: 1.25rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Experience & Background (About page): compact role cards for current
+// positions, plus a scannable badge row for competition/certification
+// history, replacing the old one-long-paragraph-per-entry timeline.
+// ---------------------------------------------------------------------------
+.role-card {
+    padding: 1.5rem;
+
+    &__title {
+        font-weight: 600;
+        color: var(--white);
+        font-size: 1.05rem;
+    }
+
+    &__org {
+        color: var(--light-blue);
+        font-size: 0.9rem;
+        margin-top: 0.35rem;
+    }
+
+    &__date {
+        color: var(--gray);
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+}
+
+.achievement-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 2.5rem auto 0;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--slate);
+        border: 1px solid rgba(var(--blue-rgb), 0.25);
+        border-radius: $radius-pill;
+        padding: 0.6rem 1.1rem;
+        font-size: 0.85rem;
+        color: var(--light-gray);
+    }
+
+    ::ng-deep svg {
+        flex-shrink: 0;
+        width: 1.2rem;
+        height: 1.2rem;
+        color: var(--light-blue);
+    }
+
+    strong {
+        color: var(--white);
+        font-weight: 600;
+    }
+}
+
+// ---------------------------------------------------------------------------

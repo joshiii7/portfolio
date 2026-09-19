@@ -1,0 +1,122 @@
+@use "variables" as *;
+
+// FAQ accordion (Home, Contact, Services). Built from real <button> triggers
+// rather than <details>/<summary> so aria-expanded/aria-controls can be set
+// explicitly and main.js can enforce "only one item open at a time."
+// ---------------------------------------------------------------------------
+.accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.accordion-item {
+    background: var(--slate);
+    border: 1px solid rgba(var(--blue-rgb), 0.2);
+    border-radius: $radius-md;
+    overflow: hidden;
+}
+
+.accordion-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-family: $font-heading;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: left;
+    padding: 1.1rem 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--light-blue);
+    }
+}
+
+// Drawn as a plus/minus with two bars, rather than a single glyph, so the
+// expanded state is a distinct shape change, not just a rotated icon or a
+// color swap. The panel's own visibility is still the primary state cue;
+// this is a supporting one.
+.accordion-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: var(--light-blue);
+        transform: translate(-50%, -50%);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    &::before {
+        width: 100%;
+        height: 2px;
+    }
+
+    &::after {
+        width: 2px;
+        height: 100%;
+    }
+}
+
+.accordion-trigger[aria-expanded="true"] .accordion-icon::after {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+// Open/close is a CSS-only height transition: the panel is a one-row grid
+// whose row animates between 0fr and 1fr, so it always travels the content's
+// real height (no measured pixel value, no fixed max-height cap). Matches
+// Bootstrap's own .collapse timing (350ms, ease). State comes from the
+// .is-open class the component binds; nothing here needs JS to measure.
+.accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+
+    &.is-open {
+        grid-template-rows: 1fr;
+    }
+}
+
+.accordion-panel__inner {
+    min-height: 0;
+    overflow: hidden;
+
+    p {
+        color: var(--light-gray);
+        padding: 0 1.5rem 1.25rem;
+        line-height: 1.7;
+
+        a {
+            color: var(--light-blue);
+            text-decoration: underline;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .accordion-panel {
+        transition: none;
+    }
+
+    .accordion-icon::before,
+    .accordion-icon::after {
+        transition: none;
+    }
+}
+
+// ---------------------------------------------------------------------------

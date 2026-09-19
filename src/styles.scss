@@ -1,0 +1,91 @@
+@use "variables" as *;
+@use "root";
+@use "spacing";
+@use "utilities";
+@use "shared";
+
+// ---------------------------------------------------------------------------
+// Base reset & typography
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    // Tells the browser this page is dark-themed, so native UA-rendered
+    // widgets it doesn't hand off to author CSS, most importantly a <select>
+    // element's own options popup, use a dark palette instead of defaulting
+    // to the OS's light theme. Without this, a <select> can look correctly
+    // dark while closed (its own background/color are styled below) but pop
+    // open a plain white options list on click.
+    color-scheme: dark;
+    // Keeps any anchor-jump target (the skip link today, any future in-page
+    // anchor) clear of the fixed header instead of landing right underneath
+    // it. --header-height is measured live by main.js (syncHeaderHeight)
+    // since the mobile header's real height is now taller than desktop's
+    // (it's a stack of rows, not one line) and isn't a fixed constant; the
+    // $header-height fallback only matters for the instant before that JS
+    // runs.
+    scroll-padding-top: calc(var(--header-height, #{$header-height}) + 1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+body {
+    font-family: $font-body;
+    background-color: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: $font-heading;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+h3,
+h4 {
+    font-weight: 500;
+}
+
+main {
+    display: block;
+}
+
+// ---------------------------------------------------------------------------
+
+// Routed page components render inside <main>; make their host elements block-level.
+main > * {
+    display: block;
+}

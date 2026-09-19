@@ -1,0 +1,95 @@
+<app-page-banner
+  title="Pricing"
+  text="Straightforward starting prices for custom web, mobile, and desktop development, plus ongoing maintenance if you need it."
+  bg="assets/images/banners/banner-pricing.svg"
+/>
+
+<section appReveal class="section-py">
+  <div class="container">
+    <h2 class="section-title">One-Time Project <span class="heading-accent">Pricing</span></h2>
+    <p class="section-intro">These are starting points, not final quotes. Actual pricing depends on the features you need, third-party integrations, design complexity, your timeline, how the system will be deployed, and the level of support you want. You'll always get a clear, itemized quote before any work begins.</p>
+
+    <div class="grid grid-3 pricing-grid--center-last">
+      @for (plan of projectPlans; track plan.name) {
+        <div class="card pricing-card">
+          <p class="pricing-card__name">{{ plan.name }}</p>
+          <p class="pricing-card__starting">Starting at</p>
+          <p class="pricing-card__price"><span class="currency">₱</span><span class="pricing-card__amount">{{ plan.price | number: '1.0-0' }}</span></p>
+          <p class="pricing-card__period">{{ plan.period }}</p>
+          <p class="pricing-card__tagline">{{ plan.tagline }}</p>
+          <a routerLink="/contact" class="btn btn-primary">Request a Custom Quote</a>
+          <hr class="pricing-card__divider" />
+          <ul class="pricing-card__features">
+            @for (feature of plan.features; track feature) {
+              <li><app-icon name="check" />{{ feature }}</li>
+            }
+          </ul>
+          <p class="pricing-card__scope-note">{{ plan.scopeNote }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section appReveal class="section-py bg-secondary">
+  <div class="container">
+    <h2 class="section-title">Maintenance &amp; <span class="heading-accent">Support Plans</span></h2>
+    <p class="section-intro">Optional, ongoing plans for clients who want their site or system looked after, updated, and supported after launch. Billed monthly, or annually at a discount.</p>
+
+    <div class="billing-toggle" role="group" aria-label="Billing cycle">
+      <button
+        type="button"
+        class="billing-toggle__btn"
+        [class.is-active]="cycle() === 'monthly'"
+        [attr.aria-pressed]="cycle() === 'monthly'"
+        (click)="setCycle('monthly')"
+      >Monthly</button>
+      <button
+        type="button"
+        class="billing-toggle__btn"
+        [class.is-active]="cycle() === 'annual'"
+        [attr.aria-pressed]="cycle() === 'annual'"
+        (click)="setCycle('annual')"
+      >Annual <span class="billing-toggle__badge">Save ~17%</span></button>
+    </div>
+
+    <div class="grid grid-3">
+      @for (plan of maintenancePlans; track plan.name) {
+        <div class="card pricing-card" [class.pricing-card--featured]="plan.featured">
+          @if (plan.featured) {
+            <span class="pricing-card__badge">Most Popular</span>
+          }
+          <p class="pricing-card__name">{{ plan.name }}</p>
+          <p class="pricing-card__starting">Starting at</p>
+          <p class="pricing-card__price"><span class="currency">₱</span><span class="pricing-card__amount">{{ (cycle() === 'annual' ? plan.annual : plan.monthly) | number: '1.0-0' }}</span></p>
+          <p class="pricing-card__period">{{ cycle() === 'annual' ? '/year' : '/month' }}</p>
+          <p class="pricing-card__tagline">{{ plan.tagline }}</p>
+          <a routerLink="/contact" class="btn" [class.btn-primary]="plan.featured" [class.btn-outline]="!plan.featured">Get Started</a>
+          <hr class="pricing-card__divider" />
+          <ul class="pricing-card__features">
+            @for (feature of plan.features; track feature) {
+              <li><app-icon name="check" />{{ feature }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <p class="pricing-plans-note">Development beyond your plan's included hours is billed at ₱1,500 per hour. Need a dedicated response-time agreement or coverage across multiple systems? That's a custom quote, <a routerLink="/contact">get in touch</a> and I'll put together a plan that fits.</p>
+    <div class="info-note">Domain registration, hosting, SSL certificates, paid third-party services (such as SMS gateways, payment processors, or mapping APIs), Apple and Google Play developer fees, and unusually complex integrations are billed separately at cost and are not included in the prices above.</div>
+  </div>
+</section>
+
+<app-cta-band
+  title="Need Something More"
+  accent="Specific?"
+  text="Every project is scoped individually. Tell me about what you need and I'll put together a clear, itemized quote, no fixed package required."
+  label="Request a Custom Quote"
+/>
+
+<app-faq-section
+  idPrefix="pricingFaq"
+  title="Pricing"
+  intro="A few things people usually ask before committing to a project."
+  [faqs]="faqs"
+/>

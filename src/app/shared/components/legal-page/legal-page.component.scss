@@ -1,0 +1,46 @@
+@use "variables" as *;
+
+// Accessibility & Privacy Policy pages: plain prose content, reusing the
+// same page-banner + container shell as every other interior page.
+// ---------------------------------------------------------------------------
+.legal-content {
+    max-width: 760px;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 1.4rem;
+        margin-top: 2.5rem;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    p,
+    li {
+        color: var(--light-gray);
+        line-height: 1.8;
+        font-size: 1rem;
+    }
+
+    p {
+        margin-top: 1rem;
+    }
+
+    ul {
+        margin-top: 1rem;
+        padding-left: 1.25rem;
+
+        li + li {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.legal-updated {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+// ---------------------------------------------------------------------------

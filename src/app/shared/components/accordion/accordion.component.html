@@ -1,0 +1,36 @@
+<div class="accordion">
+  @for (item of items(); track item.q; let i = $index) {
+    <div class="accordion-item">
+      <h3>
+        <button
+          type="button"
+          class="accordion-trigger"
+          [id]="idPrefix() + 'Q' + i"
+          [attr.aria-expanded]="openIndex() === i"
+          [attr.aria-controls]="idPrefix() + 'P' + i"
+          (click)="toggle(i)"
+        >
+          <span>{{ item.q }}</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div
+        class="accordion-panel"
+        [class.is-open]="openIndex() === i"
+        [id]="idPrefix() + 'P' + i"
+        role="region"
+        [attr.aria-labelledby]="idPrefix() + 'Q' + i"
+        [attr.aria-hidden]="openIndex() !== i"
+        [attr.inert]="openIndex() === i ? null : ''"
+      >
+        <div class="accordion-panel__inner">
+          @if (item.link; as link) {
+            <p>{{ parts(item)[0] }}<a [routerLink]="link.route">{{ link.text }}</a>{{ parts(item)[1] }}</p>
+          } @else {
+            <p>{{ item.a }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

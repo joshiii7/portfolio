@@ -1,0 +1,52 @@
+@use "variables" as *;
+
+.tech-subheading {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    color: var(--light-blue);
+    font-size: 1.3rem;
+}
+
+.process-list {
+    list-style: none;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    counter-reset: process;
+}
+
+.process-step {
+    counter-increment: process;
+    position: relative;
+    padding-top: 3rem;
+
+    &::before {
+        content: counter(process);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: var(--blue);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-family: $font-heading;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: var(--light-gray);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+}
+
+// ---------------------------------------------------------------------------

@@ -1,0 +1,233 @@
+@use "variables" as *;
+
+// Header & navigation
+// ---------------------------------------------------------------------------
+// Solid from first paint, not scroll-triggered: matches thegenieorlando's
+// header, which carries its background unconditionally rather than fading
+// in after a scroll threshold.
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: rgba(var(--navy-rgb), 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: $container-max;
+    margin: 0 auto;
+    // padding: 0 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 0.5rem;
+}
+
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    order: 2;
+}
+
+// Always-visible click-to-call pill, sitting between the logo and the
+// hamburger toggle on mobile (never hidden inside the collapsed menu), and
+// flowing to the end of the row next to the nav links on desktop.
+// Sized and spaced after thegenieorlando's header CTA (40px tall on mobile,
+// 50px at desktop, a comfortably wide button), kept in this portfolio's own
+// pill shape, accent color, and blur treatment rather than their square,
+// solid-blue button.
+.header-phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    order: 1;
+    min-width: 11rem;
+    min-height: 40px;
+    padding: 0.5rem 1.25rem;
+    border-radius: $radius-pill;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+    background: rgba(var(--blue-rgb), 0.35);
+    transition: background 0.3s ease;
+
+    &:hover,
+    &:focus-visible {
+        background: rgba(var(--blue-rgb), 0.5);
+    }
+
+    @include bp($bp-md) {
+        order: 3;
+        min-height: 50px;
+    }
+}
+
+nav#mainNav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+
+    @include bp($bp-md) {
+        order: 2;
+    }
+}
+
+nav#mainNav ul {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+
+    li a {
+        color: var(--light-gray);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        position: relative;
+        padding: 0.25rem 0;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--light-blue);
+            transition: width 0.3s ease;
+        }
+
+        &:hover,
+        &.active {
+            color: var(--light-blue);
+        }
+
+        &:hover::after,
+        &.active::after {
+            width: 100%;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+
+@media (max-width: #{$bp-md - 1px}) {
+    // Modeled directly on thegenieorlando's mobile header: logo, then the
+    // phone CTA, then a full-width menu toggle bar, each on its own centered
+    // row, rather than all three competing for space in a single line. This
+    // is deliberately a taller header on mobile than on desktop; that's why
+    // --header-height (set live by main.js, see syncHeaderHeight) drives the
+    // spacing below instead of the fixed $header-height constant, which
+    // only describes the single-row desktop header.
+    .header-content {
+        display: block;
+        text-align: center;
+    }
+
+    .header-phone {
+        display: flex;
+        width: fit-content;
+        margin: 0 auto 0.75rem;
+    }
+
+    // A bold, full-width, unmissable tap target, matching the reference's
+    // solid-color toggle bar rather than a small icon in the corner. Label
+    // text and bar shape both flip between the closed/open pairs below.
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        width: 100%;
+        min-height: 44px;
+        padding: 0.6rem 1rem;
+        background: rgba(var(--blue-rgb), 0.35);
+        color: var(--white);
+        font-family: $font-body;
+        font-weight: 600;
+        font-size: 0.95rem;
+        position: relative;
+        z-index: 1100;
+    }
+
+    .mobile-menu-btn__icon {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        width: 20px;
+        flex-shrink: 0;
+
+        span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: currentColor;
+            border-radius: 1px;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+        }
+    }
+
+    // Hamburger morphs into an X, a clear, non-text-dependent open/close
+    // signal to pair with the "Menu" / "Close" label text swapped in main.js.
+    .mobile-menu-btn[aria-expanded="true"] .mobile-menu-btn__icon {
+        span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        span:nth-child(2) {
+            opacity: 0;
+        }
+
+        span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+    }
+
+    // A compact, content-sized dropdown that expands directly below the
+    // toggle bar, matching thegenieorlando's mobile menu (a Bootstrap-style
+    // collapse) rather than a full-screen fixed overlay. Since .site-header
+    // itself stays position:fixed, this still overlays the page while open,
+    // but only by as much height as the links need, not the whole viewport.
+    // Full width and centered text, same as the toggle bar above it, so
+    // nothing here can overlap the logo or run past the viewport edge.
+    nav#mainNav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin-top: 0.75rem;
+        transition: max-height 0.3s ease;
+
+        &.active {
+            max-height: 24rem;
+        }
+
+        ul {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.25rem;
+            width: 100%;
+            padding: 0.5rem 0 1.5rem;
+        }
+    }
+
+}

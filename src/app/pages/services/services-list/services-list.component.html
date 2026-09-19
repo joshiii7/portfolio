@@ -1,0 +1,51 @@
+<app-page-banner
+  title="What I Build"
+  text="Practical software development services, based on the kind of systems and applications I've actually built."
+  bg="assets/images/banners/banner-services.svg"
+/>
+
+<section appReveal class="section-py">
+  <div class="container">
+    <div class="grid grid-4">
+      @for (service of content.services; track service.id) {
+        <app-service-card [service]="service" />
+      } @empty {
+        <p>Services are on their way. Check back soon.</p>
+      }
+    </div>
+  </div>
+</section>
+
+<section appReveal class="section-py bg-secondary">
+  <div class="container">
+    <h2 class="section-title">Skills &amp; <span class="heading-accent">Tools</span></h2>
+    <p class="section-intro">The languages, frameworks, and tools I use to build these services.</p>
+    <h3 class="tech-subheading">Languages &amp; Frameworks</h3>
+    <app-skills-grid [items]="content.languages" label="Languages and frameworks" />
+    <h3 class="tech-subheading">Tools &amp; Editors</h3>
+    <app-skills-grid [items]="content.tools" label="Tools and editors" />
+  </div>
+</section>
+
+<section appReveal class="section-py">
+  <div class="container">
+    <h2 class="section-title">My <span class="heading-accent">Process</span></h2>
+    <p class="section-intro">A straightforward process, from first conversation to launch.</p>
+    <ol class="process-list">
+      @for (step of process; track step.title) {
+        <li class="process-step">
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<app-faq-section idPrefix="servicesFaq" [faqs]="faqs" [secondary]="true" />
+
+<app-cta-band
+  title="Ready to Talk Through Your"
+  accent="Project?"
+  text="Tell me what you need and I'll get back to you with next steps."
+/>

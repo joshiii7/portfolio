@@ -1,0 +1,23 @@
+@use "variables" as *;
+
+// CTA band
+// ---------------------------------------------------------------------------
+.cta-band {
+    text-align: center;
+
+    h2 {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        margin-bottom: 1rem;
+    }
+
+    p {
+        color: var(--light-gray);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        font-size: clamp(1rem, 2vw, 1.15rem);
+    }
+}
+
+// Pre-footer CTA row: the primary action button paired with a click-to-call
+// phone button, equal weight, centered, wrapping to a stacked column on
+// narrow mobile screens.

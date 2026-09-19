@@ -1,0 +1,88 @@
+@use "variables" as *;
+
+// Projects (case study cards)
+// ---------------------------------------------------------------------------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+
+    .project-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: $radius-md;
+        background-color: var(--navy);
+    }
+
+    h3 {
+        font-size: 1.35rem;
+        margin-top: 0.5rem;
+    }
+
+    > p {
+        color: var(--light-gray);
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .project-detail {
+        margin-top: 0.25rem;
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            color: var(--light-blue);
+            margin-bottom: 0.15rem;
+        }
+
+        p {
+            margin: 0;
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    }
+
+    .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+        padding-top: 0.5rem;
+    }
+
+    // "Read Full Case Study" / "View Live Demo": same frosted CTA treatment
+    // as the site's buttons, sized down to fit inside a compact card.
+    .project-links {
+        margin-top: 0.5rem;
+
+        a {
+            margin-top: 0;
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            min-height: 36px;
+            text-decoration: none;
+            color: var(--white);
+            backdrop-filter: blur(12px);
+            background: rgba(var(--white-rgb), 0.05);
+            transition: transform 0.3s ease, background 0.3s ease;
+
+            &:hover {
+                background: rgba(var(--white-rgb), 0.12);
+                transform: scale(1.05);
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
+        }
+    }
+}
