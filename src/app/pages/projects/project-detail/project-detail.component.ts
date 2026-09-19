@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { ContentService } from '../../../core/services/content.service';
 import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
@@ -11,7 +12,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (project(); as project) {
-      <app-page-banner [title]="project.name" [text]="project.bannerText" />
+      <app-page-banner [title]="project.name" [text]="project.bannerText" [photo]="photos.woodenDesk" focal="center" />
 
       <section appReveal class="section-py">
         <div class="container">
@@ -19,7 +20,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
         </div>
       </section>
 
-      <app-cta-band
+      <app-cta-band [photo]="photos.homeOffice" focal="center"
         title="Have Something Similar in"
         accent="Mind?"
         text="If this is close to what you need, let's talk about your project specifically."
@@ -33,6 +34,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
   `,
 })
 export class ProjectDetailComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   private readonly content = inject(ContentService);
 
   /** Route param, bound by the router (withComponentInputBinding). */

@@ -1,5 +1,22 @@
 @use "variables" as *;
 
+// AOS slides elements in from the side; clip so that can never add a horizontal scrollbar.
+.aos-scope {
+    overflow-x: clip;
+}
+
+// Cards and achievements under the photo heading banner: the section no
+// longer has its own vertical padding (the banner runs full width to the top).
+.experience-body {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+
+    @include bp($bp-md) {
+        padding-top: 4rem;
+        padding-bottom: 5rem;
+    }
+}
+
 // About page bio block
 // ---------------------------------------------------------------------------
 .about-grid {
@@ -14,7 +31,7 @@
 }
 
 .about-bio p {
-    color: var(--light-gray);
+    color: var(--color-text-muted);
     line-height: 1.8;
     font-size: clamp(1rem, 2vw, 1.15rem);
 
@@ -33,18 +50,18 @@
 
     &__title {
         font-weight: 600;
-        color: var(--white);
+        color: var(--color-text);
         font-size: 1.05rem;
     }
 
     &__org {
-        color: var(--light-blue);
+        color: var(--color-accent);
         font-size: 0.9rem;
         margin-top: 0.35rem;
     }
 
     &__date {
-        color: var(--gray);
+        color: var(--color-text-muted);
         font-size: 0.8rem;
         margin-top: 0.5rem;
     }
@@ -63,23 +80,23 @@
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        background: var(--slate);
-        border: 1px solid rgba(var(--blue-rgb), 0.25);
+        background: var(--color-surface);
+        border: 1px solid rgba(var(--color-accent-rgb), 0.25);
         border-radius: $radius-pill;
         padding: 0.6rem 1.1rem;
         font-size: 0.85rem;
-        color: var(--light-gray);
+        color: var(--color-text-muted);
     }
 
     ::ng-deep svg {
         flex-shrink: 0;
         width: 1.2rem;
         height: 1.2rem;
-        color: var(--light-blue);
+        color: var(--color-accent);
     }
 
     strong {
-        color: var(--white);
+        color: var(--color-text);
         font-weight: 600;
     }
 }

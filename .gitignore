@@ -60,3 +60,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Original, unoptimized source images (kept locally, not shipped)
+/originals/

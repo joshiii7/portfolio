@@ -12,7 +12,7 @@
 // where the text sits.
 .page-banner {
     position: relative;
-    background-color: var(--slate);
+    background-color: var(--color-surface);
     padding: calc(var(--header-height, #{$header-height}) + 3rem) 1.5rem 3rem;
     text-align: center;
     overflow: hidden;
@@ -35,7 +35,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(31, 41, 55, 0.55), rgba(31, 41, 55, 0.88));
+        background: linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.55), rgba(var(--color-surface-rgb), 0.88));
         z-index: 0;
     }
 
@@ -50,10 +50,33 @@
 
     p {
         margin-top: 1rem;
-        color: var(--light-gray);
+        color: var(--color-text-muted);
         font-size: clamp(1rem, 2vw, 1.15rem);
         max-width: 640px;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    // Photo banners: the picture can be bright anywhere, so the scrim is
+    // darker (over 0.78 even at its lightest, which keeps the light text above
+    // 7:1 against a pure-white pixel) and the copy is full-strength text.
+    // Stacking, back to front: the photo (0), the scrim (1), the heading (2).
+    &--photo {
+        @include photo-band-height;
+
+        &::before {
+            background: linear-gradient(180deg, rgba(var(--color-bg-rgb), 0.78), rgba(var(--color-bg-rgb), 0.9));
+            z-index: 1;
+        }
+
+        .container {
+            z-index: 2;
+        }
+
+        h1,
+        p {
+            color: var(--color-text);
+            text-shadow: 0 2px 8px rgba(var(--black-rgb), 0.55);
+        }
     }
 }

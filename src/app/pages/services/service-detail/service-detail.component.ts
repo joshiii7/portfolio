@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { RouterLink } from '@angular/router';
 import { SITE } from '../../../core/data/site';
 import { ContentService } from '../../../core/services/content.service';
@@ -27,6 +28,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
   templateUrl: './service-detail.component.html',
 })
 export class ServiceDetailComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   private readonly content = inject(ContentService);
   protected readonly site = SITE;
 

@@ -13,7 +13,7 @@
         height: 180px;
         object-fit: cover;
         border-radius: $radius-md;
-        background-color: var(--navy);
+        background-color: var(--color-bg);
     }
 
     h3 {
@@ -22,7 +22,7 @@
     }
 
     > p {
-        color: var(--light-gray);
+        color: var(--color-text-muted);
         font-size: 0.95rem;
         line-height: 1.55;
     }
@@ -36,13 +36,13 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-weight: 700;
-            color: var(--light-blue);
+            color: var(--color-accent);
             margin-bottom: 0.15rem;
         }
 
         p {
             margin: 0;
-            color: var(--light-gray);
+            color: var(--color-text-muted);
             font-size: 0.9rem;
             line-height: 1.5;
         }
@@ -70,13 +70,13 @@
             font-size: 0.85rem;
             min-height: 36px;
             text-decoration: none;
-            color: var(--white);
+            color: var(--color-text);
             backdrop-filter: blur(12px);
-            background: rgba(var(--white-rgb), 0.05);
+            background: rgba(var(--color-text-rgb), 0.05);
             transition: transform 0.3s ease, background 0.3s ease;
 
             &:hover {
-                background: rgba(var(--white-rgb), 0.12);
+                background: rgba(var(--color-text-rgb), 0.12);
                 transform: scale(1.05);
             }
 

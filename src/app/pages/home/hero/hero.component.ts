@@ -72,7 +72,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
-        ctx.strokeStyle = 'rgba(132, 161, 255, 0.05)';
+        ctx.strokeStyle = 'rgba(47, 129, 247, 0.06)';
         ctx.lineWidth = 1;
         ctx.strokeRect(c * BOX_SIZE, r * BOX_SIZE, BOX_SIZE, BOX_SIZE);
       }
@@ -86,9 +86,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       const col = Math.floor(point.x / BOX_SIZE);
       const row = Math.floor(point.y / BOX_SIZE);
 
-      ctx.strokeStyle = `rgba(0, 102, 255, ${opacity})`;
+      ctx.strokeStyle = `rgba(47, 129, 247, ${opacity})`;
       ctx.shadowBlur = 15 * opacity;
-      ctx.shadowColor = 'rgba(0, 68, 255, 0.6)';
+      ctx.shadowColor = 'rgba(47, 129, 247, 0.6)';
       ctx.lineWidth = 2;
       ctx.strokeRect(col * BOX_SIZE, row * BOX_SIZE, BOX_SIZE, BOX_SIZE);
       ctx.shadowBlur = 0;

@@ -1,0 +1,25 @@
+@use "variables" as *;
+
+// Fills the parent's box behind everything else (the parent supplies the
+// scrim at z-index 1 and its content above that).
+:host {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+}
+
+picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include photo-focal;
+}

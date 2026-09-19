@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { ContentService } from '../../../core/services/content.service';
 import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
@@ -14,7 +15,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
     <app-page-banner
       title="Selected Projects"
       text="A selection of capstone projects built to solve practical business and institutional challenges."
-      bg="assets/images/banners/banner-projects.svg"
+      [photo]="photos.homeOffice" focal="center"
     />
 
     <section appReveal class="section-py">
@@ -43,7 +44,7 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
       </div>
     </section>
 
-    <app-cta-band
+    <app-cta-band [photo]="photos.woodenDesk" focal="center"
       title="Have Something Similar in"
       accent="Mind?"
       text="If any of these are close to what you need, let's talk about your project specifically."
@@ -51,5 +52,6 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
   `,
 })
 export class ProjectsListComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   protected readonly content = inject(ContentService);
 }

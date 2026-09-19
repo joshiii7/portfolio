@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { SERVICES_FAQS } from '../../../core/data/faqs';
 import { ContentService } from '../../../core/services/content.service';
 import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
@@ -28,6 +29,7 @@ interface ProcessStep {
   templateUrl: './services-list.component.html',
 })
 export class ServicesListComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   protected readonly content = inject(ContentService);
   protected readonly faqs = SERVICES_FAQS;
 

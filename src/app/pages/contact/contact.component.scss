@@ -21,7 +21,7 @@
     }
 
     p {
-        color: var(--light-gray);
+        color: var(--color-text-muted);
         line-height: 1.7;
         margin-bottom: 1rem;
     }
@@ -35,7 +35,7 @@
         }
 
         a {
-            color: var(--light-blue);
+            color: var(--color-accent);
             text-decoration: none;
             font-weight: 600;
 

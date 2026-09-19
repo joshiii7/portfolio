@@ -18,7 +18,7 @@
 
     p,
     li {
-        color: var(--light-gray);
+        color: var(--color-text-muted);
         line-height: 1.8;
         font-size: 1rem;
     }
@@ -38,7 +38,7 @@
 }
 
 .legal-updated {
-    color: var(--gray);
+    color: var(--color-text-muted);
     font-size: 0.9rem;
     margin-top: 0.5rem;
 }

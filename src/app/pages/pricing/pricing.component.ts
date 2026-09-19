@@ -1,4 +1,5 @@
 import { DecimalPipe } from '@angular/common';
+import { WORKSPACE_PHOTOS } from '../../core/data/photos';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PRICING_FAQS } from '../../core/data/faqs';
@@ -19,6 +20,7 @@ type BillingCycle = 'monthly' | 'annual';
   templateUrl: './pricing.component.html',
 })
 export class PricingComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   protected readonly projectPlans = PROJECT_PLANS;
   protected readonly maintenancePlans = MAINTENANCE_PLANS;
   protected readonly faqs = PRICING_FAQS;

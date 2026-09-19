@@ -3,7 +3,7 @@
 .tech-subheading {
     margin-top: 2rem;
     margin-bottom: 0;
-    color: var(--light-blue);
+    color: var(--color-accent);
     font-size: 1.3rem;
 }
 
@@ -13,7 +13,7 @@
     margin-top: 1rem;
     padding-left: 1.1rem;
     text-align: left;
-    color: var(--light-gray);
+    color: var(--color-text-muted);
     font-size: 0.9rem;
     line-height: 1.8;
 }
@@ -30,7 +30,7 @@
     letter-spacing: 0.12em;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--light-blue);
+    color: var(--color-accent);
     margin-bottom: 0.5rem;
 }
 
@@ -42,7 +42,7 @@
 
     &__copy {
         text-align: left;
-        color: var(--light-gray);
+        color: var(--color-text-muted);
 
         .eyebrow {
             text-align: left;

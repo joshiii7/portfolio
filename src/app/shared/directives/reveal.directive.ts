@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Injectable, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Directive, ElementRef, Injectable, OnDestroy, OnInit, booleanAttribute, inject, input, signal } from '@angular/core';
 
 /** One IntersectionObserver shared by every [appReveal] element on the page. */
 @Injectable({ providedIn: 'root' })
@@ -33,15 +33,19 @@ export class RevealObserver {
  */
 @Directive({
   selector: '[appReveal]',
-  host: { class: 'reveal', '[class.is-visible]': 'visible()' },
+  host: { '[class.reveal]': 'enabled()', '[class.is-visible]': 'visible()' },
 })
 export class RevealDirective implements OnInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly observer = inject(RevealObserver);
 
+  /** `[appReveal]="false"` opts out, for elements animated by AOS instead. */
+  readonly enabled = input(true, { alias: 'appReveal', transform: booleanAttribute });
+
   protected readonly visible = signal(false);
 
   ngOnInit(): void {
+    if (!this.enabled()) return;
     this.observer.observe(this.el, () => this.visible.set(true));
   }
 

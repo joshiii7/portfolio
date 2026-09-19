@@ -12,9 +12,6 @@ export const SITE = {
   email: 'adlawanjoshiangelo@gmail.com',
   phone: '+63 938 294 3739',
   phoneHref: 'tel:+639382943739',
-  whatsappHref: 'https://wa.me/639382943739',
-  facebookHref: 'https://www.facebook.com/joshi.adlawan/',
-  githubHref: 'https://github.com/Joshiii7',
   tagline: 'Full-stack software developer building custom web, mobile, and desktop applications.',
   origin: 'https://joshiii7.github.io/portfolio',
 } as const;

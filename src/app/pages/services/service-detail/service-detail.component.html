@@ -2,7 +2,7 @@
   <app-page-banner
     [title]="service.title"
     [text]="service.summary"
-    bg="assets/images/banners/banner-services.svg"
+    [photo]="photos.handsTyping" focal="center"
   >
     <div class="cta-actions">
       <a routerLink="/contact" class="btn btn-primary btn-lg">Get a Custom Quote</a>
@@ -87,7 +87,7 @@
     </section>
   }
 
-  <app-cta-band
+  <app-cta-band [photo]="photos.homeOffice" focal="center"
     title="Have Something Similar in"
     accent="Mind?"
     text="If this is close to what you need, let's talk about your project specifically."
@@ -96,6 +96,6 @@
   <app-page-banner
     title="Service Not Found"
     text="This service could not be found. It may have moved, so please check the Services page."
-    bg="assets/images/banners/banner-services.svg"
+    [photo]="photos.handsTyping" focal="center"
   />
 }
