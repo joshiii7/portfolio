@@ -1,0 +1,30 @@
+<app-page-banner
+  title="Let's Work Together"
+  text="Have a project in mind, like a web, mobile, or desktop application, or something in between? Tell me about it and I'll get back to you."
+  bg="assets/images/banners/banner-contact.svg"
+/>
+
+<section appReveal class="section-py">
+  <div class="container">
+    <div class="contact-grid">
+      <app-contact-form />
+
+      <div class="card contact-info-card">
+        <h3>Prefer Email Directly?</h3>
+        <p>The form above opens your email client with your message pre-filled. If that doesn't work for you, reach out directly:</p>
+        <ul>
+          <li><a [href]="'mailto:' + site.email"><app-icon name="mail" [inline]="true" />{{ site.email }}</a></li>
+          <li><a [href]="site.phoneHref"><app-icon name="phone" [inline]="true" />{{ site.phone }}</a></li>
+        </ul>
+        <p class="mt-3 mb-0">I read every message personally and try to reply as soon as I can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-faq-section
+  idPrefix="contactFaq"
+  intro="A few things people usually ask before reaching out."
+  [faqs]="faqs"
+  [secondary]="true"
+/>

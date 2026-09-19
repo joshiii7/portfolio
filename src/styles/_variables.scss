@@ -1,0 +1,36 @@
+// Design tokens (Sass-only, emit no CSS): typography, breakpoints, radii, shadows,
+// transitions, layout. Colors live as CSS custom properties in _root.scss, which is
+// emitted once from styles.scss; component styles just use var(--name).
+
+// Typography: both families are loaded via Google Fonts in <head>
+$font-body: "Inter", sans-serif;
+$font-heading: "Outfit", sans-serif;
+
+// Breakpoints (match the JS breakpoints used for the experience timeline)
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1200px;
+
+@mixin bp($breakpoint) {
+    @media (min-width: $breakpoint) {
+        @content;
+    }
+}
+
+// Radii
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-pill: 999px;
+
+// Shadows
+$shadow-card-hover: 0 20px 40px rgba(var(--blue-rgb), 0.25);
+$shadow-soft: 0 10px 25px rgba(var(--black-rgb), 0.25);
+
+// Transitions
+$transition-base: all 0.3s ease;
+
+// Layout
+$container-max: 80rem;
+$header-height: 76px;

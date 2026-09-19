@@ -1,0 +1,82 @@
+@use "variables" as *;
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    font-family: $font-heading;
+}
+
+@media (max-width: #{$bp-md - 1px}) {
+    .logo {
+        display: block;
+        padding: 0.5rem 0;
+    }
+
+}
+
+// Centered, prominent icon badge: the icon is meant to be the first thing a
+// visitor notices, ahead of the title and description below it.
+.card-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: rgba(var(--blue-rgb), 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+
+    svg {
+        width: 1.75rem;
+        height: 1.75rem;
+        color: var(--light-blue);
+        display: block;
+    }
+}
+
+.service-card,
+.value-item {
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        color: var(--white);
+    }
+
+    p {
+        color: var(--light-gray);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}
+
+
+.btn-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        flex-shrink: 0;
+    }
+}
+
+// Button row used by the pre-footer CTA band and the service detail banner.
+.cta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    // The base .btn already spaces itself from the paragraph above via its
+    // own margin-top; inside this flex row that would stack on top of the
+    // row's own margin-top, so it's cancelled here (same fix as .hero-actions).
+    .btn {
+        margin-top: 0;
+    }
+}

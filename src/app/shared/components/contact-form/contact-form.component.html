@@ -1,0 +1,75 @@
+<form #formEl [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div [class.form-row]="!compact()">
+    <div class="form-group">
+      <label class="form-label" for="contactName">Name<span class="form-required" aria-hidden="true">*</span></label>
+      <input
+        class="form-input"
+        type="text"
+        id="contactName"
+        formControlName="name"
+        placeholder="Juan Dela Cruz"
+        maxlength="100"
+        [class.is-invalid]="isInvalid('name')"
+        [class.is-valid]="isValid('name')"
+        [attr.aria-invalid]="isInvalid('name')"
+        aria-describedby="contactNameError"
+      />
+      <p class="form-error" [class.is-visible]="isInvalid('name')" id="contactNameError" role="alert">{{ error('name') }}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="contactEmail">Email<span class="form-required" aria-hidden="true">*</span></label>
+      <input
+        class="form-input"
+        type="email"
+        id="contactEmail"
+        formControlName="email"
+        placeholder="juan@email.com"
+        [class.is-invalid]="isInvalid('email')"
+        [class.is-valid]="isValid('email')"
+        [attr.aria-invalid]="isInvalid('email')"
+        aria-describedby="contactEmailError"
+      />
+      <p class="form-error" [class.is-visible]="isInvalid('email')" id="contactEmailError" role="alert">{{ error('email') }}</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="contactProjectType">Project Type<span class="form-required" aria-hidden="true">*</span></label>
+    <select
+      class="form-select"
+      id="contactProjectType"
+      formControlName="projectType"
+      [class.is-invalid]="isInvalid('projectType')"
+      [class.is-valid]="isValid('projectType')"
+      [attr.aria-invalid]="isInvalid('projectType')"
+      aria-describedby="contactProjectTypeError"
+    >
+      <option value="" disabled>Select a project type</option>
+      @for (type of projectTypes; track type.value) {
+        <option [value]="type.value">{{ type.label }}</option>
+      }
+    </select>
+    <p class="form-error" [class.is-visible]="isInvalid('projectType')" id="contactProjectTypeError" role="alert">{{ error('projectType') }}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="contactMessage">Message<span class="form-required" aria-hidden="true">*</span></label>
+    <textarea
+      class="form-textarea"
+      id="contactMessage"
+      formControlName="message"
+      placeholder="Tell me briefly about your project."
+      maxlength="2000"
+      [class.is-invalid]="isInvalid('message')"
+      [class.is-valid]="isValid('message')"
+      [attr.aria-invalid]="isInvalid('message')"
+      aria-describedby="contactMessageError"
+    ></textarea>
+    <p class="form-error" [class.is-visible]="isInvalid('message')" id="contactMessageError" role="alert">{{ error('message') }}</p>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Send Message</button>
+  <p class="form-status" [class.is-visible]="statusMessage()" [class.is-error]="statusMessage()" id="formStatus" role="status" aria-live="polite">{{ statusMessage() }}</p>
+  <p class="form-privacy">Your information is secure and never shared.</p>
+</form>

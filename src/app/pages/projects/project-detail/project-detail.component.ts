@@ -1,0 +1,42 @@
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ContentService } from '../../../core/services/content.service';
+import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
+import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
+import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
+import { RevealDirective } from '../../../shared/directives/reveal.directive';
+
+@Component({
+  selector: 'app-project-detail',
+  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent, RevealDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (project(); as project) {
+      <app-page-banner [title]="project.name" [text]="project.bannerText" />
+
+      <section appReveal class="section-py">
+        <div class="container">
+          <app-project-card [project]="project" variant="detail" />
+        </div>
+      </section>
+
+      <app-cta-band
+        title="Have Something Similar in"
+        accent="Mind?"
+        text="If this is close to what you need, let's talk about your project specifically."
+      />
+    } @else {
+      <app-page-banner
+        title="Project Not Found"
+        text="This project could not be found. It may have moved, so please check the Projects page."
+      />
+    }
+  `,
+})
+export class ProjectDetailComponent {
+  private readonly content = inject(ContentService);
+
+  /** Route param, bound by the router (withComponentInputBinding). */
+  readonly slug = input.required<string>();
+
+  protected readonly project = computed(() => this.content.project(this.slug()));
+}

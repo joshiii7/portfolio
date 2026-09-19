@@ -1,0 +1,36 @@
+<header class="site-header" id="siteHeader" #header>
+  <div class="header-content">
+    <a routerLink="/" class="logo">{{ site.handle }}</a>
+    <a [href]="site.phoneHref" class="header-phone">
+      <app-icon name="phone" [inline]="true" /><span class="header-phone__label">{{ site.phone }}</span>
+    </a>
+    <button
+      #toggle
+      type="button"
+      class="mobile-menu-btn"
+      id="mobileMenuBtn"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mainNav"
+      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
+      (click)="toggleMenu()"
+    >
+      <span class="mobile-menu-btn__label">Menu</span>
+      <span class="mobile-menu-btn__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <nav id="mainNav" aria-label="Primary" [class.active]="menuOpen()">
+      <ul>
+        @for (link of links; track link.path) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: !!link.exact }"
+              (click)="closeMenu()"
+            >{{ link.label }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

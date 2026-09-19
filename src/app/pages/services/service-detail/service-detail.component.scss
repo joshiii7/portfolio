@@ -1,0 +1,83 @@
+@use "variables" as *;
+
+.tech-subheading {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    color: var(--light-blue);
+    font-size: 1.3rem;
+}
+
+// Bulleted list style used for "likely outcomes" write-ups on service
+// detail pages (services/<slug>.html).
+.service-outcomes {
+    margin-top: 1rem;
+    padding-left: 1.1rem;
+    text-align: left;
+    color: var(--light-gray);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+// Small uppercase label above a heading, adding a level of hierarchy above
+// section-title/tech-subheading on service detail pages (services/<slug>.html):
+// page-banner -> eyebrow + heading -> content, rather than a heading alone.
+// Centered by default for full-width section headers; the left-aligned
+// contexts below (.service-overview__copy, .service-split) override it.
+.eyebrow {
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--light-blue);
+    margin-bottom: 0.5rem;
+}
+
+// Service detail "Overview" section: the intro paragraph beside the
+// service's generated illustration, instead of stacking the image above the
+// write-up or beside the page heading.
+.service-overview {
+    align-items: center;
+
+    &__copy {
+        text-align: left;
+        color: var(--light-gray);
+
+        .eyebrow {
+            text-align: left;
+        }
+
+        // .tech-subheading's top margin exists to separate it from a
+        // paragraph above it elsewhere; here it's the first thing in the
+        // column after the eyebrow, so that gap would just read as
+        // unbalanced empty space.
+        h2.tech-subheading {
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.7;
+        }
+    }
+}
+
+.service-illustration {
+    width: 100%;
+    border-radius: $radius-lg;
+}
+
+// Service detail "Outcomes" / "Best Suited For" two-column split: a
+// left-aligned exception to .grid's unopinionated default, same reasoning
+// as .service-overview__copy above (including the .tech-subheading override).
+.service-split {
+    text-align: left;
+
+    .eyebrow {
+        text-align: left;
+    }
+
+    h2.tech-subheading {
+        margin-top: 0;
+    }
+}

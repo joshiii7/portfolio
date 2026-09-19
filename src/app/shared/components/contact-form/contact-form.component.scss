@@ -1,0 +1,170 @@
+@use "variables" as *;
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+// Pairs shorter, compatible fields (Name + Email) side by side instead of
+// stacking every field in one long column. Single column below $bp-sm so
+// mobile always gets one readable field per row; each .form-group inside
+// keeps its own margin-bottom for the row-to-row rhythm below it.
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 1.5rem;
+
+    @include bp($bp-sm) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+// Visible required-field marker. Purely decorative (the native `required`
+// attribute already carries the accessible semantics), so it's hidden from
+// assistive tech to avoid announcing "asterisk" on top of "required".
+.form-required {
+    color: var(--red);
+    margin-left: 0.25rem;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: $radius-sm;
+    border: 2px solid rgba(var(--white-rgb), 0.15);
+    background: rgba(var(--white-rgb), 0.05);
+    color: var(--white);
+    font-family: $font-body;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+
+    &::placeholder {
+        color: var(--gray);
+    }
+
+    &:focus {
+        border-color: var(--light-blue);
+        outline: none;
+    }
+
+    // Applied by main.js once a field has been touched: color is a
+    // secondary cue here, not the only one; the field's error message
+    // (or its absence) is what actually communicates pass/fail.
+    &.is-invalid {
+        border-color: var(--red);
+    }
+
+    &.is-valid {
+        border-color: var(--green);
+    }
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+// appearance: none drops the browser's own native dropdown arrow (which
+// doesn't reliably match a dark theme) in favor of this custom chevron;
+// color-scheme: dark (set on html) is what fixes the actual options popup,
+// this part only restyles the closed control itself.
+.form-select {
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 1.1rem;
+    cursor: pointer;
+
+    &:hover {
+        border-color: rgba(var(--white-rgb), 0.3);
+    }
+
+    // The native options list can't be styled, but a dark <option>
+    // background with light text keeps it legible on browsers that respect
+    // these (Firefox, Chromium) instead of falling back to pure black-on-white.
+    option {
+        background: var(--slate);
+        color: var(--white);
+    }
+}
+
+.form-error {
+    color: var(--red);
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: none;
+
+    &.is-visible {
+        display: block;
+    }
+}
+
+.form-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: $radius-sm;
+    display: none;
+
+    &.is-visible {
+        display: block;
+    }
+
+    &.is-success {
+        background: rgba(var(--green-rgb), 0.15);
+        color: var(--green);
+        display: block;
+    }
+
+    &.is-error {
+        background: rgba(var(--red-rgb), 0.15);
+        color: var(--red);
+        display: block;
+    }
+}
+
+// Subtle privacy reassurance shown under every contact form.
+.form-privacy {
+    margin-top: 1.25rem;
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+// Left-aligned exception to .card's centered default: an icon/label/link
+// list reads better left-aligned than centered, same reasoning as
+// .project-card and .service-detail-card.
+
+// Compact variant (Home hero card): tighter spacing than the full Contact page form.
+:host(.form--compact) {
+    .form-group {
+        margin-bottom: 0.85rem;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        padding: 0.6rem 0.85rem;
+        font-size: 0.95rem;
+    }
+
+    .form-textarea {
+        min-height: 80px;
+    }
+
+    .btn {
+        margin-top: 0.5rem;
+    }
+
+    .form-privacy {
+        margin-top: 0.75rem;
+    }
+}
