@@ -10,7 +10,7 @@
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    background-color: var(--navy);
+    background-color: var(--color-bg);
     padding: 8rem 1.5rem 4rem;
 
     canvas {
@@ -51,7 +51,7 @@
         p {
             margin-top: 1rem;
             font-size: 1.125rem;
-            color: var(--light-gray);
+            color: var(--color-text-muted);
             max-width: 640px;
 
             @media (max-width: #{$bp-lg - 1px}) {

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { LegalPageComponent } from '../../../shared/components/legal-page/legal-page.component';
 
 @Component({
@@ -9,7 +10,7 @@ import { LegalPageComponent } from '../../../shared/components/legal-page/legal-
     <app-legal-page
       title="Accessibility"
       text="How this site is built to work well for as many visitors as possible."
-      bg="assets/images/banners/banner-accessibility.svg"
+      [photo]="photos.woodenDesk" focal="center"
     >
       <h2>Keyboard Navigation</h2>
       <p>Every interactive element on this site, including navigation links, buttons, form fields, and the FAQ accordions, can be reached and operated using a keyboard alone, with Tab to move between elements and Enter or Space to activate them. A skip link at the very start of every page lets keyboard and screen reader users jump straight to the main content without tabbing through the header first.</p>
@@ -28,4 +29,6 @@ import { LegalPageComponent } from '../../../shared/components/legal-page/legal-
     </app-legal-page>
   `,
 })
-export class AccessibilityComponent {}
+export class AccessibilityComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
+}

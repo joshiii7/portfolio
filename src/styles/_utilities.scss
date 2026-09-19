@@ -4,7 +4,7 @@
 
 // Accessibility: visible keyboard focus ring everywhere.
 :focus-visible {
-    outline: 2px solid var(--light-blue);
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
 }
 
@@ -20,8 +20,8 @@
     top: 1rem;
     left: 1rem;
     z-index: 2000;
-    background: var(--blue);
-    color: var(--white);
+    background: var(--color-accent);
+    color: var(--color-text);
     padding: 0.75rem 1.25rem;
     border-radius: $radius-sm;
     text-decoration: none;
@@ -61,11 +61,11 @@
 }
 
 .bg-primary {
-    background-color: var(--navy);
+    background-color: var(--color-bg);
 }
 
 .bg-secondary {
-    background-color: var(--slate);
+    background-color: var(--color-surface);
 }
 
 // Flex helpers
@@ -141,7 +141,7 @@
 // Section heading pattern used at the top of most sections
 .section-title {
     font-size: clamp(2rem, 5vw, 3rem);
-    color: var(--white);
+    color: var(--color-text);
     text-align: center;
     margin-bottom: 1rem;
 }
@@ -150,12 +150,12 @@
 // span so part of the heading reads in the brand accent color and the rest
 // stays the default heading color, e.g. <h2>What I <span class="heading-accent">Build</span></h2>.
 .heading-accent {
-    color: var(--light-blue);
+    color: var(--color-accent);
 }
 
 .section-intro {
     text-align: center;
-    color: var(--gray);
+    color: var(--color-text-muted);
     font-size: clamp(0.95rem, 1.5vw, 1.1rem);
     max-width: 700px;
     margin: 0 auto 2.5rem;
@@ -182,9 +182,9 @@
     border-radius: 6px;
     font-weight: 600;
     text-decoration: none;
-    color: var(--white);
+    color: var(--color-text);
     backdrop-filter: blur(12px);
-    background: rgba(var(--white-rgb), 0.05);
+    background: rgba(var(--color-text-rgb), 0.05);
     transition: transform 0.3s ease, background 0.3s ease;
     border: 2px solid transparent;
     cursor: pointer;
@@ -194,7 +194,7 @@
     text-align: center;
 
     &:hover {
-        background: rgba(var(--white-rgb), 0.12);
+        background: rgba(var(--color-text-rgb), 0.12);
         transform: scale(1.05);
     }
 
@@ -212,21 +212,21 @@
 // Primary: same frosted base, tinted with the brand accent so it reads as
 // the higher-priority action next to a .btn-outline secondary.
 .btn-primary {
-    background: rgba(var(--blue-rgb), 0.35);
+    background: rgba(var(--color-accent-rgb), 0.35);
 
     &:hover {
-        background: rgba(var(--blue-rgb), 0.5);
+        background: rgba(var(--color-accent-rgb), 0.5);
     }
 }
 
 // Secondary/outline: same frosted base, but bordered and unfilled.
 .btn-outline {
     background: transparent;
-    border-color: rgba(var(--white-rgb), 0.25);
+    border-color: rgba(var(--color-text-rgb), 0.25);
 
     &:hover {
-        background: rgba(var(--white-rgb), 0.08);
-        border-color: rgba(var(--white-rgb), 0.5);
+        background: rgba(var(--color-text-rgb), 0.08);
+        border-color: rgba(var(--color-text-rgb), 0.5);
     }
 }
 
@@ -256,8 +256,9 @@
 // to text-align: left (a project write-up and a form both read better
 // left-aligned), so don't remove those overrides when touching this rule.
 .card {
-    background: linear-gradient(180deg, var(--slate), var(--navy));
-    border: 2px solid rgba(var(--blue-rgb), 0.25);
+    // Same card treatment as fingerdash: a flat surface with a 1px border.
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: $radius-lg;
     padding: 1.75rem;
     transition: $transition-base;
@@ -265,9 +266,15 @@
     text-align: center;
 
     &:hover {
-        border-color: rgba(var(--blue-rgb), 0.6);
+        border-color: rgba(var(--color-accent-rgb), 0.6);
         transform: translateY(-6px);
         box-shadow: $shadow-card-hover;
+    }
+
+    // AOS leaves a transform on an element once it has animated in, which
+    // would beat the hover lift above; restate the lift for animated cards.
+    &[data-aos].aos-animate:hover {
+        transform: translateY(-6px);
     }
 }
 
@@ -277,8 +284,8 @@
     padding: 0.3rem 0.75rem;
     font-size: 0.75rem;
     border-radius: $radius-pill;
-    background: rgba(var(--blue-rgb), 0.25);
-    color: var(--pale-blue);
+    background: rgba(var(--color-accent-rgb), 0.25);
+    color: var(--color-accent);
     white-space: nowrap;
 }
 

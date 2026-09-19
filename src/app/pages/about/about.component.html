@@ -1,53 +1,63 @@
 <app-page-banner
   title="About Joshi"
   text="A quick look at my background, how I approach a project, and what I've been working on."
-  bg="assets/images/banners/banner-about.svg"
+  [photo]="photos.awardsNight"
+  focal="center"
 />
 
-<section appReveal class="section-py">
-  <div class="container">
-    <div class="grid grid-2 about-grid">
-      <div class="about-image">
-        <img src="assets/images/my_background.png" alt="Joshi Angelo Adlawan" />
-      </div>
-      <div class="about-bio">
-        <p>I'm a full-stack software developer who builds web applications, mobile applications, and desktop software for organizations that need technology built around how they actually work, not the other way around.</p>
-        <p>My background is in design, so usability and functionality are never an afterthought. What I enjoy most is taking a manual, time-consuming process, like permit processing, inventory tracking, or payroll computation, and turning it into something faster, more reliable, and easier for people to actually use every day.</p>
-        <p>I hold a Computer Science foundation and a national-level certification in web development (TESDA NC III). Whatever the project, I aim for the same thing: software that's reliable, easy to use, and solves the actual problem it was built to solve.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section appReveal class="section-py bg-secondary">
-  <div class="container">
-    <h2 class="section-title">Experience &amp; <span class="heading-accent">Background</span></h2>
-    <p class="section-intro">Professional web development work, teaching, and nationally recognized results in web technologies competitions.</p>
-
-    <div class="grid grid-3">
-      @for (role of content.roles; track role.title + role.org) {
-        <div class="card role-card">
-          <p class="role-card__title">{{ role.title }}</p>
-          <p class="role-card__org">{{ role.org }}</p>
-          <p class="role-card__date">{{ role.date }}</p>
+<div class="aos-scope">
+  <section class="section-py">
+    <div class="container">
+      <div class="grid grid-2 about-grid">
+        <div class="about-image" data-aos="fade-right">
+          <img src="assets/images/my_background.png" alt="Joshi Angelo Adlawan" />
         </div>
-      }
+        <div class="about-bio" data-aos="fade-left" data-aos-delay="150">
+          <p>I'm a full-stack software developer who builds web applications, mobile applications, and desktop software for organizations that need technology built around how they actually work, not the other way around.</p>
+          <p>My background is in design, so usability and functionality are never an afterthought. What I enjoy most is taking a manual, time-consuming process, like permit processing, inventory tracking, or payroll computation, and turning it into something faster, more reliable, and easier for people to actually use every day.</p>
+          <p>I hold a Computer Science foundation and a national-level certification in web development (TESDA NC III). Whatever the project, I aim for the same thing: software that's reliable, easy to use, and solves the actual problem it was built to solve.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <ul class="achievement-list">
-      @for (item of content.achievements; track item.title + item.detail) {
-        <li>
-          <app-icon [name]="item.icon" />
-          <span><strong>{{ item.title }}</strong>, {{ item.detail }}</span>
-        </li>
-      }
-    </ul>
-  </div>
-</section>
+  <section class="bg-secondary">
+    <app-heading-banner [photo]="photos.floorSelfie" focal="center">
+      <div data-aos="fade-up">
+        <h2 class="section-title">Experience &amp; <span class="heading-accent">Background</span></h2>
+        <p class="section-intro">Professional web development work, teaching, and nationally recognized results in web technologies competitions.</p>
+      </div>
+    </app-heading-banner>
 
-<app-cta-band
-  title="Want to Know More About How I"
-  accent="Work?"
-  text="If you'd like to talk through a project before committing to anything, I'm happy to have that conversation."
-  label="Get in Touch"
-/>
+    <div class="container experience-body">
+      <div class="grid grid-3">
+        @for (role of content.roles; track role.title + role.org; let i = $index) {
+          <div class="card role-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+            <p class="role-card__title">{{ role.title }}</p>
+            <p class="role-card__org">{{ role.org }}</p>
+            <p class="role-card__date">{{ role.date }}</p>
+          </div>
+        }
+      </div>
+
+      <ul class="achievement-list" data-aos="fade-up" data-aos-delay="100">
+        @for (item of content.achievements; track item.title + item.detail) {
+          <li>
+            <app-icon [name]="item.icon" />
+            <span><strong>{{ item.title }}</strong>, {{ item.detail }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <app-cta-band
+    title="Want to Know More About How I"
+    accent="Work?"
+    text="If you'd like to talk through a project before committing to anything, I'm happy to have that conversation."
+    label="Get in Touch"
+    [photo]="portraits.headshot"
+    focal="upper"
+    [aos]="true"
+  />
+</div>

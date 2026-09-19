@@ -1,7 +1,7 @@
 <app-page-banner
   title="Pricing"
   text="Straightforward starting prices for custom web, mobile, and desktop development, plus ongoing maintenance if you need it."
-  bg="assets/images/banners/banner-pricing.svg"
+  [photo]="photos.woodenDesk" focal="center"
 />
 
 <section appReveal class="section-py">
@@ -80,7 +80,7 @@
   </div>
 </section>
 
-<app-cta-band
+<app-cta-band [photo]="photos.handsTyping" focal="center"
   title="Need Something More"
   accent="Specific?"
   text="Every project is scoped individually. Tell me about what you need and I'll put together a clear, itemized quote, no fixed package required."

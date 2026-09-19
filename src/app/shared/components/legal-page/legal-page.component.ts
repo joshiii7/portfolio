@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { PhotoAsset, PhotoFocal } from '../../../core/models/photo.model';
 import { SITE } from '../../../core/data/site';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { IconComponent } from '../icon/icon.component';
@@ -14,7 +15,7 @@ import { PageBannerComponent } from '../page-banner/page-banner.component';
   encapsulation: ViewEncapsulation.None,
   styleUrl: './legal-page.component.scss',
   template: `
-    <app-page-banner [title]="title()" [text]="text()" [bg]="bg()" />
+    <app-page-banner [title]="title()" [text]="text()" [photo]="photo()" [focal]="focal()" />
     <section appReveal class="section-py">
       <div class="container">
         <div class="legal-content">
@@ -34,6 +35,7 @@ export class LegalPageComponent {
 
   readonly title = input.required<string>();
   readonly text = input.required<string>();
-  readonly bg = input.required<string>();
+  readonly photo = input.required<PhotoAsset>();
+  readonly focal = input<PhotoFocal>('center');
   readonly updated = input('August 29, 2026');
 }

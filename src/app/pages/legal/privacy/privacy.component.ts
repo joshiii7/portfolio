@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { LegalPageComponent } from '../../../shared/components/legal-page/legal-page.component';
 
 @Component({
@@ -9,7 +10,7 @@ import { LegalPageComponent } from '../../../shared/components/legal-page/legal-
     <app-legal-page
       title="Privacy Policy"
       text="What happens to the information you share through the contact form on this site."
-      bg="assets/images/banners/banner-privacy.svg"
+      [photo]="photos.darkDeskPanorama" focal="center"
     >
       <h2>Information I Collect</h2>
       <p>The only personal information this site collects is what you choose to type into the contact form: your name, email address, message, and optionally your phone number and the type of project you're inquiring about. Nothing is collected anywhere else on the site.</p>
@@ -30,4 +31,6 @@ import { LegalPageComponent } from '../../../shared/components/legal-page/legal-
     </app-legal-page>
   `,
 })
-export class PrivacyComponent {}
+export class PrivacyComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
+}

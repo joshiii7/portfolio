@@ -25,7 +25,7 @@ $radius-lg: 16px;
 $radius-pill: 999px;
 
 // Shadows
-$shadow-card-hover: 0 20px 40px rgba(var(--blue-rgb), 0.25);
+$shadow-card-hover: 0 20px 40px rgba(var(--color-accent-rgb), 0.25);
 $shadow-soft: 0 10px 25px rgba(var(--black-rgb), 0.25);
 
 // Transitions
@@ -34,3 +34,45 @@ $transition-base: all 0.3s ease;
 // Layout
 $container-max: 80rem;
 $header-height: 76px;
+
+// Focal point for a photo cropped with object-fit: cover. Set through a
+// data-focal attribute (never an inline style) so a wide banner keeps the
+// subject in frame: top = 0%, upper = 35%, center = 50%, lower = 70%.
+@mixin photo-focal {
+    object-position: 50% 50%;
+
+    &[data-focal='top'] {
+        object-position: 50% 0%;
+    }
+
+    &[data-focal='upper'] {
+        object-position: 50% 35%;
+    }
+
+    &[data-focal='center'] {
+        object-position: 50% 50%;
+    }
+
+    &[data-focal='lower'] {
+        object-position: 50% 70%;
+    }
+}
+
+// Shared height of the two full-width photo bands on the About page (the page
+// title banner and the closing call to action), so they match. Content is
+// centered vertically inside it.
+$photo-band-min-height: 26rem;
+// Phones stack the content taller (wrapped copy, stacked buttons, a taller
+// three-row header), so the shared minimum is larger there.
+$photo-band-min-height-sm: 30rem;
+
+@mixin photo-band-height {
+    min-height: $photo-band-min-height-sm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include bp($bp-md) {
+        min-height: $photo-band-min-height;
+    }
+}

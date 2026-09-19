@@ -3,11 +3,7 @@
     <div>
       <a routerLink="/" class="logo">{{ site.handle }}</a>
       <p>{{ site.tagline }}</p>
-      <div class="social-links">
-        <a [href]="site.whatsappHref" target="_blank" rel="noopener" aria-label="WhatsApp"><app-icon name="whatsapp" /></a>
-        <a [href]="site.facebookHref" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><app-icon name="facebook" /></a>
-        <a [href]="site.githubHref" target="_blank" rel="noopener" aria-label="GitHub"><app-icon name="github" /></a>
-      </div>
+      <app-social-links />
     </div>
     <nav aria-label="Footer">
       <h3>Site</h3>

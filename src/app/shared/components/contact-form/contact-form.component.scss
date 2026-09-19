@@ -22,14 +22,14 @@
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--white);
+    color: var(--color-text);
 }
 
 // Visible required-field marker. Purely decorative (the native `required`
 // attribute already carries the accessible semantics), so it's hidden from
 // assistive tech to avoid announcing "asterisk" on top of "required".
 .form-required {
-    color: var(--red);
+    color: var(--color-error);
     margin-left: 0.25rem;
 }
 
@@ -39,19 +39,19 @@
     width: 100%;
     padding: 0.85rem 1rem;
     border-radius: $radius-sm;
-    border: 2px solid rgba(var(--white-rgb), 0.15);
-    background: rgba(var(--white-rgb), 0.05);
-    color: var(--white);
+    border: 2px solid rgba(var(--color-text-rgb), 0.15);
+    background: rgba(var(--color-text-rgb), 0.05);
+    color: var(--color-text);
     font-family: $font-body;
     font-size: 1rem;
     transition: border-color 0.2s ease;
 
     &::placeholder {
-        color: var(--gray);
+        color: var(--color-text-muted);
     }
 
     &:focus {
-        border-color: var(--light-blue);
+        border-color: var(--color-accent);
         outline: none;
     }
 
@@ -59,11 +59,11 @@
     // secondary cue here, not the only one; the field's error message
     // (or its absence) is what actually communicates pass/fail.
     &.is-invalid {
-        border-color: var(--red);
+        border-color: var(--color-error);
     }
 
     &.is-valid {
-        border-color: var(--green);
+        border-color: var(--color-correct);
     }
 }
 
@@ -86,20 +86,20 @@
     cursor: pointer;
 
     &:hover {
-        border-color: rgba(var(--white-rgb), 0.3);
+        border-color: rgba(var(--color-text-rgb), 0.3);
     }
 
     // The native options list can't be styled, but a dark <option>
     // background with light text keeps it legible on browsers that respect
     // these (Firefox, Chromium) instead of falling back to pure black-on-white.
     option {
-        background: var(--slate);
-        color: var(--white);
+        background: var(--color-surface);
+        color: var(--color-text);
     }
 }
 
 .form-error {
-    color: var(--red);
+    color: var(--color-error);
     font-size: 0.85rem;
     margin-top: 0.4rem;
     display: none;
@@ -120,14 +120,14 @@
     }
 
     &.is-success {
-        background: rgba(var(--green-rgb), 0.15);
-        color: var(--green);
+        background: rgba(var(--color-correct-rgb), 0.15);
+        color: var(--color-correct);
         display: block;
     }
 
     &.is-error {
-        background: rgba(var(--red-rgb), 0.15);
-        color: var(--red);
+        background: rgba(var(--color-error-rgb), 0.15);
+        color: var(--color-error);
         display: block;
     }
 }
@@ -135,7 +135,7 @@
 // Subtle privacy reassurance shown under every contact form.
 .form-privacy {
     margin-top: 1.25rem;
-    color: var(--gray);
+    color: var(--color-text-muted);
     font-size: 0.85rem;
 }
 
