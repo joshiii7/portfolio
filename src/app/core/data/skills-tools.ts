@@ -115,6 +115,66 @@ export const LANGUAGES: SkillItem[] = [
     name: "Firebase",
     icon: "assets/svg/firebase-svgrepo-com.svg",
     color: "#FFCA28"
+  },
+  {
+    name: "Svelte",
+    icon: "assets/svg/svelte-simple-icons.svg",
+    color: "#FF3E00"
+  },
+  {
+    name: "Kotlin",
+    icon: "assets/svg/kotlin-simple-icons.svg",
+    color: "#7F52FF"
+  },
+  {
+    name: "Jetpack Compose",
+    icon: "assets/svg/jetpackcompose-simple-icons.svg",
+    color: "#4285F4"
+  },
+  {
+    name: ".NET",
+    icon: "assets/svg/dotnet-simple-icons.svg",
+    color: "#6B4BDA"
+  },
+  {
+    name: "C#",
+    icon: "assets/svg/csharp-simple-icons.svg",
+    color: "#6B4BDA"
+  },
+  {
+    name: "Supabase",
+    icon: "assets/svg/supabase-simple-icons.svg",
+    color: "#3FCF8E"
+  },
+  {
+    name: "PrimeNG",
+    icon: "assets/svg/primeng-simple-icons.svg",
+    color: "#DD0031"
+  },
+  {
+    name: "Chart.js",
+    icon: "assets/svg/chartdotjs-simple-icons.svg",
+    color: "#FF6384"
+  },
+  {
+    name: "Pusher",
+    icon: "assets/svg/pusher-simple-icons.svg",
+    color: "#78628D"
+  },
+  {
+    name: "Auth0",
+    icon: "assets/svg/auth0-simple-icons.svg",
+    color: "#EB5424"
+  },
+  {
+    name: "VitePress",
+    icon: "assets/svg/vitepress-simple-icons.svg",
+    color: "#5C73E7"
+  },
+  {
+    name: "Font Awesome",
+    icon: "assets/svg/fontawesome-simple-icons.svg",
+    color: "#538DD7"
   }
 ];
 
@@ -158,5 +218,25 @@ export const TOOLS: SkillItem[] = [
     name: "Indesign",
     icon: "assets/svg/indesign-cc-logo-svgrepo-com.svg",
     color: "#FF3366"
+  },
+  {
+    name: "ESLint",
+    icon: "assets/svg/eslint-simple-icons.svg",
+    color: "#6F5BCF"
+  },
+  {
+    name: "Prettier",
+    icon: "assets/svg/prettier-simple-icons.svg",
+    color: "#F7B93E"
+  },
+  {
+    name: "Vitest",
+    icon: "assets/svg/vitest-simple-icons.svg",
+    color: "#6E9F18"
+  },
+  {
+    name: "Playwright",
+    icon: "assets/svg/playwright-simple-icons.svg",
+    color: "#2EAD33"
   }
 ];
