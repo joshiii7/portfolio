@@ -78,16 +78,10 @@
   </section>
 
   @if (service.faqs.length) {
-    <section class="section-py bg-secondary">
-      <div class="container">
-        <span class="eyebrow text-center" data-aos="fade-up">Common Questions</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Questions <span class="heading-accent">Answered</span></h2>
-        <app-accordion [items]="service.faqs" [idPrefix]="'svcFaq-' + service.id" data-aos="fade-up" data-aos-delay="100" />
-      </div>
-    </section>
+    <app-faq-section [idPrefix]="'svcFaq-' + service.id" eyebrow="Common Questions" title="Questions" accent="Answered" [faqs]="service.faqs" />
   }
 
-  <app-cta-band [photo]="photos.homeOffice" focal="center"
+  <app-cta-band
     title="Have Something Similar in"
     accent="Mind?"
     text="If this is close to what you need, let's talk about your project specifically."

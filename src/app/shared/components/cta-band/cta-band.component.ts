@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SITE } from '../../../core/data/site';
-import { PhotoAsset, PhotoFocal } from '../../../core/models/photo.model';
+import { PORTRAIT_PHOTOS } from '../../../core/data/photos';
 import { PhotoComponent } from '../photo/photo.component';
 import { IconComponent } from '../icon/icon.component';
 
-/** Pre-footer call to action: a primary "contact" button beside a click-to-call button. */
+/**
+ * Pre-footer call to action: a primary "contact" button beside a click-to-call button, over the
+ * same decorative photo on every page (the competitor headshot the About page introduced).
+ */
 @Component({
   selector: 'app-cta-band',
   imports: [RouterLink, IconComponent, PhotoComponent],
@@ -13,10 +16,8 @@ import { IconComponent } from '../icon/icon.component';
   styleUrl: './cta-band.component.scss',
   styles: `:host { display: block; }`,
   template: `
-    <section class="section-py cta-band" [class.cta-band--photo]="!!photo()">
-      @if (photo(); as p) {
-        <app-photo [photo]="p" [focal]="focal()" />
-      }
+    <section class="section-py cta-band cta-band--photo">
+      <app-photo [photo]="photo" focal="upper" />
       <div class="container" data-aos="zoom-in-up">
         <h2>{{ title() }} <span class="heading-accent">{{ accent() }}</span></h2>
         <p>{{ text() }}</p>
@@ -32,13 +33,11 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class CtaBandComponent {
   protected readonly site = SITE;
+  protected readonly photo = PORTRAIT_PHOTOS.headshot;
 
   /** Heading text before the accented last word(s). */
   readonly title = input.required<string>();
   readonly accent = input.required<string>();
   readonly text = input.required<string>();
   readonly label = input('Start a Project');
-  /** Optional decorative photo behind the heading, with a dark scrim over it. */
-  readonly photo = input<PhotoAsset>();
-  readonly focal = input<PhotoFocal>('center');
 }

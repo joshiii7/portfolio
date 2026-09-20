@@ -15,14 +15,8 @@ const webpVariants = (dir: string, name: string, desktopWidth: number): PhotoVar
   { src: `${dir}/desktop/${name}.webp`, width: desktopWidth },
 ];
 
-/** WorldSkills ASEAN Manila 2025 photos used as decorative banner backgrounds. */
+/** WorldSkills ASEAN Manila 2025 photo used as a decorative banner background. */
 export const ASEAN_PHOTOS = {
-  /** Group selfie on the competition floor with the Singapore and Philippines teams. */
-  floorSelfie: {
-    src: `${ASEAN_DIR}/competition-floor-group-selfie.jpg`,
-    width: 992,
-    height: 558,
-  },
   /** On stage at the TESDA awards night, holding a trophy, with officials either side. */
   awardsNight: {
     src: `${ASEAN_DIR}/tesda-awards-night-trophy-stage.jpg`,

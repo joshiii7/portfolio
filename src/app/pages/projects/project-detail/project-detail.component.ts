@@ -19,7 +19,7 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
         </div>
       </section>
 
-      <app-cta-band [photo]="photos.homeOffice" focal="center"
+      <app-cta-band
         title="Have Something Similar in"
         accent="Mind?"
         text="If this is close to what you need, let's talk about your project specifically."
