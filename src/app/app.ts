@@ -3,18 +3,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { AosService } from './core/services/aos.service';
+import { MOTION } from './core/services/motion-conditions';
+import { CustomCursorComponent } from './shared/components/custom-cursor/custom-cursor.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { ScrollToTopComponent } from './shared/components/scroll-to-top/scroll-to-top.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, ScrollToTopComponent],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, ScrollToTopComponent, CustomCursorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
 })
 export class App {
   private readonly main = viewChild.required<ElementRef<HTMLElement>>('main');
+
+  /** Only a real mouse with motion allowed gets the cursor; everyone else never downloads it. */
+  protected readonly cursorWanted = typeof window !== 'undefined' && window.matchMedia(MOTION.pointer).matches;
 
   constructor() {
     // Once each page has rendered its [data-aos] elements, like fingerdash's onMount.

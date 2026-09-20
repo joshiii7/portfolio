@@ -1,0 +1,33 @@
+// Two fixed, click-through shapes. They start invisible; GSAP fades them in on the first mouse move.
+// The native cursor is never hidden.
+.cursor-ring,
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform;
+    // Above the header (1100) and the Home progress bar (1200).
+    z-index: 2000;
+}
+
+.cursor-ring {
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid rgba(var(--color-accent-rgb), 0.7);
+}
+
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent);
+}
+
+// Touch screens and reduced motion never get it (GSAP doesn't run there either).
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    :host {
+        display: none;
+    }
+}

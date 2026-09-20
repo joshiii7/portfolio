@@ -1,8 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
 import { HOME_FAQS } from '../../core/data/faqs';
-import { MOTION, MotionService } from '../../core/services/motion.service';
+import { MOTION } from '../../core/services/motion-conditions';
+import { MotionService } from '../../core/services/motion.service';
 import { CtaBandComponent } from '../../shared/components/cta-band/cta-band.component';
 import { FaqSectionComponent } from '../../shared/components/faq-section/faq-section.component';
+import { ToolsMarqueeComponent } from '../../shared/components/tools-marquee/tools-marquee.component';
 import { HeroComponent } from './hero/hero.component';
 import { ProjectsPreviewComponent } from './projects-preview/projects-preview.component';
 import { ServicesPreviewComponent } from './services-preview/services-preview.component';
@@ -12,6 +14,7 @@ import { WhyMeComponent } from './why-me/why-me.component';
   selector: 'app-home',
   imports: [
     HeroComponent,
+    ToolsMarqueeComponent,
     ServicesPreviewComponent,
     ProjectsPreviewComponent,
     WhyMeComponent,
@@ -38,6 +41,7 @@ import { WhyMeComponent } from './why-me/why-me.component';
   template: `
     <div class="scroll-progress" #progress aria-hidden="true"></div>
     <app-hero />
+    <app-tools-marquee />
     <app-services-preview />
     <app-projects-preview />
     <app-why-me />

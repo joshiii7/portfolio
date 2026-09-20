@@ -8,3 +8,9 @@
 
 <app-footer />
 <app-scroll-to-top />
+
+@if (cursorWanted) {
+  @defer (on idle) {
+    <app-custom-cursor />
+  }
+}
