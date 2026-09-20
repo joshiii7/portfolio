@@ -52,9 +52,16 @@
         }
     }
 
+    // The generic footer link colour above would turn the mark grey, so restate the logo colour
+    // here (and on hover, which would otherwise switch to the accent).
     .logo {
         display: inline-block;
         margin-bottom: 0.75rem;
+        color: var(--color-logo);
+
+        &:hover {
+            color: var(--color-logo);
+        }
     }
 }
 

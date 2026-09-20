@@ -1,0 +1,105 @@
+@use "variables" as *;
+
+// Everything scales from --logo-height (set by the header, which shrinks it on scroll; the footer
+// uses the default), so the mark, divider and wordmark stay in proportion at every size.
+:host {
+    --logo-gap: calc(var(--logo-height, 2.25rem) * 0.3);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--logo-gap);
+    line-height: 0;
+}
+
+svg {
+    display: block;
+    height: var(--logo-height, 2.25rem);
+    width: auto;
+    transition: height 0.3s ease;
+}
+
+.word {
+    display: flex;
+    align-items: center;
+    gap: var(--logo-gap);
+    line-height: 1;
+}
+
+// Hairline between the mark and the name.
+.word__rule {
+    width: 1px;
+    height: calc(var(--logo-height, 2.25rem) * 0.6);
+    background: rgba(var(--color-text-rgb), 0.22);
+    transform-origin: center;
+    transition: height 0.3s ease;
+}
+
+// Light weight and wide tracking to sit with the thin mark. The floor keeps the small (scrolled)
+// size readable.
+.word__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    font-family: $font-heading;
+    font-weight: 300;
+    font-size: max(0.7rem, calc(var(--logo-height, 2.25rem) * 0.27));
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    transition: font-size 0.3s ease;
+}
+
+.word__line {
+    display: block;
+    white-space: nowrap;
+    // Tracking adds space after the last letter; pull it back so the block sits flush.
+    margin-right: -0.34em;
+}
+
+.word__line--first {
+    color: var(--color-logo);
+    font-weight: 400;
+}
+
+// A one-time entrance in the header only (the footer copy stays still): the divider draws in and
+// the letters track in from a wider setting.
+:host-context(.site-header) {
+    .word__rule {
+        animation: logo-rule-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+    }
+
+    .word__line {
+        animation: logo-word-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
+    }
+
+    .word__line--first {
+        animation-delay: 0.4s;
+    }
+}
+
+@keyframes logo-rule-in {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+}
+
+@keyframes logo-word-in {
+    from {
+        opacity: 0;
+        letter-spacing: 0.8em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    svg,
+    .word__rule,
+    .word__text {
+        transition: none;
+    }
+
+    .word__rule,
+    .word__line {
+        animation: none !important;
+    }
+}

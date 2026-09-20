@@ -3,10 +3,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NAV_LINKS, SITE } from '../../../core/data/site';
 import { HeaderHeightService } from '../../../core/services/header-height.service';
 import { IconComponent } from '../icon/icon.component';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, IconComponent],
+  imports: [RouterLink, RouterLinkActive, IconComponent, LogoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './navbar.component.scss',
   templateUrl: './navbar.component.html',
