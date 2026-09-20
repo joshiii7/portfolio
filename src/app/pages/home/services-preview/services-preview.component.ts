@@ -10,7 +10,7 @@ import { MotionSectionDirective } from '../../../shared/directives/motion-sectio
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `:host { display: block; }`,
   template: `
-    <section appMotionSection class="section-py bg-secondary">
+    <section appMotionSection class="section-py">
       <div class="container">
         <h2 class="section-title" data-aos="fade-up">What I <span class="heading-accent">Build</span></h2>
         <p class="section-intro" data-aos="fade-up" data-aos-delay="100">Practical software development services, based on the kind of systems and applications I've actually built.</p>

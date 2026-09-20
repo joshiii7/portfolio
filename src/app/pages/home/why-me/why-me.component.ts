@@ -15,7 +15,7 @@ interface Reason {
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `:host { display: block; }`,
   template: `
-    <section appMotionSection class="section-py bg-secondary">
+    <section appMotionSection class="section-py">
       <div class="container">
         <h2 class="section-title" data-aos="fade-up">Why Work With <span class="heading-accent">Me</span></h2>
         <div class="grid grid-3">

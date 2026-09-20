@@ -4,7 +4,6 @@ import { SERVICES_FAQS } from '../../../core/data/faqs';
 import { ContentService } from '../../../core/services/content.service';
 import { MOTION } from '../../../core/services/motion-conditions';
 import { MotionService } from '../../../core/services/motion.service';
-import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { FaqSectionComponent } from '../../../shared/components/faq-section/faq-section.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ServiceCardComponent } from '../../../shared/components/service-card/service-card.component';
@@ -22,7 +21,6 @@ interface ProcessStep {
     ServiceCardComponent,
     SkillsGridComponent,
     FaqSectionComponent,
-    CtaBandComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './services-list.component.scss',

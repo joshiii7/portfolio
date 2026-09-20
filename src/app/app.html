@@ -6,6 +6,11 @@
 
 <main id="main" tabindex="-1" #main>
   <router-outlet />
+  @if (cta(); as current) {
+    @for (item of [current]; track item.key) {
+      <app-cta-band [content]="item.content" />
+    }
+  }
 </main>
 
 <app-footer />

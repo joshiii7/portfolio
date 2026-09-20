@@ -12,7 +12,7 @@ const FEATURED_COUNT = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `:host { display: block; }`,
   template: `
-    <section appMotionSection class="section-py">
+    <section appMotionSection class="section-py bg-secondary">
       <div class="container">
         <h2 class="section-title" data-aos="fade-up">Featured <span class="heading-accent">Projects</span></h2>
         <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A selection of capstone projects built to solve practical business and institutional challenges.</p>

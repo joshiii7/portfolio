@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { ContentService } from '../../../core/services/content.service';
-import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent],
+  imports: [PageBannerComponent, ProjectCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (project(); as project) {
@@ -19,11 +18,6 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
         </div>
       </section>
 
-      <app-cta-band
-        title="Have Something Similar in"
-        accent="Mind?"
-        text="If this is close to what you need, let's talk about your project specifically."
-      />
     } @else {
       <app-page-banner
         title="Project Not Found"

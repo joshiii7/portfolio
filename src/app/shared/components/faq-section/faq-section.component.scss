@@ -1,37 +1,5 @@
-@use "variables" as *;
-
-// FAQ backdrop. Order, back to front: the photo (0), the scrim (1), the content (2).
-// The scrim is 0.8 or darker so light text stays readable even over a bright pixel.
+// A plain flat background from the shared token (see --color-faq-bg in _root.scss). Muted text on
+// this tone is 4.6:1, which passes WCAG AA.
 .section-faq {
-    position: relative;
-    overflow: hidden;
-    // Shown while the photo loads.
-    background-color: var(--color-surface);
-
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(var(--color-bg-rgb), 0.8), rgba(var(--color-bg-rgb), 0.92));
-        z-index: 1;
-    }
-
-    > .container {
-        position: relative;
-        z-index: 2;
-    }
-
-    .section-title {
-        text-shadow: 0 2px 8px rgba(var(--black-rgb), 0.55);
-    }
-
-    // The brand accent alone is under 3:1 against a bright pixel behind the scrim.
-    .heading-accent {
-        color: color-mix(in srgb, var(--color-accent) 60%, white);
-    }
-
-    .section-intro {
-        color: var(--color-text);
-        text-shadow: 0 1px 4px rgba(var(--black-rgb), 0.55);
-    }
+    background-color: var(--color-faq-bg);
 }

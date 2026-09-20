@@ -1,23 +1,20 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { Faq } from '../../../core/models/faq.model';
 import { AccordionComponent } from '../accordion/accordion.component';
-import { PhotoComponent } from '../photo/photo.component';
 
 /**
- * FAQ block (Home, Pricing, Contact, Services, and each service page). Every one of them sits on
- * the same decorative photo, the dark desk with the backlit keyboard, under a dark scrim, so the
- * FAQ looks identical wherever it appears.
+ * FAQ block (Home, Pricing, Contact, Services, and each service page). It is a plain flat colour,
+ * --color-faq-bg, with no image or gradient, so it looks the same wherever it appears. Pages
+ * cannot override its background; the sections around it are what alternate.
  */
 @Component({
   selector: 'app-faq-section',
-  imports: [AccordionComponent, PhotoComponent],
+  imports: [AccordionComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './faq-section.component.scss',
   styles: `:host { display: block; }`,
   template: `
     <section class="section-py section-faq">
-      <app-photo [photo]="photo" />
       <div class="container">
         @if (eyebrow(); as label) {
           <span class="eyebrow text-center" data-aos="fade-up">{{ label }}</span>
@@ -32,8 +29,6 @@ import { PhotoComponent } from '../photo/photo.component';
   `,
 })
 export class FaqSectionComponent {
-  protected readonly photo = WORKSPACE_PHOTOS.darkDeskPanorama;
-
   readonly faqs = input.required<readonly Faq[]>();
   readonly idPrefix = input.required<string>();
   readonly eyebrow = input<string>();
