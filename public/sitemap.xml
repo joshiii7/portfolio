@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://joshiii7.github.io/portfolio/</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/</loc>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/about</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/about</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/services</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/services</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/services/custom-software</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/services/custom-software</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/services/business-websites</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/services/business-websites</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/services/frontend-development</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/services/frontend-development</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/services/maintenance-seo</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/services/maintenance-seo</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/pricing</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/pricing</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects/bislig-city-bpls</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects/bislig-city-bpls</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects/bislig-city-car-rental</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects/bislig-city-car-rental</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects/ascb-attendance-payroll</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects/ascb-attendance-payroll</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects/sh-merchantile-inventory</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects/sh-merchantile-inventory</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/projects/mis-grading-system</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/projects/mis-grading-system</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/contact</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/contact</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/accessibility</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/accessibility</loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>https://joshiii7.github.io/portfolio/privacy</loc>
+        <loc>https://joshiii7-portfolio.vercel.app/privacy</loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>

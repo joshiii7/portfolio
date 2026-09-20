@@ -104,10 +104,7 @@
               "buildTarget": "portfolio:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "servePath": "/portfolio/"
-          }
+          "defaultConfiguration": "development"
         }
       }
     }
