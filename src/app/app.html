@@ -1,5 +1,7 @@
 <a class="skip-link" href="#main" (click)="skipToContent($event)">Skip to content</a>
 
+<app-scroll-progress />
+
 <app-navbar />
 
 <main id="main" tabindex="-1" #main>
@@ -8,9 +10,3 @@
 
 <app-footer />
 <app-scroll-to-top />
-
-@if (cursorWanted) {
-  @defer (on idle) {
-    <app-custom-cursor />
-  }
-}

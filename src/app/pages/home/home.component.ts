@@ -1,7 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HOME_FAQS } from '../../core/data/faqs';
-import { MOTION } from '../../core/services/motion-conditions';
-import { MotionService } from '../../core/services/motion.service';
 import { CtaBandComponent } from '../../shared/components/cta-band/cta-band.component';
 import { FaqSectionComponent } from '../../shared/components/faq-section/faq-section.component';
 import { ToolsMarqueeComponent } from '../../shared/components/tools-marquee/tools-marquee.component';
@@ -22,24 +20,7 @@ import { WhyMeComponent } from './why-me/why-me.component';
     CtaBandComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // Fixed 3px bar above the header. It starts collapsed (scaleX(0)), so reduced-motion
-  // visitors, where GSAP never runs, simply don't get one.
-  styles: `
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      z-index: 1200;
-      background: var(--color-accent);
-      transform: scaleX(0);
-      transform-origin: left center;
-      pointer-events: none;
-    }
-  `,
   template: `
-    <div class="scroll-progress" #progress aria-hidden="true"></div>
     <app-hero />
     <app-tools-marquee />
     <app-services-preview />
@@ -57,36 +38,6 @@ import { WhyMeComponent } from './why-me/why-me.component';
     />
   `,
 })
-export class HomeComponent implements AfterViewInit, OnDestroy {
+export class HomeComponent {
   protected readonly faqs = HOME_FAQS;
-
-  private readonly progress = viewChild.required<ElementRef<HTMLElement>>('progress');
-  private readonly motion = inject(MotionService);
-  private readonly zone = inject(NgZone);
-  private mm?: ReturnType<MotionService['gsap']['matchMedia']>;
-
-  ngAfterViewInit(): void {
-    this.zone.runOutsideAngular(() => {
-      const { gsap } = this.motion;
-      const mm = gsap.matchMedia();
-      this.mm = mm;
-
-      mm.add(MOTION.ok, () => {
-        gsap.to(this.progress().nativeElement, {
-          scaleX: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: document.documentElement,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.2,
-          },
-        });
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.mm?.revert();
-  }
 }
