@@ -1,6 +1,6 @@
 # Portfolio
 
-My personal portfolio and freelance services site, live at [joshiii7.github.io/portfolio](https://joshiii7.github.io/portfolio/). It's an Angular app (standalone components, signals, SCSS) with no backend.
+My personal portfolio and freelance services site, live at [joshiii7-portfolio.vercel.app](https://joshiii7-portfolio.vercel.app/). It's an Angular app (standalone components, signals, SCSS) with a single Vercel serverless function (`api/send-mail.js`) for the contact form.
 
 ## Structure
 
@@ -15,12 +15,15 @@ My personal portfolio and freelance services site, live at [joshiii7.github.io/p
 
 ```
 npm ci
-npm start        # dev server at http://localhost:4200/portfolio/
+npm start        # dev server at http://localhost:4200/ (no contact form API)
 npm run build    # production build in dist/portfolio/browser
+vercel dev       # app plus /api/send-mail, needs SMTP variables (see .env.example)
 ```
 
-The app is served under `/portfolio/` (see `<base href>` in `src/index.html`).
+The app is served from the site root (`<base href="/">` in `src/index.html`).
 
 ## Deploying
 
-Pushes to `main` build the app and publish it via the GitHub Actions workflow in `.github/workflows/static.yml` (repo Settings > Pages > Source: GitHub Actions). The workflow also copies `index.html` to `404.html` so deep links work on GitHub Pages.
+The site is deployed on Vercel from `main` (config in `vercel.json`). The SMTP variables from `.env.example` are set in the Vercel dashboard. `.github/workflows/ci.yml` only checks that the build passes.
+
+`.github/workflows/static.yml` is a manual-only GitHub Pages deploy under `/portfolio/`. That copy has no `/api/send-mail`, so its contact form does not work.

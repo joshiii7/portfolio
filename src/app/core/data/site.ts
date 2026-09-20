@@ -13,7 +13,7 @@ export const SITE = {
   phone: '+63 938 294 3739',
   phoneHref: 'tel:+639382943739',
   tagline: 'Full-stack software developer building custom web, mobile, and desktop applications.',
-  origin: 'https://joshiii7.github.io/portfolio',
+  origin: 'https://joshiii7-portfolio.vercel.app',
 } as const;
 
 export const NAV_LINKS: NavLink[] = [
