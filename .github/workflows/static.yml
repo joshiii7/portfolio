@@ -1,13 +1,13 @@
 # Builds the Angular app and deploys it to GitHub Pages
 # (repo Settings > Pages > Source: "GitHub Actions").
+#
+# NOTE: the site is now deployed on Vercel. This workflow is manual-only and no
+# longer runs on push. The Pages version has no /api/send-mail (that is a Vercel
+# serverless function), so the contact form will not work there.
 name: Deploy Angular app to Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  # Manual runs only, from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages

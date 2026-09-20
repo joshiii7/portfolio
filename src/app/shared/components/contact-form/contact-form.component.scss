@@ -132,6 +132,16 @@
     }
 }
 
+// Honeypot: kept in the layout flow but moved off-screen (not display: none,
+// which some bots skip), so people never see or tab to it.
+.form-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 // Subtle privacy reassurance shown under every contact form.
 .form-privacy {
     margin-top: 1.25rem;
