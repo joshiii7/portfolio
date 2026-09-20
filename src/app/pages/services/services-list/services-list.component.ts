@@ -7,7 +7,6 @@ import { FaqSectionComponent } from '../../../shared/components/faq-section/faq-
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ServiceCardComponent } from '../../../shared/components/service-card/service-card.component';
 import { SkillsGridComponent } from '../../../shared/components/skills-grid/skills-grid.component';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
 
 interface ProcessStep {
   title: string;
@@ -22,7 +21,6 @@ interface ProcessStep {
     SkillsGridComponent,
     FaqSectionComponent,
     CtaBandComponent,
-    RevealDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './services-list.component.scss',

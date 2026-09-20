@@ -4,11 +4,11 @@
   [photo]="photos.homeOffice" focal="center"
 />
 
-<section appReveal class="section-py">
+<section class="section-py">
   <div class="container">
     <div class="grid grid-4">
-      @for (service of content.services; track service.id) {
-        <app-service-card [service]="service" />
+      @for (service of content.services; track service.id; let i = $index) {
+        <app-service-card [service]="service" data-aos="fade-up" [attr.data-aos-delay]="(i % 4) * 100" />
       } @empty {
         <p>Services are on their way. Check back soon.</p>
       }
@@ -16,24 +16,24 @@
   </div>
 </section>
 
-<section appReveal class="section-py bg-secondary">
+<section class="section-py bg-secondary">
   <div class="container">
-    <h2 class="section-title">Skills &amp; <span class="heading-accent">Tools</span></h2>
-    <p class="section-intro">The languages, frameworks, and tools I use to build these services.</p>
-    <h3 class="tech-subheading">Languages &amp; Frameworks</h3>
-    <app-skills-grid [items]="content.languages" label="Languages and frameworks" />
-    <h3 class="tech-subheading">Tools &amp; Editors</h3>
-    <app-skills-grid [items]="content.tools" label="Tools and editors" />
+    <h2 class="section-title" data-aos="fade-up">Skills &amp; <span class="heading-accent">Tools</span></h2>
+    <p class="section-intro" data-aos="fade-up" data-aos-delay="100">The languages, frameworks, and tools I use to build these services.</p>
+    <h3 class="tech-subheading" data-aos="fade-up">Languages &amp; Frameworks</h3>
+    <app-skills-grid [items]="content.languages" label="Languages and frameworks" data-aos="fade-up" />
+    <h3 class="tech-subheading" data-aos="fade-up">Tools &amp; Editors</h3>
+    <app-skills-grid [items]="content.tools" label="Tools and editors" data-aos="fade-up" />
   </div>
 </section>
 
-<section appReveal class="section-py">
+<section class="section-py">
   <div class="container">
-    <h2 class="section-title">My <span class="heading-accent">Process</span></h2>
-    <p class="section-intro">A straightforward process, from first conversation to launch.</p>
+    <h2 class="section-title" data-aos="fade-up">My <span class="heading-accent">Process</span></h2>
+    <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A straightforward process, from first conversation to launch.</p>
     <ol class="process-list">
       @for (step of process; track step.title) {
-        <li class="process-step">
+        <li class="process-step" data-aos="fade-up">
           <h3>{{ step.title }}</h3>
           <p>{{ step.text }}</p>
         </li>

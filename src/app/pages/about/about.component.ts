@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, afterNextRender, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ASEAN_PHOTOS, PORTRAIT_PHOTOS } from '../../core/data/photos';
-import { AosService } from '../../core/services/aos.service';
 import { ContentService } from '../../core/services/content.service';
 import { CtaBandComponent } from '../../shared/components/cta-band/cta-band.component';
 import { HeadingBannerComponent } from '../../shared/components/heading-banner/heading-banner.component';
@@ -18,10 +17,4 @@ export class AboutComponent {
   protected readonly content = inject(ContentService);
   protected readonly photos = ASEAN_PHOTOS;
   protected readonly portraits = PORTRAIT_PHOTOS;
-
-  constructor() {
-    // Once the page (and its data-aos elements) has rendered, like fingerdash's onMount.
-    const aos = inject(AosService);
-    afterNextRender(() => aos.init());
-  }
 }

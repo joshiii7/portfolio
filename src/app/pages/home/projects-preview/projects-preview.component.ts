@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../../../core/services/content.service';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
+import { MotionSectionDirective } from '../../../shared/directives/motion-section.directive';
 
 const FEATURED_COUNT = 3;
 
 @Component({
   selector: 'app-projects-preview',
-  imports: [RouterLink, ProjectCardComponent, RevealDirective],
+  imports: [RouterLink, ProjectCardComponent, MotionSectionDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `:host { display: block; }`,
   template: `
-    <section appReveal class="section-py">
+    <section appMotionSection class="section-py">
       <div class="container">
-        <h2 class="section-title">Featured <span class="heading-accent">Projects</span></h2>
-        <p class="section-intro">A selection of capstone projects built to solve practical business and institutional challenges.</p>
+        <h2 class="section-title" data-aos="fade-up">Featured <span class="heading-accent">Projects</span></h2>
+        <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A selection of capstone projects built to solve practical business and institutional challenges.</p>
 
         <div class="grid grid-3">
           @for (project of featured; track project.slug) {
@@ -25,7 +25,7 @@ const FEATURED_COUNT = 3;
           }
         </div>
 
-        <div class="section-cta">
+        <div class="section-cta" data-aos="fade-up">
           <a routerLink="/projects" class="btn btn-outline">View All Projects</a>
         </div>
       </div>

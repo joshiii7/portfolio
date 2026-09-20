@@ -7,11 +7,10 @@ import { FaqSectionComponent } from '../../shared/components/faq-section/faq-sec
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { SocialLinksComponent } from '../../shared/components/social-links/social-links.component';
 import { PageBannerComponent } from '../../shared/components/page-banner/page-banner.component';
-import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-contact',
-  imports: [PageBannerComponent, ContactFormComponent, FaqSectionComponent, IconComponent, SocialLinksComponent, RevealDirective],
+  imports: [PageBannerComponent, ContactFormComponent, FaqSectionComponent, IconComponent, SocialLinksComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './contact.component.scss',
   templateUrl: './contact.component.html',

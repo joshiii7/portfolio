@@ -80,6 +80,11 @@
         }
     }
 
+    // Wrapper the magnetic hover effect moves, so it never fights .btn's own hover scale.
+    .hero-magnet {
+        display: inline-block;
+    }
+
     // The hero's own lead-capture form: same fields/validation as the
     // Contact page, kept visible without scrolling on first landing.
     // Deliberately more compact than the Contact page's own form (smaller

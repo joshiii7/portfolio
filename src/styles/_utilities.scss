@@ -309,22 +309,8 @@
     flex-shrink: 0;
 }
 
-// Scroll-reveal animation, toggled by IntersectionObserver in main.js
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-
-    &.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .reveal {
-        transition: none;
-        opacity: 1;
-        transform: none;
-    }
+// AOS slides elements in from the side; clip so that can never add a horizontal scrollbar.
+.aos-scope,
+main {
+    overflow-x: clip;
 }

@@ -3,22 +3,21 @@ import { RouterLink } from '@angular/router';
 import { SITE } from '../../../core/data/site';
 import { PhotoAsset, PhotoFocal } from '../../../core/models/photo.model';
 import { PhotoComponent } from '../photo/photo.component';
-import { RevealDirective } from '../../directives/reveal.directive';
 import { IconComponent } from '../icon/icon.component';
 
 /** Pre-footer call to action: a primary "contact" button beside a click-to-call button. */
 @Component({
   selector: 'app-cta-band',
-  imports: [RouterLink, IconComponent, PhotoComponent, RevealDirective],
+  imports: [RouterLink, IconComponent, PhotoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './cta-band.component.scss',
   styles: `:host { display: block; }`,
   template: `
-    <section [appReveal]="!aos()" class="section-py cta-band" [class.cta-band--photo]="!!photo()">
+    <section class="section-py cta-band" [class.cta-band--photo]="!!photo()">
       @if (photo(); as p) {
         <app-photo [photo]="p" [focal]="focal()" />
       }
-      <div class="container" [attr.data-aos]="aos() ? 'zoom-in-up' : null">
+      <div class="container" data-aos="zoom-in-up">
         <h2>{{ title() }} <span class="heading-accent">{{ accent() }}</span></h2>
         <p>{{ text() }}</p>
         <div class="cta-actions">
@@ -42,6 +41,4 @@ export class CtaBandComponent {
   /** Optional decorative photo behind the heading, with a dark scrim over it. */
   readonly photo = input<PhotoAsset>();
   readonly focal = input<PhotoFocal>('center');
-  /** Animate with AOS (the page must call AosService.init) instead of the default scroll reveal. */
-  readonly aos = input(false);
 }

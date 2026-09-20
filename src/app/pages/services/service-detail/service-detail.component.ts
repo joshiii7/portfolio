@@ -9,7 +9,6 @@ import { FeatureCardComponent } from '../../../shared/components/feature-card/fe
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-service-detail',
@@ -21,7 +20,6 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
     FeatureCardComponent,
     ProjectCardComponent,
     CtaBandComponent,
-    RevealDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './service-detail.component.scss',
