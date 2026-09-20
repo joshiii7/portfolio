@@ -20,8 +20,8 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Home', path: '/', exact: true },
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
-  { label: 'Pricing', path: '/pricing' },
   { label: 'Projects', path: '/projects' },
+  { label: 'Pricing', path: '/pricing' },
   { label: 'Contact', path: '/contact' },
 ];
 

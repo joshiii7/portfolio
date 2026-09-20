@@ -6,6 +6,11 @@
 // header, which carries its background unconditionally rather than fading
 // in after a scroll threshold.
 .site-header {
+    // The AJ mark is large while you are at the top of the page and shrinks, along with the
+    // header padding, once you scroll (the navbar adds .is-scrolled). The header is fixed, so
+    // changing its height moves nothing else on the page.
+    --logo-height: 3.5rem;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -15,6 +20,18 @@
     backdrop-filter: blur(10px);
     padding: 1rem 0;
     z-index: 1000;
+    transition: padding 0.3s ease;
+
+    &.is-scrolled {
+        --logo-height: 2.25rem;
+        padding: 0.5rem 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header {
+        transition: none;
+    }
 }
 
 .header-content {
@@ -127,6 +144,15 @@ nav#mainNav ul {
 // ---------------------------------------------------------------------------
 
 @media (max-width: #{$bp-md - 1px}) {
+    // Phones stack the header in three rows, so the mark is a little smaller than on desktop.
+    .site-header {
+        --logo-height: 2.75rem;
+
+        &.is-scrolled {
+            --logo-height: 2rem;
+        }
+    }
+
     // Modeled directly on thegenieorlando's mobile header: logo, then the
     // phone CTA, then a full-width menu toggle bar, each on its own centered
     // row, rather than all three competing for space in a single line. This
