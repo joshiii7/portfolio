@@ -8,13 +8,12 @@ import { CtaBandComponent } from '../../shared/components/cta-band/cta-band.comp
 import { FaqSectionComponent } from '../../shared/components/faq-section/faq-section.component';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { PageBannerComponent } from '../../shared/components/page-banner/page-banner.component';
-import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 type BillingCycle = 'monthly' | 'annual';
 
 @Component({
   selector: 'app-pricing',
-  imports: [DecimalPipe, RouterLink, PageBannerComponent, CtaBandComponent, FaqSectionComponent, IconComponent, RevealDirective],
+  imports: [DecimalPipe, RouterLink, PageBannerComponent, CtaBandComponent, FaqSectionComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pricing.component.scss',
   templateUrl: './pricing.component.html',

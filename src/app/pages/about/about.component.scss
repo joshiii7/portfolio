@@ -1,10 +1,5 @@
 @use "variables" as *;
 
-// AOS slides elements in from the side; clip so that can never add a horizontal scrollbar.
-.aos-scope {
-    overflow-x: clip;
-}
-
 // Cards and achievements under the photo heading banner: the section no
 // longer has its own vertical padding (the banner runs full width to the top).
 .experience-body {

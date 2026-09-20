@@ -4,11 +4,10 @@ import { ContentService } from '../../../core/services/content.service';
 import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-projects-list',
-  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent, RevealDirective],
+  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './projects-list.component.scss',
   template: `
@@ -18,13 +17,13 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
       [photo]="photos.homeOffice" focal="center"
     />
 
-    <section appReveal class="section-py">
+    <section class="section-py">
       <div class="container">
         <div class="project-group">
-          <h2>Business &amp; Client <span class="heading-accent">Projects</span></h2>
+          <h2 data-aos="fade-up">Business &amp; Client <span class="heading-accent">Projects</span></h2>
           <div class="grid grid-3">
-            @for (project of content.capstoneProjects; track project.slug) {
-              <app-project-card [project]="project" />
+            @for (project of content.capstoneProjects; track project.slug; let i = $index) {
+              <app-project-card [project]="project" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
             } @empty {
               <p>Projects are on their way. Check back soon.</p>
             }
@@ -32,10 +31,10 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
         </div>
 
         <div class="project-group">
-          <h2>Front-End <span class="heading-accent">Craft</span></h2>
+          <h2 data-aos="fade-up">Front-End <span class="heading-accent">Craft</span></h2>
           <div class="grid grid-3">
-            @for (project of content.craftProjects; track project.name) {
-              <app-project-card [project]="project" variant="craft" />
+            @for (project of content.craftProjects; track project.name; let i = $index) {
+              <app-project-card [project]="project" variant="craft" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
             } @empty {
               <p>More front-end demos are on their way.</p>
             }

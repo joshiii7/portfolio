@@ -4,19 +4,18 @@ import { ContentService } from '../../../core/services/content.service';
 import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent, RevealDirective],
+  imports: [PageBannerComponent, ProjectCardComponent, CtaBandComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (project(); as project) {
       <app-page-banner [title]="project.name" [text]="project.bannerText" [photo]="photos.woodenDesk" focal="center" />
 
-      <section appReveal class="section-py">
+      <section class="section-py">
         <div class="container">
-          <app-project-card [project]="project" variant="detail" />
+          <app-project-card [project]="project" variant="detail" data-aos="fade-up" />
         </div>
       </section>
 

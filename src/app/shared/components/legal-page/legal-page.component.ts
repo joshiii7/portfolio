@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 import { PhotoAsset, PhotoFocal } from '../../../core/models/photo.model';
 import { SITE } from '../../../core/data/site';
-import { RevealDirective } from '../../directives/reveal.directive';
 import { IconComponent } from '../icon/icon.component';
 import { PageBannerComponent } from '../page-banner/page-banner.component';
 
 /** Shell for plain prose pages (Privacy, Accessibility): banner + legal-content body, sections projected in. */
 @Component({
   selector: 'app-legal-page',
-  imports: [PageBannerComponent, IconComponent, RevealDirective],
+  imports: [PageBannerComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // Projected prose (h2/p/ul from the page) must be styled too, so these rules
   // can't be scoped to this component's own template.
@@ -16,9 +15,9 @@ import { PageBannerComponent } from '../page-banner/page-banner.component';
   styleUrl: './legal-page.component.scss',
   template: `
     <app-page-banner [title]="title()" [text]="text()" [photo]="photo()" [focal]="focal()" />
-    <section appReveal class="section-py">
+    <section class="section-py">
       <div class="container">
-        <div class="legal-content">
+        <div class="legal-content" data-aos="fade-up">
           <p class="legal-updated">Last updated: {{ updated() }}</p>
           <ng-content />
           <ul>

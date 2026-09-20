@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FeatureCardComponent } from '../../../shared/components/feature-card/feature-card.component';
 import { SiteIconName } from '../../../shared/components/icon/icon.component';
-import { RevealDirective } from '../../../shared/directives/reveal.directive';
+import { MotionSectionDirective } from '../../../shared/directives/motion-section.directive';
 
 interface Reason {
   icon: SiteIconName;
@@ -11,13 +11,13 @@ interface Reason {
 
 @Component({
   selector: 'app-why-me',
-  imports: [FeatureCardComponent, RevealDirective],
+  imports: [FeatureCardComponent, MotionSectionDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `:host { display: block; }`,
   template: `
-    <section appReveal class="section-py bg-secondary">
+    <section appMotionSection class="section-py bg-secondary">
       <div class="container">
-        <h2 class="section-title">Why Work With <span class="heading-accent">Me</span></h2>
+        <h2 class="section-title" data-aos="fade-up">Why Work With <span class="heading-accent">Me</span></h2>
         <div class="grid grid-3">
           @for (reason of reasons; track reason.title) {
             <app-feature-card [icon]="reason.icon" [title]="reason.title" [text]="reason.text" />

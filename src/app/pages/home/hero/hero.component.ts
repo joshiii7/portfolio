@@ -1,6 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import type { SplitText } from 'gsap/SplitText';
 import { SITE } from '../../../core/data/site';
+import { MOTION, MotionService } from '../../../core/services/motion.service';
 import { ContactFormComponent } from '../../../shared/components/contact-form/contact-form.component';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 
@@ -24,6 +26,10 @@ interface TrailPoint {
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly motion = inject(MotionService);
+  private readonly zone = inject(NgZone);
+  private mm?: ReturnType<MotionService['gsap']['matchMedia']>;
 
   protected readonly site = SITE;
 
@@ -45,12 +51,133 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     window.addEventListener('resize', this.onResize);
     window.addEventListener('mousemove', this.onMouseMove);
     this.animate();
+    this.zone.runOutsideAngular(() => this.setupMotion());
   }
 
   ngOnDestroy(): void {
+    this.mm?.revert();
     cancelAnimationFrame(this.frame);
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('mousemove', this.onMouseMove);
+  }
+
+  /**
+   * GSAP: a headline line reveal with the rest of the hero following it (everywhere
+   * except reduced motion), plus magnetic buttons and a slight copy parallax on
+   * desktop with a mouse. Everything sits in matchMedia, so ngOnDestroy's revert()
+   * cleans it up and reduced-motion visitors see the hero untouched.
+   */
+  private setupMotion(): void {
+    const { gsap, SplitText: Splitter } = this.motion;
+    const q = <T extends HTMLElement>(selector: string) => this.host.querySelector<T>(selector);
+    const title = q('.hero-copy h1');
+    const intro = q('.hero-copy p');
+    const copy = q('.hero-copy');
+    const formCard = q('.hero-form-card');
+    const buttons = gsap.utils.toArray<HTMLElement>('.hero-actions .btn', this.host);
+    const magnets = gsap.utils.toArray<HTMLElement>('.hero-magnet', this.host);
+    if (!title || !intro || !copy || !formCard) return;
+
+    const mm = gsap.matchMedia(this.host);
+    this.mm = mm;
+
+    mm.add(MOTION.ok, (context) => {
+      const later = [intro, ...buttons, formCard];
+
+      // Start hidden right now, before the first paint. Opacity (not visibility) keeps
+      // the links and form fields focusable while the entrance runs.
+      gsap.set(title, { opacity: 0 });
+      gsap.set([intro, ...buttons], { opacity: 0, y: 18, transition: 'none' });
+      gsap.set(formCard, { opacity: 0, x: 28, transition: 'none' });
+
+      let split: SplitText | undefined;
+      let cancelled = false;
+
+      // Split only once the web fonts are in (or after 0.8s), so the lines match the final layout.
+      const fontsReady = Promise.race([document.fonts?.ready, new Promise<void>((resolve) => setTimeout(resolve, 800))]);
+      void fontsReady.then(() => {
+        if (cancelled) return;
+        context.add(() => {
+          split = Splitter.create(title, {
+            type: 'lines',
+            mask: 'lines',
+            autoSplit: true,
+            onSplit: (self) => {
+              gsap.set(title, { opacity: 1 });
+              return gsap.from(self.lines, {
+                yPercent: 110,
+                duration: 0.9,
+                ease: 'power4.out',
+                stagger: 0.08,
+                willChange: 'transform',
+                onComplete: () => void gsap.set(self.lines, { clearProps: 'willChange' }),
+              });
+            },
+          });
+
+          gsap
+            .timeline({
+              defaults: { ease: 'power3.out' },
+              // Hand hover (and the .card / .btn transitions) back to the stylesheet.
+              onComplete: () => void gsap.set(later, { clearProps: 'transform,opacity,transition' }),
+            })
+            .to(intro, { opacity: 1, y: 0, duration: 0.7 }, 0.35)
+            .to(buttons, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.5)
+            .to(formCard, { opacity: 1, x: 0, duration: 0.8 }, 0.45);
+        });
+      });
+
+      return () => {
+        cancelled = true;
+        split?.revert();
+      };
+    });
+
+    mm.add(MOTION.desktop, () => {
+      const cleanups: Array<() => void> = [];
+      const pull = gsap.utils.clamp(-10, 10);
+
+      // Each button's wrapper drifts a few px toward the pointer and settles back.
+      for (const el of magnets) {
+        const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
+        const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
+        let centerX = 0;
+        let centerY = 0;
+
+        const enter = () => {
+          const rect = el.getBoundingClientRect();
+          centerX = rect.left + rect.width / 2 - Number(gsap.getProperty(el, 'x'));
+          centerY = rect.top + rect.height / 2 - Number(gsap.getProperty(el, 'y'));
+        };
+        const move = (event: PointerEvent) => {
+          xTo(pull((event.clientX - centerX) * 0.2));
+          yTo(pull((event.clientY - centerY) * 0.2));
+        };
+        const leave = () => {
+          xTo(0);
+          yTo(0);
+        };
+
+        el.addEventListener('pointerenter', enter);
+        el.addEventListener('pointermove', move);
+        el.addEventListener('pointerleave', leave);
+        cleanups.push(() => {
+          el.removeEventListener('pointerenter', enter);
+          el.removeEventListener('pointermove', move);
+          el.removeEventListener('pointerleave', leave);
+        });
+      }
+
+      // The copy drifts up a little faster than the page as the hero scrolls away. The form
+      // card stays put so it never moves under someone filling it in.
+      gsap.to(copy, {
+        yPercent: -10,
+        ease: 'none',
+        scrollTrigger: { trigger: this.host, start: 'top top', end: 'bottom top', scrub: true },
+      });
+
+      return () => cleanups.forEach((cleanup) => cleanup());
+    });
   }
 
   private resizeCanvas(): void {
