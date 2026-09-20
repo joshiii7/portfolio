@@ -7,6 +7,11 @@ yarn-error.log
 
 # Environment
 .env
+.env.local
+.env.*.local
+
+# Vercel CLI
+.vercel/
 
 # IDEs and editors
 .vscode/
@@ -63,3 +68,7 @@ Thumbs.db
 
 # Original, unoptimized source images (kept locally, not shipped)
 /originals/
+
+.vercel
+.env*
+!.env.example

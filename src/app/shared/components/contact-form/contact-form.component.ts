@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, signal, viewChild } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, input, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { PROJECT_TYPES, SITE } from '../../../core/data/site';
+import { ContactMailerService } from '../../../core/services/contact-mailer.service';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -21,9 +22,10 @@ const emailValidator: ValidatorFn = (control) => {
   return EMAIL_PATTERN.test(value) ? null : { email: true };
 };
 
-const requiredValidator: ValidatorFn = (control) => (control.value ? null : { required: true });
+type FieldName = 'name' | 'email' | 'subject' | 'message';
 
-type FieldName = 'name' | 'email' | 'projectType' | 'message';
+const SUCCESS_MESSAGE = "Thanks! Your message was sent. I'll get back to you soon.";
+const ERROR_MESSAGE = 'Sorry, your message could not be sent. Please try again later or email me directly.';
 
 const MESSAGES: Record<FieldName, Record<string, string>> = {
   name: {
@@ -35,8 +37,10 @@ const MESSAGES: Record<FieldName, Record<string, string>> = {
     required: 'Please enter your email address.',
     email: 'Please enter a valid email address.',
   },
-  projectType: {
-    required: 'Please choose a project type.',
+  subject: {
+    required: 'Please enter a subject.',
+    minlength: 'Subject should be at least 3 characters.',
+    maxlength: 'Subject should be under 150 characters.',
   },
   message: {
     required: 'Please tell me a bit about your project.',
@@ -48,8 +52,9 @@ const MESSAGES: Record<FieldName, Record<string, string>> = {
 /**
  * Contact form shared by the Home hero card and the Contact page. Errors show
  * once a field has been touched (left once), then update live on every change.
- * A valid submit hands off to the visitor's email client via mailto:, exactly
- * as the static form did, so there is no async success state to show.
+ * A valid submit posts to the /api/send-mail function; the button is disabled
+ * while it is in flight and the result is announced in the status region.
+ * `spam` is a honeypot field hidden from people; the API drops any submission that fills it.
  */
 @Component({
   selector: 'app-contact-form',
@@ -63,15 +68,18 @@ export class ContactFormComponent {
   /** Tighter spacing, used inside the Home hero card. */
   readonly compact = input(false);
 
-  protected readonly projectTypes = PROJECT_TYPES;
   protected readonly statusMessage = signal('');
+  protected readonly statusKind = signal<'success' | 'error'>('error');
+  protected readonly sending = signal(false);
+  private readonly mailer = inject(ContactMailerService);
   private readonly formEl = viewChild.required<ElementRef<HTMLFormElement>>('formEl');
 
   protected readonly form = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [trimmedLength(2, 100)] }),
     email: new FormControl('', { nonNullable: true, validators: [emailValidator] }),
-    projectType: new FormControl('', { nonNullable: true, validators: [requiredValidator] }),
+    subject: new FormControl('', { nonNullable: true, validators: [trimmedLength(3, 150)] }),
     message: new FormControl('', { nonNullable: true, validators: [trimmedLength(10, 2000)] }),
+    spam: new FormControl('', { nonNullable: true }),
   });
 
   protected error(field: FieldName): string {
@@ -91,24 +99,41 @@ export class ContactFormComponent {
   }
 
   protected submit(): void {
+    if (this.sending()) return;
+
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
 
     if (this.form.invalid) {
-      this.statusMessage.set('Please fix the highlighted fields before sending.');
+      this.showStatus('error', 'Please fix the highlighted fields before sending.');
       const firstInvalid = (Object.keys(this.form.controls) as FieldName[]).find((name) => this.form.controls[name].invalid);
       this.formEl().nativeElement.querySelector<HTMLElement>(`[formControlName="${firstInvalid}"]`)?.focus();
       return;
     }
 
     this.statusMessage.set('');
-    const { name, email, projectType, message } = this.form.getRawValue();
-    const body = [
-      `Name=${name.trim()}`,
-      `Email=${email.trim()}`,
-      `Project Type=${projectType}`,
-      `Message=${message.trim()}`,
-    ].join('\r\n');
-    window.location.href = `mailto:${SITE.email}?body=${encodeURIComponent(body)}`;
+    this.sending.set(true);
+    const { name, email, subject, message, spam } = this.form.getRawValue();
+
+    this.mailer
+      .send({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim(), spam })
+      .subscribe({
+        next: () => {
+          this.sending.set(false);
+          this.form.reset();
+          this.showStatus('success', SUCCESS_MESSAGE);
+        },
+        error: (response: HttpErrorResponse) => {
+          this.sending.set(false);
+          // Validation and rate-limit responses carry a readable message; anything else is generic.
+          const detail = response.status === 400 || response.status === 429 ? response.error?.errors?.[0] : '';
+          this.showStatus('error', detail || ERROR_MESSAGE);
+        },
+      });
+  }
+
+  private showStatus(kind: 'success' | 'error', text: string): void {
+    this.statusKind.set(kind);
+    this.statusMessage.set(text);
   }
 }

@@ -1,0 +1,5 @@
+{
+  "outputDirectory": "dist/portfolio/browser",
+  "devCommand": "ng serve --port $PORT",
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+}

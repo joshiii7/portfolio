@@ -35,22 +35,20 @@
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="contactProjectType">Project Type<span class="form-required" aria-hidden="true">*</span></label>
-    <select
-      class="form-select"
-      id="contactProjectType"
-      formControlName="projectType"
-      [class.is-invalid]="isInvalid('projectType')"
-      [class.is-valid]="isValid('projectType')"
-      [attr.aria-invalid]="isInvalid('projectType')"
-      aria-describedby="contactProjectTypeError"
-    >
-      <option value="" disabled>Select a project type</option>
-      @for (type of projectTypes; track type.value) {
-        <option [value]="type.value">{{ type.label }}</option>
-      }
-    </select>
-    <p class="form-error" [class.is-visible]="isInvalid('projectType')" id="contactProjectTypeError" role="alert">{{ error('projectType') }}</p>
+    <label class="form-label" for="contactSubject">Subject<span class="form-required" aria-hidden="true">*</span></label>
+    <input
+      class="form-input"
+      type="text"
+      id="contactSubject"
+      formControlName="subject"
+      placeholder="What is your project about?"
+      maxlength="150"
+      [class.is-invalid]="isInvalid('subject')"
+      [class.is-valid]="isValid('subject')"
+      [attr.aria-invalid]="isInvalid('subject')"
+      aria-describedby="contactSubjectError"
+    />
+    <p class="form-error" [class.is-visible]="isInvalid('subject')" id="contactSubjectError" role="alert">{{ error('subject') }}</p>
   </div>
 
   <div class="form-group">
@@ -69,7 +67,20 @@
     <p class="form-error" [class.is-visible]="isInvalid('message')" id="contactMessageError" role="alert">{{ error('message') }}</p>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-lg btn-block">Send Message</button>
-  <p class="form-status" [class.is-visible]="statusMessage()" [class.is-error]="statusMessage()" id="formStatus" role="status" aria-live="polite">{{ statusMessage() }}</p>
+  <div class="form-hp" aria-hidden="true">
+    <label for="contactWebsite">Leave this field empty</label>
+    <input type="text" id="contactWebsite" formControlName="spam" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="sending()">{{ sending() ? 'Sending…' : 'Send Message' }}</button>
+  <p
+    class="form-status"
+    [class.is-visible]="statusMessage()"
+    [class.is-error]="statusMessage() && statusKind() === 'error'"
+    [class.is-success]="statusMessage() && statusKind() === 'success'"
+    id="formStatus"
+    role="status"
+    aria-live="polite"
+  >{{ statusMessage() }}</p>
   <p class="form-privacy">Your information is secure and never shared.</p>
 </form>
