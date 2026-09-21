@@ -10,14 +10,6 @@ export interface CapstoneProject {
   bannerText: string;
 }
 
-export interface CraftProject {
-  name: string;
-  image: string;
-  description: string;
-  tools: string[];
-  link: string;
-}
-
 /** A screenshot delivered as responsive WebP: one `<base>-<width>.webp` file per entry in `widths`. */
 export interface ProjectImage {
   /** Path without the size suffix and extension, e.g. `assets/images/projects/syntaxia-home`. */
@@ -29,6 +21,8 @@ export interface ProjectImage {
   width: number;
   height: number;
   alt: string;
+  /** Short line shown under the screenshot on the project page. */
+  caption: string;
 }
 
 /** A project I built myself (as opposed to client work), shown with real screenshots and links. */

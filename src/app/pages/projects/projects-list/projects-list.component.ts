@@ -37,17 +37,6 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
             }
           </div>
         </div>
-
-        <div class="project-group">
-          <h2 data-aos="fade-up">Front-End <span class="heading-accent">Craft</span></h2>
-          <div class="grid grid-3">
-            @for (project of content.craftProjects; track project.name; let i = $index) {
-              <app-project-card [project]="project" variant="craft" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
-            } @empty {
-              <p>More front-end demos are on their way.</p>
-            }
-          </div>
-        </div>
       </div>
     </section>
 
