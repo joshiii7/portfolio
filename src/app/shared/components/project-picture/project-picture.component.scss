@@ -25,7 +25,8 @@ img {
     object-position: top;
 }
 
-// Inside a browser or phone frame the frame supplies the rounded corners.
-:host-context(.device) img {
+// Inside a browser or phone frame, or a card, the container supplies the rounded corners.
+:host-context(.device) img,
+:host-context(.project-card) img {
     border-radius: 0;
 }
