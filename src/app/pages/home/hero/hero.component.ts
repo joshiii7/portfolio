@@ -45,11 +45,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private onScreen = true;
   private running = false;
   private visibility?: IntersectionObserver;
-
-  private readonly onResize = () => {
-    this.resizeCanvas();
-    this.schedule();
-  };
+  private sizeWatcher?: ResizeObserver;
 
   private readonly onMouseMove = (e: MouseEvent) => {
     if (!this.onScreen) return;
@@ -60,9 +56,20 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   };
 
   ngAfterViewInit(): void {
+    // The section the canvas fills. It is watched instead of the <app-hero> host, which is an inline
+    // element and reports different boxes from browser to browser.
+    const hero = this.canvasRef().nativeElement.parentElement!;
+
     this.resizeCanvas();
-    window.addEventListener('resize', this.onResize);
     window.addEventListener('mousemove', this.onMouseMove);
+
+    // Fonts, the form and the layout can change the hero's height after it first renders, so the
+    // canvas follows the section's real size rather than the size it had at mount.
+    this.sizeWatcher = new ResizeObserver(() => {
+      this.resizeCanvas();
+      this.schedule();
+    });
+    this.sizeWatcher.observe(hero);
 
     // Nothing is drawn while the hero is scrolled out of view.
     this.visibility = new IntersectionObserver(([entry]) => {
@@ -70,7 +77,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       if (this.onScreen) this.schedule();
       else this.stop();
     });
-    this.visibility.observe(this.host);
+    this.visibility.observe(hero);
 
     this.schedule();
     this.zone.runOutsideAngular(() => this.setupMotion());
@@ -80,7 +87,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.mm?.revert();
     this.stop();
     this.visibility?.disconnect();
-    window.removeEventListener('resize', this.onResize);
+    this.sizeWatcher?.disconnect();
     window.removeEventListener('mousemove', this.onMouseMove);
   }
 
@@ -207,8 +214,12 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private resizeCanvas(): void {
     const canvas = this.canvasRef().nativeElement;
     const rect = canvas.parentElement!.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    const width = Math.ceil(rect.width);
+    const height = Math.ceil(rect.height);
+    // Setting width or height clears the canvas, so only touch them when the size really changed.
+    if (!width || !height || (width === canvas.width && height === canvas.height)) return;
+    canvas.width = width;
+    canvas.height = height;
     this.cols = Math.ceil(canvas.width / BOX_SIZE);
     this.rows = Math.ceil(canvas.height / BOX_SIZE);
     this.drawGridLayer(canvas.width, canvas.height);
