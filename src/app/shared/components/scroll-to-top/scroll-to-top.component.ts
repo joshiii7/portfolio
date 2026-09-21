@@ -13,7 +13,7 @@ import { ScrollService } from '../../../core/services/scroll.service';
       [class.is-visible]="scroll.showTopButton()"
       (click)="scroll.scrollToTop()"
     >
-      <img src="assets/svg/up-arrow-svgrepo-com.svg" alt="" width="18" />
+      <img src="images/icons/ui/up-arrow.svg" alt="" width="18" />
       <span>Top</span>
     </button>
   `,

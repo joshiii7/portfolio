@@ -13,15 +13,8 @@
     overflow: hidden;
     text-align: left;
 
-    > :not(app-project-picture):not(.project-image) {
+    > :not(app-project-picture) {
         padding-inline: 1.75rem;
-    }
-
-    .project-image {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        background-color: var(--color-bg);
     }
 
     h3 {

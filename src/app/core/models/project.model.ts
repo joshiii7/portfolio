@@ -1,7 +1,8 @@
 export interface CapstoneProject {
   slug: string;
   name: string;
-  image: string;
+  /** The screenshot for the cards and the top of the case study. */
+  image: ProjectImage;
   problem: string;
   solution: string;
   result: string;
@@ -12,7 +13,7 @@ export interface CapstoneProject {
 
 /** A screenshot delivered as responsive WebP: one `<base>-<width>.webp` file per entry in `widths`. */
 export interface ProjectImage {
-  /** Path without the size suffix and extension, e.g. `assets/images/projects/syntaxia-home`. */
+  /** Path without the size suffix and extension, e.g. `images/projects/syntaxia/home`. */
   base: string;
   widths: readonly number[];
   /** Which of `widths` the plain <img> fallback points at. */
@@ -21,8 +22,8 @@ export interface ProjectImage {
   width: number;
   height: number;
   alt: string;
-  /** Short line shown under the screenshot on the project page. */
-  caption: string;
+  /** Short line shown under the screenshot on the project page (only used for screenshots in a gallery). */
+  caption?: string;
 }
 
 /** A project I built myself (as opposed to client work), shown with real screenshots and links. */

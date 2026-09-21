@@ -23,7 +23,7 @@
           @if (showcase(); as s) {
             <app-project-picture [image]="s.images[0]" [sizes]="coverSizes" [eager]="true" />
           } @else if (capstone(); as c) {
-            <img [src]="c.image" [alt]="c.name + ' screenshot'" width="1200" height="610" fetchpriority="high" decoding="async" />
+            <app-project-picture [image]="c.image" [sizes]="coverSizes" [eager]="true" />
           }
         </div>
       </div>

@@ -8,8 +8,7 @@ My personal portfolio and freelance services site, live at [joshiii7-portfolio.v
 - `src/app/shared/` - reusable components (navbar, footer, page banner, accordion, contact form, cards, icons) and the `appReveal` scroll-reveal directive
 - `src/app/core/` - typed models, content data (services, projects, skills, pricing, FAQs), and services (content, scroll, header height, page titles)
 - `src/styles.scss` and `src/styles/` - global styles, design tokens, and shared utilities; section styles live next to each component
-- `src/assets/` - images, SVG icons, and the standalone front-end demos under `assets/projects/`
-- `public/` - `robots.txt` and `sitemap.xml`
+- `public/` - everything served as-is from the site root: `robots.txt`, `sitemap.xml`, the favicon and app icons, `images/` (WebP photos and screenshots in several widths, SVG icons and illustrations, the logo), and `demos/` (the standalone front-end demos)
 
 ## Running it
 

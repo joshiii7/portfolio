@@ -9,9 +9,9 @@ export interface PhotoVariant {
 }
 
 /**
- * A decorative photo under src/assets. `src`/`width`/`height` are the JPG
- * fallback and its real size (so the browser can reserve space); `variants`
- * are the WebP renditions the browser picks from by screen width.
+ * A decorative photo under public/images. `src`/`width`/`height` are the largest WebP rendition
+ * (the plain <img> fallback) and its real size, so the browser can reserve space; `variants` are
+ * all the renditions the browser picks from by screen width.
  */
 export interface PhotoAsset {
   src: string;
