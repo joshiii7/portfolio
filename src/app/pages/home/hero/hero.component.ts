@@ -40,26 +40,46 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private rows = 0;
   private trail: TrailPoint[] = [];
   private frame = 0;
+  /** The faint grid, drawn once per size into its own canvas and copied onto the visible one each frame. */
+  private gridLayer?: HTMLCanvasElement;
+  private onScreen = true;
+  private running = false;
+  private visibility?: IntersectionObserver;
 
-  private readonly onResize = () => this.resizeCanvas();
+  private readonly onResize = () => {
+    this.resizeCanvas();
+    this.schedule();
+  };
 
   private readonly onMouseMove = (e: MouseEvent) => {
+    if (!this.onScreen) return;
     const rect = this.canvasRef().nativeElement.getBoundingClientRect();
     this.trail.unshift({ x: e.clientX - rect.left, y: e.clientY - rect.top, time: Date.now() });
     if (this.trail.length > MAX_TRAIL) this.trail.pop();
+    this.schedule();
   };
 
   ngAfterViewInit(): void {
     this.resizeCanvas();
     window.addEventListener('resize', this.onResize);
     window.addEventListener('mousemove', this.onMouseMove);
-    this.animate();
+
+    // Nothing is drawn while the hero is scrolled out of view.
+    this.visibility = new IntersectionObserver(([entry]) => {
+      this.onScreen = entry.isIntersecting;
+      if (this.onScreen) this.schedule();
+      else this.stop();
+    });
+    this.visibility.observe(this.host);
+
+    this.schedule();
     this.zone.runOutsideAngular(() => this.setupMotion());
   }
 
   ngOnDestroy(): void {
     this.mm?.revert();
-    cancelAnimationFrame(this.frame);
+    this.stop();
+    this.visibility?.disconnect();
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('mousemove', this.onMouseMove);
   }
@@ -191,23 +211,47 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     canvas.height = rect.height;
     this.cols = Math.ceil(canvas.width / BOX_SIZE);
     this.rows = Math.ceil(canvas.height / BOX_SIZE);
+    this.drawGridLayer(canvas.width, canvas.height);
+  }
+
+  private drawGridLayer(width: number, height: number): void {
+    const layer = document.createElement('canvas');
+    layer.width = width;
+    layer.height = height;
+    const ctx = layer.getContext('2d');
+    if (!ctx) return;
+
+    ctx.strokeStyle = 'rgba(47, 129, 247, 0.06)';
+    ctx.lineWidth = 1;
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.cols; c++) {
+        ctx.strokeRect(c * BOX_SIZE, r * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+      }
+    }
+    this.gridLayer = layer;
+  }
+
+  /** Ask for a frame. Frames only run while the hero is on screen and there is something to draw. */
+  private schedule(): void {
+    if (this.running || !this.onScreen) return;
+    this.running = true;
+    this.frame = requestAnimationFrame(this.animate);
+  }
+
+  private stop(): void {
+    cancelAnimationFrame(this.frame);
+    this.running = false;
   }
 
   /** Faint grid, plus a glowing, fading trail of cells under the cursor. */
   private animate = (): void => {
+    this.running = false;
     const canvas = this.canvasRef().nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let r = 0; r < this.rows; r++) {
-      for (let c = 0; c < this.cols; c++) {
-        ctx.strokeStyle = 'rgba(47, 129, 247, 0.06)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(c * BOX_SIZE, r * BOX_SIZE, BOX_SIZE, BOX_SIZE);
-      }
-    }
+    if (this.gridLayer) ctx.drawImage(this.gridLayer, 0, 0);
 
     const now = Date.now();
     for (const point of this.trail) {
@@ -226,6 +270,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     }
 
     this.trail = this.trail.filter((p) => now - p.time < TRAIL_LIFETIME_MS);
-    this.frame = requestAnimationFrame(this.animate);
+    // Keep drawing only while the trail is still fading; the next mouse move starts it again.
+    if (this.trail.length) this.schedule();
   };
 }
