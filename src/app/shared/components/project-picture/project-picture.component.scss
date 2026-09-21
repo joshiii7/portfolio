@@ -1,0 +1,26 @@
+@use "variables" as *;
+
+:host {
+    display: block;
+}
+
+picture {
+    display: block;
+}
+
+// width and height attributes give the browser the screenshot's proportions, so with height: auto
+// the space is reserved before the file arrives.
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: $radius-md;
+    background-color: var(--color-bg);
+}
+
+// Card crop: the same fixed height as the other project cards, showing the top of the screenshot.
+:host(.is-crop) img {
+    height: 180px;
+    object-fit: cover;
+    object-position: top;
+}

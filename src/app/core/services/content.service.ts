@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Achievement, Role } from '../models/about.model';
-import { CapstoneProject, CraftProject } from '../models/project.model';
+import { CapstoneProject, CraftProject, ShowcaseProject } from '../models/project.model';
 import { Service } from '../models/service.model';
 import { SkillItem } from '../models/skill.model';
 import { ACHIEVEMENTS, ROLES } from '../data/about';
-import { CAPSTONE_PROJECTS, CRAFT_PROJECTS } from '../data/projects';
+import { CAPSTONE_PROJECTS, CRAFT_PROJECTS, SHOWCASE_PROJECTS } from '../data/projects';
 import { SERVICES } from '../data/services';
 import { LANGUAGES, TOOLS } from '../data/skills-tools';
 
@@ -12,6 +12,7 @@ import { LANGUAGES, TOOLS } from '../data/skills-tools';
 @Injectable({ providedIn: 'root' })
 export class ContentService {
   readonly services: readonly Service[] = SERVICES;
+  readonly showcaseProjects: readonly ShowcaseProject[] = SHOWCASE_PROJECTS;
   readonly capstoneProjects: readonly CapstoneProject[] = CAPSTONE_PROJECTS;
   readonly craftProjects: readonly CraftProject[] = CRAFT_PROJECTS;
   readonly languages: readonly SkillItem[] = LANGUAGES;
@@ -25,6 +26,13 @@ export class ContentService {
 
   project(slug: string): CapstoneProject | undefined {
     return this.capstoneProjects.find((p) => p.slug === slug);
+  }
+
+  /** Any project that has its own page: my own builds first, then the client case studies. */
+  readonly featuredProjects: readonly (ShowcaseProject | CapstoneProject)[] = [...SHOWCASE_PROJECTS, ...CAPSTONE_PROJECTS];
+
+  projectEntry(slug: string): ShowcaseProject | CapstoneProject | undefined {
+    return this.featuredProjects.find((p) => p.slug === slug);
   }
 
   projectsBySlugs(slugs: readonly string[]): CapstoneProject[] {

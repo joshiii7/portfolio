@@ -9,7 +9,7 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
   imports: [PageBannerComponent, ProjectCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (project(); as project) {
+    @if (entry(); as project) {
       <app-page-banner [title]="project.name" [text]="project.bannerText" [photo]="photos.woodenDesk" focal="center" />
 
       <section class="section-py">
@@ -33,5 +33,5 @@ export class ProjectDetailComponent {
   /** Route param, bound by the router (withComponentInputBinding). */
   readonly slug = input.required<string>();
 
-  protected readonly project = computed(() => this.content.project(this.slug()));
+  protected readonly entry = computed(() => this.content.projectEntry(this.slug()));
 }

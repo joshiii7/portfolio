@@ -15,7 +15,7 @@ const FEATURED_COUNT = 3;
     <section appMotionSection class="section-py bg-secondary">
       <div class="container">
         <h2 class="section-title" data-aos="fade-up">Featured <span class="heading-accent">Projects</span></h2>
-        <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A selection of capstone projects built to solve practical business and institutional challenges.</p>
+        <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A selection of my work: business systems built for real organizations, and public projects I built myself.</p>
 
         <div class="grid grid-3">
           @for (project of featured; track project.slug) {
@@ -33,5 +33,5 @@ const FEATURED_COUNT = 3;
   `,
 })
 export class ProjectsPreviewComponent {
-  protected readonly featured = inject(ContentService).capstoneProjects.slice(0, FEATURED_COUNT);
+  protected readonly featured = inject(ContentService).featuredProjects.slice(0, FEATURED_COUNT);
 }

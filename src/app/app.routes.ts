@@ -10,12 +10,13 @@ const serviceDescription: ResolveFn<string | undefined> = (route: ActivatedRoute
   inject(ContentService).service(route.paramMap.get('id') ?? '')?.metaDescription;
 
 const projectTitle: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
-  const project = inject(ContentService).project(route.paramMap.get('slug') ?? '');
-  return project ? `${project.name} Case Study` : 'Project Not Found';
+  const project = inject(ContentService).projectEntry(route.paramMap.get('slug') ?? '');
+  if (!project) return 'Project Not Found';
+  return 'problem' in project ? `${project.name} Case Study` : `${project.name} Project`;
 };
 
 const projectDescription: ResolveFn<string | undefined> = (route: ActivatedRouteSnapshot) =>
-  inject(ContentService).project(route.paramMap.get('slug') ?? '')?.metaDescription;
+  inject(ContentService).projectEntry(route.paramMap.get('slug') ?? '')?.metaDescription;
 
 export const routes: Routes = [
   {
