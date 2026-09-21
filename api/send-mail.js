@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 
-// TODO: CHANGE RECIPIENT - practice email only, replace with real address
-const RECIPIENT = 'salmasanmarierose@gmail.com';
+const RECIPIENT = 'adlawanjoshiangelo@gmail.com';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
