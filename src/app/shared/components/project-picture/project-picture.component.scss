@@ -24,3 +24,8 @@ img {
     object-fit: cover;
     object-position: top;
 }
+
+// Inside a browser or phone frame the frame supplies the rounded corners.
+:host-context(.device) img {
+    border-radius: 0;
+}

@@ -1,4 +1,4 @@
-import { CapstoneProject, CraftProject, ShowcaseProject } from "../models/project.model";
+import { CapstoneProject, ShowcaseProject } from "../models/project.model";
 
 export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
@@ -91,53 +91,6 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   }
 ];
 
-export const CRAFT_PROJECTS: CraftProject[] = [
-  {
-    name: "Cube Rotation",
-    image: "assets/images/project_images/cube_rotation.png",
-    description: "Cube rotation animation using HTML and CSS only.",
-    tools: [
-      "HTML",
-      "CSS",
-      "Animation"
-    ],
-    link: "assets/projects/cube/index.html"
-  },
-  {
-    name: "Drip Effect",
-    image: "assets/images/project_images/drip_effect.png",
-    description: "Drip animation created using pure HTML and CSS.",
-    tools: [
-      "HTML",
-      "CSS",
-      "Animation"
-    ],
-    link: "assets/projects/drip_effect/index.html"
-  },
-  {
-    name: "Animated Traffic Light",
-    image: "assets/images/project_images/animated_traffic_light.png",
-    description: "Traffic light animation built entirely with CSS.",
-    tools: [
-      "HTML",
-      "CSS",
-      "Animation"
-    ],
-    link: "assets/projects/animated_traffic_light/index.html"
-  },
-  {
-    name: "Loading Animation",
-    image: "assets/images/project_images/loading_animation.png",
-    description: "Smooth loading animation using CSS only.",
-    tools: [
-      "HTML",
-      "CSS",
-      "Animation"
-    ],
-    link: "assets/projects/loading_animation/index.html"
-  }
-];
-
 // TODO: the text below comes from each project's README and site. `metaDescription` and `bannerText`
 // are short summaries written from it, so give them a quick read and edit anything you'd word differently.
 export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
@@ -162,6 +115,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     images: [
       {
         base: "assets/images/projects/syntaxia-home",
+        caption: "The home page, with the pitch and a way straight into the lessons.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -170,6 +124,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/syntaxia-lesson",
+        caption: "A lesson: read the idea, edit the code, press Run, and see the result underneath.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -178,6 +133,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/syntaxia-quiz",
+        caption: "Each lesson ends with a short quiz, so you find out what stuck before moving on.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -186,6 +142,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/syntaxia-lesson-mobile",
+        caption: "On a phone the editor and its preview stack, so lessons stay usable in one hand.",
         widths: [480, 780],
         fallbackWidth: 480,
         width: 780,
@@ -219,6 +176,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     images: [
       {
         base: "assets/images/projects/fingerdash-home",
+        caption: "The home page: two ways in, the tutorial or a quick typing test.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -227,6 +185,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/fingerdash-test",
+        caption: "A test in progress. Speed updates live and mistakes show up in red as you type.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -235,6 +194,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/fingerdash-tutorial",
+        caption: "The tutorial lights up the next key and tells you which finger should press it.",
         widths: [480, 768, 1200, 1440],
         fallbackWidth: 768,
         width: 1440,
@@ -243,6 +203,7 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
       },
       {
         base: "assets/images/projects/fingerdash-home-mobile",
+        caption: "The home page on a phone.",
         widths: [480, 780],
         fallbackWidth: 480,
         width: 780,

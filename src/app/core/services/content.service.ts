@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Achievement, Role } from '../models/about.model';
-import { CapstoneProject, CraftProject, ShowcaseProject } from '../models/project.model';
+import { CapstoneProject, ShowcaseProject } from '../models/project.model';
 import { Service } from '../models/service.model';
 import { SkillItem } from '../models/skill.model';
 import { ACHIEVEMENTS, ROLES } from '../data/about';
-import { CAPSTONE_PROJECTS, CRAFT_PROJECTS, SHOWCASE_PROJECTS } from '../data/projects';
+import { CAPSTONE_PROJECTS, SHOWCASE_PROJECTS } from '../data/projects';
 import { SERVICES } from '../data/services';
 import { LANGUAGES, TOOLS } from '../data/skills-tools';
 
@@ -14,7 +14,6 @@ export class ContentService {
   readonly services: readonly Service[] = SERVICES;
   readonly showcaseProjects: readonly ShowcaseProject[] = SHOWCASE_PROJECTS;
   readonly capstoneProjects: readonly CapstoneProject[] = CAPSTONE_PROJECTS;
-  readonly craftProjects: readonly CraftProject[] = CRAFT_PROJECTS;
   readonly languages: readonly SkillItem[] = LANGUAGES;
   readonly tools: readonly SkillItem[] = TOOLS;
   readonly roles: readonly Role[] = ROLES;
