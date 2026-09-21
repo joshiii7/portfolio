@@ -1,4 +1,4 @@
-export type SocialLinkId = 'github' | 'facebook' | 'whatsapp';
+export type SocialLinkId = 'github' | 'codewars' | 'codepen' | 'facebook' | 'whatsapp';
 
 export interface SocialLink {
   id: SocialLinkId;
