@@ -6,7 +6,12 @@
     align-items: center;
 }
 
+.about-image picture {
+    display: block;
+}
+
 .about-image img {
+    display: block;
     border-radius: $radius-lg;
     width: 100%;
     height: 100%;

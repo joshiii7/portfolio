@@ -38,7 +38,7 @@ export const LANGUAGES: SkillItem[] = [
   },
   {
     name: "Angular",
-    icon: "assets/images/tech_stack_logos/gradient-icon---large.gif",
+    icon: "assets/svg/angular-svgrepo-com.svg",
     color: "#DD0031"
   },
   {

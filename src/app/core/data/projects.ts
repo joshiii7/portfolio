@@ -4,7 +4,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "bislig-city-bpls",
     name: "Bislig City BPLS",
-    image: "assets/images/project_images/bislig_city_bpls.png",
+    image: "assets/images/project_images/bislig_city_bpls.webp",
     problem: "Business permit registration, renewal, and status tracking were handled manually, making the process slow for both city staff and business owners.",
     solution: "Built a web-based Business Permit and Licensing System with an administrative dashboard, status tracking, and reporting tools.",
     result: "Gives Bislig City's licensing office a centralized system for processing and monitoring permits instead of manual paperwork.",
@@ -22,7 +22,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "bislig-city-car-rental",
     name: "Bislig City Car Rental",
-    image: "assets/images/project_images/bislig_city_car_rental.png",
+    image: "assets/images/project_images/bislig_city_car_rental.webp",
     problem: "No online system existed for browsing vehicles, requesting bookings, or managing rental schedules.",
     solution: "Built an online car rental management system covering vehicle listings, booking requests, scheduling, and admin monitoring.",
     result: "Centralizes rental bookings and fleet monitoring in a single system for Bislig City.",
@@ -40,7 +40,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "ascb-attendance-payroll",
     name: "ASCB Attendance & Payroll System",
-    image: "assets/images/project_images/ascb_attendance_and_payroll_system.png",
+    image: "assets/images/project_images/ascb_attendance_and_payroll_system.webp",
     problem: "Manual attendance tracking and payroll computation were time-consuming and prone to error.",
     solution: "Built a system that automates employee time tracking, salary computation, and payroll reporting.",
     result: "Reduces manual payroll work for Andres Soriano Colleges of Bislig staff.",
@@ -58,7 +58,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "sh-merchantile-inventory",
     name: "SH Merchantile Inventory System",
-    image: "assets/images/project_images/sh_merchantile_inventory_system.png",
+    image: "assets/images/project_images/sh_merchantile_inventory_system.webp",
     problem: "Tracking stock levels, sales, and purchases manually made it difficult to stay on top of inventory.",
     solution: "Built an inventory management system with real-time reporting for stock, sales, and purchases.",
     result: "Gives the business real-time visibility into inventory movement instead of manual stock checks.",
@@ -75,7 +75,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "mis-grading-system",
     name: "MIS Grading System",
-    image: "assets/images/project_images/mis_grading_system.png",
+    image: "assets/images/project_images/mis_grading_system.webp",
     problem: "Grade encoding and student performance tracking were done manually, slowing down faculty workflows.",
     solution: "Built an academic grading system for efficient grade encoding and performance tracking.",
     result: "Speeds up grade processing and reduces manual encoding errors.",

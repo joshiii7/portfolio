@@ -10,7 +10,14 @@
     <div class="container">
       <div class="grid grid-2 about-grid">
         <div class="about-image" data-aos="fade-right">
-          <img src="assets/images/my_background.png" alt="Joshi Angelo Adlawan" />
+          <picture>
+            <source
+              type="image/webp"
+              srcset="assets/images/my-background-640.webp 640w, assets/images/my-background-960.webp 960w, assets/images/my-background-1280.webp 1280w"
+              sizes="(min-width: 1280px) 590px, (min-width: 576px) 46vw, 92vw"
+            />
+            <img src="assets/images/my-background-960.webp" alt="Joshi Angelo Adlawan" width="960" height="1440" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div class="about-bio" data-aos="fade-left" data-aos-delay="150">
           <p>I'm a full-stack software developer who builds web applications, mobile applications, and desktop software for organizations that need technology built around how they actually work, not the other way around.</p>
