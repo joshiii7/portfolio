@@ -16,8 +16,8 @@
     left: 0;
     right: 0;
     width: 100%;
+    // 95% opaque, so a backdrop blur would show almost nothing yet re-blur on every scroll frame.
     background-color: rgba(var(--color-bg-rgb), 0.95);
-    backdrop-filter: blur(10px);
     padding: 1rem 0;
     z-index: 1000;
     transition: padding 0.3s ease;
