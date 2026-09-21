@@ -1,0 +1,123 @@
+@use "variables" as *;
+
+:host {
+    position: relative;
+    display: block;
+    background-color: var(--color-surface);
+    border-top: 1px solid rgba(var(--color-text-rgb), 0.08);
+    border-bottom: 1px solid rgba(var(--color-text-rgb), 0.08);
+    padding: 1.25rem 0;
+}
+
+// Edges fade out instead of cutting off. A mask isn't animated, so it costs nothing per frame.
+.marquee__viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+// GSAP moves this wrapper (transform only); the two lists inside are identical.
+.marquee__move {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+}
+
+.marquee__list {
+    display: flex;
+    gap: 1rem;
+    // Trailing space equal to the gap, so the seam between the two lists matches every other gap.
+    padding: 0 1rem 0 0;
+    margin: 0;
+    list-style: none;
+}
+
+.marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(var(--color-text-rgb), 0.12);
+    border-radius: $radius-pill;
+    background: rgba(var(--color-text-rgb), 0.04);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+
+    img {
+        width: 1.5rem;
+        height: 1.5rem;
+        flex-shrink: 0;
+    }
+}
+
+// The Pause button is not shown, but stays in the page for keyboard users: it is clipped to
+// nothing until it receives focus, then appears over the right end of the band.
+.marquee__controls {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.marquee__toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    background: none;
+    color: var(--color-text);
+    font-family: $font-body;
+    font-size: 0.85rem;
+
+    &:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        overflow: visible;
+        clip-path: none;
+        border: 1px solid rgba(var(--color-text-rgb), 0.25);
+        border-radius: $radius-pill;
+        background: var(--color-surface);
+        cursor: pointer;
+    }
+}
+
+// Reduced motion: no drift, no duplicate, no button. One centered row that wraps.
+@media (prefers-reduced-motion: reduce) {
+    :host {
+        padding: 1.5rem 0;
+    }
+
+    .marquee__viewport {
+        mask-image: none;
+        -webkit-mask-image: none;
+        max-width: $container-max;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .marquee__move {
+        width: auto;
+        will-change: auto;
+    }
+
+    .marquee__list {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .marquee__list--copy,
+    .marquee__controls {
+        display: none;
+    }
+}

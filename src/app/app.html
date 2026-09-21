@@ -1,9 +1,16 @@
 <a class="skip-link" href="#main" (click)="skipToContent($event)">Skip to content</a>
 
+<app-scroll-progress />
+
 <app-navbar />
 
 <main id="main" tabindex="-1" #main>
   <router-outlet />
+  @if (cta(); as current) {
+    @for (item of [current]; track item.key) {
+      <app-cta-band [content]="item.content" />
+    }
+  }
 </main>
 
 <app-footer />

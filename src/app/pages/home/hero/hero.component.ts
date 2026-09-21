@@ -2,7 +2,9 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, 
 import { RouterLink } from '@angular/router';
 import type { SplitText } from 'gsap/SplitText';
 import { SITE } from '../../../core/data/site';
-import { MOTION, MotionService } from '../../../core/services/motion.service';
+import { HomeMotionService } from '../../../core/services/home-motion.service';
+import { MOTION } from '../../../core/services/motion-conditions';
+import { MotionService } from '../../../core/services/motion.service';
 import { ContactFormComponent } from '../../../shared/components/contact-form/contact-form.component';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 
@@ -28,6 +30,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly motion = inject(MotionService);
+  private readonly homeMotion = inject(HomeMotionService);
   private readonly zone = inject(NgZone);
   private mm?: ReturnType<MotionService['gsap']['matchMedia']>;
 
@@ -68,7 +71,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
    * cleans it up and reduced-motion visitors see the hero untouched.
    */
   private setupMotion(): void {
-    const { gsap, SplitText: Splitter } = this.motion;
+    const { gsap } = this.motion;
+    const Splitter = this.homeMotion.SplitText;
     const q = <T extends HTMLElement>(selector: string) => this.host.querySelector<T>(selector);
     const title = q('.hero-copy h1');
     const intro = q('.hero-copy p');

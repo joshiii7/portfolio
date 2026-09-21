@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
+import { CTA } from './core/data/cta';
 import { ContentService } from './core/services/content.service';
 
 const serviceTitle: ResolveFn<string> = (route: ActivatedRouteSnapshot) =>
@@ -9,23 +10,25 @@ const serviceDescription: ResolveFn<string | undefined> = (route: ActivatedRoute
   inject(ContentService).service(route.paramMap.get('id') ?? '')?.metaDescription;
 
 const projectTitle: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
-  const project = inject(ContentService).project(route.paramMap.get('slug') ?? '');
-  return project ? `${project.name} Case Study` : 'Project Not Found';
+  const project = inject(ContentService).projectEntry(route.paramMap.get('slug') ?? '');
+  if (!project) return 'Project Not Found';
+  return 'problem' in project ? `${project.name} Case Study` : `${project.name} Project`;
 };
 
 const projectDescription: ResolveFn<string | undefined> = (route: ActivatedRouteSnapshot) =>
-  inject(ContentService).project(route.paramMap.get('slug') ?? '')?.metaDescription;
+  inject(ContentService).projectEntry(route.paramMap.get('slug') ?? '')?.metaDescription;
 
 export const routes: Routes = [
   {
     path: '',
     title: 'Joshi Adlawan | Full-Stack Software Developer',
+    data: { cta: CTA.home },
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'about',
     title: 'About',
-    data: { description: "Learn about Joshi Adlawan's background, approach, and experience as a full-stack software developer." },
+    data: { description: "Learn about Joshi Adlawan's background, approach, and experience as a full-stack software developer.", cta: CTA.about },
     loadComponent: () => import('./pages/about/about.component').then((m) => m.AboutComponent),
   },
   {
@@ -34,12 +37,13 @@ export const routes: Routes = [
       {
         path: '',
         title: 'Services',
-        data: { description: 'Software development services from Joshi Adlawan: custom web, mobile, and desktop applications, business systems, front-end development, and website maintenance.' },
+        data: { description: 'Software development services from Joshi Adlawan: custom web, mobile, and desktop applications, business systems, front-end development, and website maintenance.', cta: CTA.services },
         loadComponent: () => import('./pages/services/services-list/services-list.component').then((m) => m.ServicesListComponent),
       },
       {
         path: ':id',
         title: serviceTitle,
+        data: { cta: CTA.serviceDetail },
         resolve: { description: serviceDescription },
         loadComponent: () => import('./pages/services/service-detail/service-detail.component').then((m) => m.ServiceDetailComponent),
       },
@@ -48,7 +52,7 @@ export const routes: Routes = [
   {
     path: 'pricing',
     title: 'Pricing',
-    data: { description: 'Starting prices for custom web, mobile, and desktop application development from Joshi Adlawan, plus monthly and annual maintenance plans.' },
+    data: { description: 'Starting prices for custom web, mobile, and desktop application development from Joshi Adlawan, plus monthly and annual maintenance plans.', cta: CTA.pricing },
     loadComponent: () => import('./pages/pricing/pricing.component').then((m) => m.PricingComponent),
   },
   {
@@ -57,12 +61,13 @@ export const routes: Routes = [
       {
         path: '',
         title: 'Projects',
-        data: { description: 'Case studies of real software systems built by Joshi Adlawan, including web applications and business systems, with the problem, solution, and outcome for each project.' },
+        data: { description: 'Case studies of real software systems built by Joshi Adlawan, including web applications and business systems, with the problem, solution, and outcome for each project.', cta: CTA.projects },
         loadComponent: () => import('./pages/projects/projects-list/projects-list.component').then((m) => m.ProjectsListComponent),
       },
       {
         path: ':slug',
         title: projectTitle,
+        data: { cta: CTA.projectDetail },
         resolve: { description: projectDescription },
         loadComponent: () => import('./pages/projects/project-detail/project-detail.component').then((m) => m.ProjectDetailComponent),
       },
@@ -71,7 +76,7 @@ export const routes: Routes = [
   {
     path: 'contact',
     title: 'Contact',
-    data: { description: 'Get in touch with Joshi Adlawan to discuss your next software development project.' },
+    data: { description: 'Get in touch with Joshi Adlawan to discuss your next software development project.', cta: CTA.contact },
     loadComponent: () => import('./pages/contact/contact.component').then((m) => m.ContactComponent),
   },
   {

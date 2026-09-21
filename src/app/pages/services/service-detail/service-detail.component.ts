@@ -3,8 +3,7 @@ import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { RouterLink } from '@angular/router';
 import { SITE } from '../../../core/data/site';
 import { ContentService } from '../../../core/services/content.service';
-import { AccordionComponent } from '../../../shared/components/accordion/accordion.component';
-import { CtaBandComponent } from '../../../shared/components/cta-band/cta-band.component';
+import { FaqSectionComponent } from '../../../shared/components/faq-section/faq-section.component';
 import { FeatureCardComponent } from '../../../shared/components/feature-card/feature-card.component';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
@@ -16,10 +15,9 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
     RouterLink,
     IconComponent,
     PageBannerComponent,
-    AccordionComponent,
+    FaqSectionComponent,
     FeatureCardComponent,
     ProjectCardComponent,
-    CtaBandComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './service-detail.component.scss',

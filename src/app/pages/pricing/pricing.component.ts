@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PRICING_FAQS } from '../../core/data/faqs';
 import { MAINTENANCE_PLANS, PROJECT_PLANS } from '../../core/data/pricing';
-import { CtaBandComponent } from '../../shared/components/cta-band/cta-band.component';
 import { FaqSectionComponent } from '../../shared/components/faq-section/faq-section.component';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { PageBannerComponent } from '../../shared/components/page-banner/page-banner.component';
@@ -13,7 +12,7 @@ type BillingCycle = 'monthly' | 'annual';
 
 @Component({
   selector: 'app-pricing',
-  imports: [DecimalPipe, RouterLink, PageBannerComponent, CtaBandComponent, FaqSectionComponent, IconComponent],
+  imports: [DecimalPipe, RouterLink, PageBannerComponent, FaqSectionComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pricing.component.scss',
   templateUrl: './pricing.component.html',

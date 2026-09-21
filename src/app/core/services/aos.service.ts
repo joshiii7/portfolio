@@ -12,8 +12,32 @@ import AOS from 'aos';
 @Injectable({ providedIn: 'root' })
 export class AosService {
   private started = false;
+  private readonly watched = new WeakSet<Element>();
+
+  /**
+   * Mirror mode fades an element out as soon as its top scrolls past the top of the screen, which
+   * hides the part of a tall element (a portrait, a case study card) that is still being read. So an
+   * element that turns out taller than 40% of the screen animates in once instead and then stays.
+   * It watches sizes rather than measuring once, because images make elements grow after init().
+   */
+  private readonly tallWatcher =
+    typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver((entries) => {
+          let changed = false;
+          for (const { target } of entries) {
+            if (target.hasAttribute('data-aos-once')) continue;
+            if (target.getBoundingClientRect().height > window.innerHeight * 0.4) {
+              target.setAttribute('data-aos-once', 'true');
+              changed = true;
+            }
+          }
+          if (changed) AOS.refreshHard();
+        });
 
   init(): void {
+    this.watchTallElements();
+
     if (this.started) {
       // AOS.init() adds new scroll/resize listeners each time it is called, so later
       // pages just re-scan the DOM for their [data-aos] elements.
@@ -31,5 +55,13 @@ export class AosService {
       disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     });
     void document.fonts?.ready.then(() => AOS.refresh());
+  }
+
+  private watchTallElements(): void {
+    document.querySelectorAll('[data-aos]').forEach((element) => {
+      if (this.watched.has(element)) return;
+      this.watched.add(element);
+      this.tallWatcher?.observe(element);
+    });
   }
 }

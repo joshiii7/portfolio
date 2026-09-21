@@ -6,7 +6,7 @@
 />
 
 <div class="aos-scope">
-  <section class="section-py">
+  <section class="section-py bg-secondary">
     <div class="container">
       <div class="grid grid-2 about-grid">
         <div class="about-image" data-aos="fade-right">
@@ -21,15 +21,13 @@
     </div>
   </section>
 
-  <section class="bg-secondary">
-    <app-heading-banner [photo]="photos.floorSelfie" focal="center">
+  <section class="section-py">
+    <div class="container">
       <div data-aos="fade-up">
         <h2 class="section-title">Experience &amp; <span class="heading-accent">Background</span></h2>
         <p class="section-intro">Professional web development work, teaching, and nationally recognized results in web technologies competitions.</p>
       </div>
-    </app-heading-banner>
 
-    <div class="container experience-body">
       <div class="grid grid-3">
         @for (role of content.roles; track role.title + role.org; let i = $index) {
           <div class="card role-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
@@ -51,12 +49,4 @@
     </div>
   </section>
 
-  <app-cta-band
-    title="Want to Know More About How I"
-    accent="Work?"
-    text="If you'd like to talk through a project before committing to anything, I'm happy to have that conversation."
-    label="Get in Touch"
-    [photo]="portraits.headshot"
-    focal="upper"
-  />
 </div>

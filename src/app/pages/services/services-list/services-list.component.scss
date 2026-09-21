@@ -12,30 +12,11 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    counter-reset: process;
 }
 
 .process-step {
-    counter-increment: process;
     position: relative;
     padding-top: 3rem;
-
-    &::before {
-        content: counter(process);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        background: var(--color-accent);
-        color: var(--color-text);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-family: $font-heading;
-    }
 
     h3 {
         font-size: 1.1rem;
@@ -46,6 +27,51 @@
         color: var(--color-text-muted);
         font-size: 0.9rem;
         line-height: 1.6;
+    }
+}
+
+// Numbered circle. GSAP pops it in as the timeline reaches it; without GSAP (reduced motion) it
+// simply shows.
+.process-step__marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: $font-heading;
+}
+
+// Connector from a step to the next one. Only drawn when four columns sit side by side; when the
+// steps stack there is no line to draw. The fill is what GSAP scales; at rest it is fully drawn.
+.process-step__line {
+    display: none;
+}
+
+@include bp($bp-lg) {
+    .process-step__line {
+        display: block;
+        position: absolute;
+        top: calc(1.25rem - 1px);
+        left: 3.25rem;
+        right: -0.75rem;
+        height: 2px;
+        overflow: hidden;
+        background: rgba(var(--color-text-rgb), 0.12);
+    }
+
+    .process-step__fill {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--color-accent);
+        transform-origin: left center;
     }
 }
 

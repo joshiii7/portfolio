@@ -1,11 +1,13 @@
 @use "variables" as *;
 
+// The AJ monogram link (header and footer). The mark is an inline SVG that takes its colour
+// from here through currentColor.
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-logo);
     text-decoration: none;
-    font-family: $font-heading;
+    line-height: 0;
 }
 
 @media (max-width: #{$bp-md - 1px}) {

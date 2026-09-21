@@ -1,17 +1,5 @@
 @use "variables" as *;
 
-// Cards and achievements under the photo heading banner: the section no
-// longer has its own vertical padding (the banner runs full width to the top).
-.experience-body {
-    padding-top: 3rem;
-    padding-bottom: 4rem;
-
-    @include bp($bp-md) {
-        padding-top: 4rem;
-        padding-bottom: 5rem;
-    }
-}
-
 // About page bio block
 // ---------------------------------------------------------------------------
 .about-grid {

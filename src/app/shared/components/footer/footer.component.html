@@ -1,11 +1,11 @@
 <footer class="site-footer">
   <div class="footer-content">
-    <div>
-      <a routerLink="/" class="logo">{{ site.handle }}</a>
+    <div data-aos="fade-up">
+      <a routerLink="/" class="logo" aria-label="Adlawan Joshi, home"><app-logo /></a>
       <p>{{ site.tagline }}</p>
       <app-social-links />
     </div>
-    <nav aria-label="Footer">
+    <nav aria-label="Footer" data-aos="fade-up" data-aos-delay="100">
       <h3>Site</h3>
       <ul>
         @for (link of links; track link.path) {
@@ -13,7 +13,7 @@
         }
       </ul>
     </nav>
-    <div>
+    <div data-aos="fade-up" data-aos-delay="200">
       <h3>Get in Touch</h3>
       <ul>
         <li><a [href]="'mailto:' + site.email"><app-icon name="mail" [inline]="true" />{{ site.email }}</a></li>
@@ -21,7 +21,7 @@
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
+  <div class="footer-bottom" data-aos="fade-up">
     <p>&copy; {{ year }} {{ site.legalName }}. All rights reserved.</p>
     <nav class="footer-legal" aria-label="Legal">
       <a routerLink="/accessibility">Accessibility</a>

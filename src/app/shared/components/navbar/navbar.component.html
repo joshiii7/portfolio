@@ -1,6 +1,6 @@
 <header class="site-header" id="siteHeader" #header>
   <div class="header-content">
-    <a routerLink="/" class="logo">{{ site.handle }}</a>
+    <a routerLink="/" class="logo" aria-label="Adlawan Joshi, home"><app-logo /></a>
     <a [href]="site.phoneHref" class="header-phone">
       <app-icon name="phone" [inline]="true" /><span class="header-phone__label">{{ site.phone }}</span>
     </a>

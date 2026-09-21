@@ -31,9 +31,13 @@
   <div class="container">
     <h2 class="section-title" data-aos="fade-up">My <span class="heading-accent">Process</span></h2>
     <p class="section-intro" data-aos="fade-up" data-aos-delay="100">A straightforward process, from first conversation to launch.</p>
-    <ol class="process-list">
-      @for (step of process; track step.title) {
+    <ol class="process-list" #processList>
+      @for (step of process; track step.title; let i = $index; let last = $last) {
         <li class="process-step" data-aos="fade-up">
+          <span class="process-step__marker" aria-hidden="true">{{ i + 1 }}</span>
+          @if (!last) {
+            <span class="process-step__line" aria-hidden="true"><span class="process-step__fill"></span></span>
+          }
           <h3>{{ step.title }}</h3>
           <p>{{ step.text }}</p>
         </li>
@@ -42,10 +46,5 @@
   </div>
 </section>
 
-<app-faq-section idPrefix="servicesFaq" [faqs]="faqs" [secondary]="true" />
+<app-faq-section idPrefix="servicesFaq" [faqs]="faqs" />
 
-<app-cta-band [photo]="photos.woodenDesk" focal="center"
-  title="Ready to Talk Through Your"
-  accent="Project?"
-  text="Tell me what you need and I'll get back to you with next steps."
-/>

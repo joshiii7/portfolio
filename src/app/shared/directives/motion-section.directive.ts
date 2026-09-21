@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, NgZone, OnDestroy, inject } from '@angular/core';
-import { MotionService } from '../../core/services/motion.service';
+import { HomeMotionService } from '../../core/services/home-motion.service';
 
 /**
  * Put on a Home <section> to give its cards a GSAP scroll entrance and its heading
@@ -9,9 +9,9 @@ import { MotionService } from '../../core/services/motion.service';
 @Directive({ selector: '[appMotionSection]' })
 export class MotionSectionDirective implements AfterViewInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-  private readonly motion = inject(MotionService);
+  private readonly motion = inject(HomeMotionService);
   private readonly zone = inject(NgZone);
-  private mm?: ReturnType<MotionService['animateSection']>;
+  private mm?: ReturnType<HomeMotionService['animateSection']>;
 
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => {

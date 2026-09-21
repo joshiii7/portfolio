@@ -10,6 +10,62 @@
   <div class="project-links">
     <a [href]="p.link" target="_blank" rel="noopener">View Live Demo &rarr;</a>
   </div>
+} @else if (showcase(); as p) {
+  @if (variant() === 'detail') {
+    <div class="showcase-gallery">
+      @for (image of p.images; track image.base; let i = $index) {
+        <app-project-picture
+          [image]="image"
+          [sizes]="i === 0 ? detailCoverSizes : detailGallerySizes"
+          [eager]="i === 0"
+          [class.is-portrait]="image.height > image.width"
+        />
+      }
+    </div>
+    <div class="project-detail">
+      <span class="label">About</span>
+      <p>{{ p.description }}</p>
+    </div>
+    <div class="project-detail">
+      <span class="label">Highlights</span>
+      <ul class="project-highlights">
+        @for (item of p.highlights; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </div>
+    <div class="project-tags">
+      @for (tool of p.tools; track tool) {
+        <span class="tag">{{ tool }}</span>
+      }
+    </div>
+    <div class="project-links">
+      @if (p.live) {
+        <a [href]="p.live" target="_blank" rel="noopener" [attr.aria-label]="'Live site for ' + p.name + ' (opens in a new tab)'">Live Site &nearr;</a>
+      }
+      @if (p.github) {
+        <a [href]="p.github" target="_blank" rel="noopener" [attr.aria-label]="'GitHub repository for ' + p.name + ' (opens in a new tab)'">GitHub &nearr;</a>
+      }
+    </div>
+  } @else {
+    <app-project-picture [image]="p.images[0]" [sizes]="teaserSizes()" [crop]="!wide()" />
+    <h3>{{ p.name }}</h3>
+    <p>{{ p.summary }}</p>
+    <div class="project-tags">
+      @for (tool of p.tools; track tool) {
+        <span class="tag">{{ tool }}</span>
+      }
+    </div>
+    <div class="project-links">
+      <a [routerLink]="['/projects', p.slug]">View Project &rarr;</a>
+      @if (p.live) {
+        <a [href]="p.live" target="_blank" rel="noopener" [attr.aria-label]="'Live site for ' + p.name + ' (opens in a new tab)'">Live Site &nearr;</a>
+      }
+      @if (p.github) {
+        <a [href]="p.github" target="_blank" rel="noopener" [attr.aria-label]="'GitHub repository for ' + p.name + ' (opens in a new tab)'">GitHub &nearr;</a>
+      }
+    </div>
+  }
 } @else if (capstone(); as p) {
   <img [src]="p.image" [alt]="p.name + ' screenshot'" class="project-image" />
   @if (variant() !== 'detail') {
