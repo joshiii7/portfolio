@@ -1,8 +1,8 @@
 import { SocialLink } from '../models/social-link.model';
 
 /**
- * The same three profiles fingerdash lists in its footer (GitHub, Facebook,
- * WhatsApp), in the same order and with the same accessible names.
+ * My public profiles: GitHub first (the call to action links to it), then the coding sites, then
+ * the ways to message me.
  */
 export const SOCIAL_LINKS: readonly SocialLink[] = [
   {
@@ -10,6 +10,20 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     label: 'GitHub',
     href: 'https://github.com/joshiii7',
     ariaLabel: 'Joshi Angelo Z. Adlawan on GitHub (opens in a new tab)',
+    rel: 'me noopener noreferrer',
+  },
+  {
+    id: 'codewars',
+    label: 'Codewars',
+    href: 'https://www.codewars.com/users/joshiii7',
+    ariaLabel: 'Joshi Angelo Z. Adlawan on Codewars (opens in a new tab)',
+    rel: 'me noopener noreferrer',
+  },
+  {
+    id: 'codepen',
+    label: 'CodePen',
+    href: 'https://codepen.io/joshiii7',
+    ariaLabel: 'Joshi Angelo Z. Adlawan on CodePen (opens in a new tab)',
     rel: 'me noopener noreferrer',
   },
   {

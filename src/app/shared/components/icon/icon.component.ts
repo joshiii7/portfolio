@@ -4,7 +4,7 @@ import { IconName } from '../../../core/models/service.model';
 export type SiteIconName =
   | IconName
   | 'phone' | 'check' | 'medal' | 'badge-shield' | 'building' | 'pen' | 'chat'
-  | 'whatsapp' | 'facebook' | 'github';
+  | 'whatsapp' | 'facebook' | 'github' | 'codewars' | 'codepen';
 
 /**
  * Every inline SVG icon on the site, selected by name. Stroke icons inherit
@@ -94,6 +94,12 @@ export type SiteIconName =
             }
             @case ('pen') {
               <path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+            }
+            @case ('codepen') {
+              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line>
+            }
+            @case ('codewars') {
+              <line x1="4" y1="4" x2="18" y2="18"></line><line x1="20" y1="4" x2="6" y2="18"></line><line x1="12" y1="16" x2="16" y2="12"></line><line x1="12" y1="12" x2="8" y2="16"></line><line x1="18" y1="18" x2="20.5" y2="20.5"></line><line x1="6" y1="18" x2="3.5" y2="20.5"></line>
             }
             @case ('chat') {
               <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
