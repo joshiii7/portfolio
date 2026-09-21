@@ -65,11 +65,22 @@
     }
 }
 
+// Stacked and centred on phones; a row with the copyright left and the legal links right from
+// tablet up. The side padding lines the text up with the footer content above on wide screens
+// while the border still runs edge to edge.
 .footer-bottom {
     margin-top: 2.5rem;
     border-top: 1px solid rgba(var(--color-text-rgb), 0.08);
-    padding: 1.5rem;
+    padding: 1.5rem max(1.5rem, calc((100% - #{$container-max}) / 2 + 1.5rem));
     text-align: center;
+
+    @include bp($bp-md) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        text-align: left;
+    }
 
     p {
         color: var(--color-text-muted);
@@ -83,6 +94,10 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem 1.25rem;
+
+    @include bp($bp-md) {
+        margin-top: 0;
+    }
 
     a {
         color: var(--color-text-muted);
