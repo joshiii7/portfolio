@@ -9,7 +9,7 @@
     <h2 class="section-title" data-aos="fade-up">One-Time Project <span class="heading-accent">Pricing</span></h2>
     <p class="section-intro" data-aos="fade-up" data-aos-delay="100">These are starting points, not final quotes. Actual pricing depends on the features you need, third-party integrations, design complexity, your timeline, how the system will be deployed, and the level of support you want. You'll always get a clear, itemized quote before any work begins.</p>
 
-    <div class="grid grid-3 pricing-grid--center-last">
+    <div class="grid grid-3 pricing-grid pricing-grid--center-last">
       @for (plan of projectPlans; track plan.name; let i = $index) {
         <div class="card pricing-card" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100">
           <p class="pricing-card__name">{{ plan.name }}</p>
@@ -53,7 +53,7 @@
       >Annual <span class="billing-toggle__badge">Save ~17%</span></button>
     </div>
 
-    <div class="grid grid-3">
+    <div class="grid grid-3 pricing-grid pricing-grid--maintenance">
       @for (plan of maintenancePlans; track plan.name; let i = $index) {
         <div class="card pricing-card" [class.pricing-card--featured]="plan.featured" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100">
           @if (plan.featured) {
@@ -73,6 +73,41 @@
           </ul>
         </div>
       }
+    </div>
+
+    <div class="compare" data-aos="fade-up">
+      <h3 class="compare__title">Compare the <span class="heading-accent">plans</span></h3>
+      <div class="compare__scroll" role="region" aria-label="Maintenance plan comparison, scrolls sideways on small screens" tabindex="0">
+        <table class="compare__table">
+          <caption class="visually-hidden">What each maintenance plan includes</caption>
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Feature</span></th>
+              @for (plan of maintenancePlans; track plan.name) {
+                <th scope="col" [class.is-featured]="plan.featured">{{ plan.name }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of comparison; track row.label) {
+              <tr>
+                <th scope="row">{{ row.label }}</th>
+                @for (value of row.values; track $index) {
+                  <td [class.is-featured]="maintenancePlans[$index].featured">
+                    @if (value === true) {
+                      <span class="compare__mark compare__mark--yes"><app-icon name="check" /><span class="visually-hidden">Included</span></span>
+                    } @else if (value === false) {
+                      <span class="compare__mark compare__mark--no"><app-icon name="x" /><span class="visually-hidden">Not included</span></span>
+                    } @else {
+                      {{ value }}
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <p class="pricing-plans-note" data-aos="fade-up">Development beyond your plan's included hours is billed at ₱1,500 per hour. Need a dedicated response-time agreement or coverage across multiple systems? That's a custom quote, <a routerLink="/contact">get in touch</a> and I'll put together a plan that fits.</p>

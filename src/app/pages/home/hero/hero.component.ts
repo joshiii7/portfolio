@@ -8,6 +8,8 @@ import { MotionService } from '../../../core/services/motion.service';
 import { ContactFormComponent } from '../../../shared/components/contact-form/contact-form.component';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 
+// The size of one grid cell. The grid itself is drawn in CSS (see the canvas rule in hero.component.scss),
+// so the two numbers must match for the glowing trail to land on the grid.
 const BOX_SIZE = 35;
 const MAX_TRAIL = 20;
 const TRAIL_FADE_MS = 600;
@@ -36,20 +38,12 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   protected readonly site = SITE;
 
-  private cols = 0;
-  private rows = 0;
   private trail: TrailPoint[] = [];
   private frame = 0;
-  /** The faint grid, drawn once per size into its own canvas and copied onto the visible one each frame. */
-  private gridLayer?: HTMLCanvasElement;
   private onScreen = true;
   private running = false;
   private visibility?: IntersectionObserver;
-
-  private readonly onResize = () => {
-    this.resizeCanvas();
-    this.schedule();
-  };
+  private sizeWatcher?: ResizeObserver;
 
   private readonly onMouseMove = (e: MouseEvent) => {
     if (!this.onScreen) return;
@@ -60,9 +54,17 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   };
 
   ngAfterViewInit(): void {
+    // The section the canvas fills. It is watched instead of the <app-hero> host, which is an inline
+    // element and reports different boxes from browser to browser.
+    const hero = this.canvasRef().nativeElement.parentElement!;
+
     this.resizeCanvas();
-    window.addEventListener('resize', this.onResize);
     window.addEventListener('mousemove', this.onMouseMove);
+
+    // Fonts, the form and the layout can change the hero's height after it first renders, so the
+    // canvas follows the section's real size rather than the size it had at mount.
+    this.sizeWatcher = new ResizeObserver(() => this.resizeCanvas());
+    this.sizeWatcher.observe(hero);
 
     // Nothing is drawn while the hero is scrolled out of view.
     this.visibility = new IntersectionObserver(([entry]) => {
@@ -70,9 +72,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       if (this.onScreen) this.schedule();
       else this.stop();
     });
-    this.visibility.observe(this.host);
+    this.visibility.observe(hero);
 
-    this.schedule();
     this.zone.runOutsideAngular(() => this.setupMotion());
   }
 
@@ -80,7 +81,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.mm?.revert();
     this.stop();
     this.visibility?.disconnect();
-    window.removeEventListener('resize', this.onResize);
+    this.sizeWatcher?.disconnect();
     window.removeEventListener('mousemove', this.onMouseMove);
   }
 
@@ -207,28 +208,12 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private resizeCanvas(): void {
     const canvas = this.canvasRef().nativeElement;
     const rect = canvas.parentElement!.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    this.cols = Math.ceil(canvas.width / BOX_SIZE);
-    this.rows = Math.ceil(canvas.height / BOX_SIZE);
-    this.drawGridLayer(canvas.width, canvas.height);
-  }
-
-  private drawGridLayer(width: number, height: number): void {
-    const layer = document.createElement('canvas');
-    layer.width = width;
-    layer.height = height;
-    const ctx = layer.getContext('2d');
-    if (!ctx) return;
-
-    ctx.strokeStyle = 'rgba(47, 129, 247, 0.06)';
-    ctx.lineWidth = 1;
-    for (let r = 0; r < this.rows; r++) {
-      for (let c = 0; c < this.cols; c++) {
-        ctx.strokeRect(c * BOX_SIZE, r * BOX_SIZE, BOX_SIZE, BOX_SIZE);
-      }
-    }
-    this.gridLayer = layer;
+    const width = Math.ceil(rect.width);
+    const height = Math.ceil(rect.height);
+    // Setting width or height clears the canvas, so only touch them when the size really changed.
+    if (!width || !height || (width === canvas.width && height === canvas.height)) return;
+    canvas.width = width;
+    canvas.height = height;
   }
 
   /** Ask for a frame. Frames only run while the hero is on screen and there is something to draw. */
@@ -243,7 +228,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.running = false;
   }
 
-  /** Faint grid, plus a glowing, fading trail of cells under the cursor. */
+  /** The glowing, fading trail of grid cells under the cursor. (The faint grid under it is CSS.) */
   private animate = (): void => {
     this.running = false;
     const canvas = this.canvasRef().nativeElement;
@@ -251,7 +236,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (this.gridLayer) ctx.drawImage(this.gridLayer, 0, 0);
 
     const now = Date.now();
     for (const point of this.trail) {

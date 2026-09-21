@@ -1,22 +1,20 @@
 @if (entry(); as p) {
   <article class="project">
-    <header class="hero">
+    <app-page-banner [title]="p.name" [text]="p.bannerText" [photo]="photos.woodenDesk" focal="center">
+      @if (showcase(); as s) {
+        <div class="hero-links">
+          @if (s.live) {
+            <a class="btn btn-primary" [href]="s.live" target="_blank" rel="noopener" [attr.aria-label]="'Live site for ' + s.name + ' (opens in a new tab)'">Open the live site &nearr;</a>
+          }
+          @if (s.github) {
+            <a class="btn btn-outline" [href]="s.github" target="_blank" rel="noopener" [attr.aria-label]="'GitHub repository for ' + s.name + ' (opens in a new tab)'">Read the code &nearr;</a>
+          }
+        </div>
+      }
+    </app-page-banner>
+
+    <section class="stage">
       <div class="container">
-        <p class="eyebrow">{{ showcase() ? 'Built by me, for the fun of it' : 'Client case study' }}</p>
-        <h1>{{ p.name }}</h1>
-        <p class="lede">{{ p.bannerText }}</p>
-
-        @if (showcase(); as s) {
-          <div class="hero-links">
-            @if (s.live) {
-              <a class="btn btn-primary" [href]="s.live" target="_blank" rel="noopener" [attr.aria-label]="'Live site for ' + s.name + ' (opens in a new tab)'">Open the live site &nearr;</a>
-            }
-            @if (s.github) {
-              <a class="btn btn-outline" [href]="s.github" target="_blank" rel="noopener" [attr.aria-label]="'GitHub repository for ' + s.name + ' (opens in a new tab)'">Read the code &nearr;</a>
-            }
-          </div>
-        }
-
         <div class="device device--hero">
           <div class="device-bar" aria-hidden="true">
             <span class="lights"><i></i><i></i><i></i></span>
@@ -25,11 +23,11 @@
           @if (showcase(); as s) {
             <app-project-picture [image]="s.images[0]" [sizes]="coverSizes" [eager]="true" />
           } @else if (capstone(); as c) {
-            <img [src]="c.image" [alt]="c.name + ' screenshot'" width="1200" height="610" fetchpriority="high" decoding="async" />
+            <app-project-picture [image]="c.image" [sizes]="coverSizes" [eager]="true" />
           }
         </div>
       </div>
-    </header>
+    </section>
 
     <div class="container story">
       <aside class="rail" [attr.aria-label]="'About ' + p.name">
@@ -46,8 +44,8 @@
             </ul>
           </dd>
           @if (showcase(); as s) {
-            <dt>Screens</dt>
-            <dd>{{ s.images.length }} below</dd>
+            <dt>Screenshots</dt>
+            <dd>{{ s.images.length }}</dd>
           }
         </dl>
         <a class="rail-back" routerLink="/projects">&larr; All projects</a>

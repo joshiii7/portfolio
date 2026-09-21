@@ -1,5 +1,56 @@
+@use "variables" as *;
+
 // A plain flat background from the shared token (see --color-faq-bg in _root.scss). Muted text on
 // this tone is 4.6:1, which passes WCAG AA.
 .section-faq {
     background-color: var(--color-faq-bg);
+}
+
+// Heading and paragraphs on the left, questions on the right from desktop width.
+.faq-layout {
+    display: grid;
+    gap: 2.5rem;
+
+    @include bp($bp-lg) {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 4rem;
+        align-items: start;
+    }
+}
+
+.faq-intro {
+    @include bp($bp-lg) {
+        position: sticky;
+        top: calc(var(--header-height, #{$header-height}) + 1.5rem);
+    }
+
+    .section-title {
+        margin-bottom: 1.25rem;
+        text-align: left;
+    }
+
+    p {
+        color: var(--color-text-muted);
+        font-size: 1rem;
+        line-height: 1.7;
+
+        & + p {
+            margin-top: 1rem;
+        }
+    }
+
+    a {
+        color: var(--color-accent);
+        text-decoration: underline;
+    }
+}
+
+.faq-eyebrow {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }

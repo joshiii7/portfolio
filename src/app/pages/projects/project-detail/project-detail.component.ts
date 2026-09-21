@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { ContentService } from '../../../core/services/content.service';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { ProjectPictureComponent } from '../../../shared/components/project-picture/project-picture.component';
 
 /**
- * One project, written up like an article: a hero with the project in a browser frame, a sticky
+ * One project, written up like an article: the site's page banner, the project in a browser frame, a sticky
  * "at a glance" rail beside the story, and a link on to the next project. My own builds
  * (ShowcaseProject) tell the story through highlights and screenshots; client work
  * (CapstoneProject) tells it as problem, build, result.
@@ -18,6 +19,7 @@ import { ProjectPictureComponent } from '../../../shared/components/project-pict
   templateUrl: './project-detail.component.html',
 })
 export class ProjectDetailComponent {
+  protected readonly photos = WORKSPACE_PHOTOS;
   private readonly content = inject(ContentService);
 
   /** Route param, bound by the router (withComponentInputBinding). */

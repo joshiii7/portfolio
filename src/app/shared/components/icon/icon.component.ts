@@ -3,7 +3,7 @@ import { IconName } from '../../../core/models/service.model';
 
 export type SiteIconName =
   | IconName
-  | 'phone' | 'check' | 'medal' | 'badge-shield' | 'building' | 'pen' | 'chat'
+  | 'phone' | 'check' | 'x' | 'medal' | 'badge-shield' | 'building' | 'pen' | 'chat'
   | 'whatsapp' | 'facebook' | 'github' | 'codewars' | 'codepen';
 
 /**
@@ -82,6 +82,9 @@ export type SiteIconName =
             }
             @case ('check') {
               <polyline points="20 6 9 17 4 12"></polyline>
+            }
+            @case ('x') {
+              <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
             }
             @case ('medal') {
               <circle cx="12" cy="8" r="6"></circle><path d="M8.5 13.5 6 22l6-3 6 3-2.5-8.5"></path>

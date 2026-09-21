@@ -73,13 +73,26 @@ function buildText({ name, email, subject, message }) {
   ].join('\n');
 }
 
+/**
+ * A setting pasted into a dashboard often carries a stray space, a trailing newline, or quotes, and
+ * any of them makes the mail server reject the login. Trim them off so they cannot.
+ */
+function setting(name) {
+  return String(process.env[name] ?? '').trim().replace(/^(["'])(.*)\1$/, '$2').trim();
+}
+
+/** Gmail shows an app password in four groups with spaces, but the password itself has none. */
+function smtpPassword() {
+  return setting('SMTP_PASS').replace(/\s+/g, '');
+}
+
 function createTransport() {
-  const port = Number(process.env.SMTP_PORT) || 465;
+  const port = Number(setting('SMTP_PORT')) || 465;
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: setting('SMTP_HOST'),
     port,
     secure: port === 465,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    auth: { user: setting('SMTP_USER'), pass: smtpPassword() },
   });
 }
 
@@ -120,14 +133,14 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ code: 400, errors });
   }
 
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+  if (!setting('SMTP_HOST') || !setting('SMTP_USER') || !smtpPassword()) {
     console.error('send-mail: SMTP_HOST, SMTP_USER and SMTP_PASS must be set');
     return res.status(500).json({ code: 500, errors: ['Message could not be sent.'] });
   }
 
   try {
     await createTransport().sendMail({
-      from: process.env.MAIL_FROM || process.env.SMTP_USER,
+      from: setting('MAIL_FROM') || setting('SMTP_USER'),
       replyTo: { name: data.name, address: data.email },
       to: RECIPIENT,
       subject: `Portfolio Contact Form: ${data.name}`,

@@ -1,4 +1,4 @@
-import { MaintenancePlan, PricingPlan } from '../models/pricing.model';
+import { ComparisonRow, MaintenancePlan, PricingPlan } from '../models/pricing.model';
 
 export const PROJECT_PLANS: PricingPlan[] = [
   {
@@ -101,4 +101,17 @@ export const MAINTENANCE_PLANS: MaintenancePlan[] = [
     ],
     featured: false,
   },
+];
+
+/** Built from each plan's own feature list above, in the same order as MAINTENANCE_PLANS (Basic, Standard, Priority). */
+export const MAINTENANCE_COMPARISON: ComparisonRow[] = [
+  { label: 'Uptime and security monitoring', values: [true, true, true] },
+  { label: 'Regular backups', values: [true, true, true] },
+  { label: 'Software and dependency updates', values: [true, true, true] },
+  { label: 'Minor content updates', values: ['Up to 2 a month', true, true] },
+  { label: 'Bug fixes and development time', values: [false, 'Up to 4 hours a month', 'Up to 10 hours a month'] },
+  { label: 'Performance checks and optimization', values: [false, true, true] },
+  { label: 'Proactive monitoring with a monthly health report', values: [false, false, true] },
+  { label: 'Support and response time', values: ['Email, 2 to 3 business days', 'Priority email, 1 to 2 business days', 'Priority support, same or next business day'] },
+  { label: 'Direct phone and chat access', values: [false, false, true] },
 ];
