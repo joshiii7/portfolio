@@ -15,6 +15,32 @@
     }
 }
 
+// Cards in the same row share their row heights (subgrid), so the name, price, tagline and, most
+// visibly, the button sit on the same line across cards even when a tagline wraps to more lines.
+// Each card has --pricing-rows in-flow children (the "Most Popular" badge is positioned, so it does
+// not count). Browsers without subgrid keep the plain stacked card below.
+.pricing-grid {
+    --pricing-rows: 9;
+}
+
+.pricing-grid--maintenance {
+    --pricing-rows: 8;
+}
+
+@supports (grid-template-rows: subgrid) {
+    .pricing-grid .pricing-card {
+        display: grid;
+        grid-row: span var(--pricing-rows);
+        grid-template-rows: subgrid;
+        row-gap: 0;
+
+        // Keep the button its normal height instead of stretching to fill its row.
+        .btn {
+            align-self: start;
+        }
+    }
+}
+
 .pricing-card {
     text-align: center;
     display: flex;
@@ -211,4 +237,89 @@
     border-radius: $radius-pill;
 }
 
+
+// Maintenance comparison table
 // ---------------------------------------------------------------------------
+.compare {
+    margin-top: 4rem;
+}
+
+.compare__title {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-align: center;
+}
+
+// Wide tables scroll sideways inside this box on phones instead of squeezing the columns.
+.compare__scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-lg;
+    background: var(--color-surface);
+}
+
+.compare__table {
+    width: 100%;
+    min-width: 42rem;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 0.9rem 1.25rem;
+        border-bottom: 1px solid var(--color-border);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    thead th {
+        color: var(--color-text);
+        font-family: $font-heading;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    tbody th {
+        color: var(--color-text);
+        font-weight: 500;
+        text-align: left;
+    }
+
+    td {
+        color: var(--color-text-muted);
+    }
+
+    tbody tr:last-child th,
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    // The popular plan's column carries a faint tint top to bottom.
+    .is-featured {
+        background: rgba(var(--color-accent-rgb), 0.08);
+    }
+
+    thead .is-featured {
+        color: var(--color-accent);
+    }
+}
+
+// A check or a cross. The visually hidden text says which, so the meaning is not only colour.
+.compare__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    ::ng-deep svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    &--yes {
+        color: var(--color-correct);
+    }
+
+    &--no {
+        color: var(--color-error);
+    }
+}
