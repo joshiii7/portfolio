@@ -67,11 +67,13 @@
 
 // Stacked and centred on phones; a row with the copyright left and the legal links right from
 // tablet up. The side padding lines the text up with the footer content above on wide screens
-// while the border still runs edge to edge.
+// while the border still runs edge to edge. The fixed "Top" button sits in the bottom-right corner
+// of the screen (3.5rem square, 2rem from the edges), so this row leaves room for it: extra space
+// below on phones, and on the right from tablet up. Otherwise it would cover the last links.
 .footer-bottom {
     margin-top: 2.5rem;
     border-top: 1px solid rgba(var(--color-text-rgb), 0.08);
-    padding: 1.5rem max(1.5rem, calc((100% - #{$container-max}) / 2 + 1.5rem));
+    padding: 1.5rem max(1.5rem, calc((100% - #{$container-max}) / 2 + 1.5rem)) 6rem;
     text-align: center;
 
     @include bp($bp-md) {
@@ -79,12 +81,26 @@
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
+        padding-right: max(6rem, calc((100% - #{$container-max}) / 2 + 1.5rem));
+        padding-bottom: 1.5rem;
         text-align: left;
     }
 
     p {
         color: var(--color-text-muted);
         font-size: 0.85rem;
+    }
+}
+
+// The copyright line, then a short credit that points at the project page about how the site is built.
+.footer-credit {
+    p + p {
+        margin-top: 0.25rem;
+    }
+
+    a {
+        color: var(--color-accent);
+        text-decoration: underline;
     }
 }
 

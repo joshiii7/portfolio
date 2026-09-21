@@ -20,9 +20,9 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
       <div class="container">
         <div class="project-group">
           <h2 data-aos="fade-up">Featured <span class="heading-accent">Builds</span></h2>
-          <div class="grid grid-2">
+          <div class="grid grid-3">
             @for (project of content.showcaseProjects; track project.slug; let i = $index) {
-              <app-project-card [project]="project" [wide]="true" data-aos="fade-up" [attr.data-aos-delay]="i * 100" />
+              <app-project-card [project]="project" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
             }
           </div>
         </div>

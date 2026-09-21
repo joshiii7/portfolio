@@ -4,7 +4,8 @@ import { ContentService } from '../../../core/services/content.service';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
 import { MotionSectionDirective } from '../../../shared/directives/motion-section.directive';
 
-const FEATURED_COUNT = 3;
+const OWN_BUILDS_COUNT = 2;
+const CLIENT_WORK_COUNT = 1;
 
 @Component({
   selector: 'app-projects-preview',
@@ -33,5 +34,11 @@ const FEATURED_COUNT = 3;
   `,
 })
 export class ProjectsPreviewComponent {
-  protected readonly featured = inject(ContentService).featuredProjects.slice(0, FEATURED_COUNT);
+  // Two of my own builds and one piece of client work. The portfolio's own project page is left out
+  // here on purpose: it lives on the Projects page, so the home page keeps its client case study.
+  private readonly content = inject(ContentService);
+  protected readonly featured = [
+    ...this.content.showcaseProjects.slice(0, OWN_BUILDS_COUNT),
+    ...this.content.capstoneProjects.slice(0, CLIENT_WORK_COUNT),
+  ];
 }

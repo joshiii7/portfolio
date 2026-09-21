@@ -23,13 +23,9 @@ export type ProjectCardVariant = 'teaser' | 'related';
 export class ProjectCardComponent {
   readonly project = input.required<CapstoneProject | ShowcaseProject>();
   readonly variant = input<ProjectCardVariant>('teaser');
-  /** In a two-column group the screenshot is wider and shown uncropped. */
-  readonly wide = input(false);
 
   /** What the browser should assume about the screenshot's width so it downloads a fitting file. */
-  protected readonly teaserSizes = computed(() =>
-    this.wide() ? '(min-width: 1024px) 600px, (min-width: 768px) 45vw, 92vw' : '(min-width: 1024px) 337px, (min-width: 768px) 45vw, 92vw',
-  );
+  protected readonly teaserSizes = '(min-width: 1024px) 337px, (min-width: 768px) 45vw, 92vw';
 
   protected readonly capstone = computed(() => {
     const p = this.project();

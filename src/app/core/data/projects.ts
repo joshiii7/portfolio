@@ -250,5 +250,69 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     live: "https://joshiii7.github.io/fingerdash/",
     metaDescription: "Fingerdash: a free, client-side touch-typing tutorial and typing test with five test modes, four themes, and an on-screen keyboard, built with Svelte.",
     bannerText: "A free touch-typing tutorial and typing test that runs entirely in your browser."
+  },
+  {
+    slug: "portfolio",
+    name: "Portfolio Website",
+    summary: "This site itself: an Angular app with hand-written styles, GSAP animation, and a contact form that sends real email through Vercel.",
+    description: "This portfolio is one Angular app with no UI library or CSS framework: every layout, component, and animation is written for it. The contact form sends real email through a small serverless function, and the pages are built to load light and work with a keyboard.",
+    highlights: [
+      "Angular 22 with standalone components, signals, and OnPush change detection. It runs without zone.js.",
+      "Motion comes from GSAP (ScrollTrigger, SplitText, and ScrambleText) on the home page and AOS elsewhere. Both switch off for visitors who prefer reduced motion.",
+      "Photos and screenshots are WebP in several widths, so a phone downloads a small file and a wide screen gets a sharp one.",
+      "Each page sets its own title, description, and social tags. The site also ships JSON-LD, a sitemap, and a skip link for keyboard users.",
+      "The contact form posts to a serverless function on Vercel. It validates the message, catches bots with a hidden field, slows down repeat senders, and sends the email with Nodemailer."
+    ],
+    tools: [
+      "Angular",
+      "TypeScript",
+      "SCSS",
+      "GSAP",
+      "AOS",
+      "Vercel",
+      "Nodemailer"
+    ],
+    images: [
+      {
+        base: "images/projects/portfolio/home",
+        widths: [480, 768, 1200, 1440],
+        fallbackWidth: 768,
+        width: 1440,
+        height: 900,
+        alt: "The home page: the headline I Build Software That Solves Real Problems, a Start a Project form beside it, and a scrolling strip of tools underneath.",
+        caption: "The home page, with the intro on the left and a quick way to start a project on the right."
+      },
+      {
+        base: "images/projects/portfolio/services",
+        widths: [480, 768, 1200, 1440],
+        fallbackWidth: 768,
+        width: 1440,
+        height: 900,
+        alt: "The Services page showing a grid of glowing tiles for languages and frameworks, including HTML5, CSS, JavaScript, Angular, React, and Python.",
+        caption: "The skills grid on the Services page, one glowing tile for each language and framework."
+      },
+      {
+        base: "images/projects/portfolio/pricing",
+        widths: [480, 768, 1200, 1440],
+        fallbackWidth: 768,
+        width: 1440,
+        height: 900,
+        alt: "The Pricing page with three maintenance plans, Basic Care, Standard Care, and Priority Care, and the start of a comparison table below them.",
+        caption: "Pricing, with monthly and annual maintenance plans and a comparison table underneath."
+      },
+      {
+        base: "images/projects/portfolio/home-mobile",
+        widths: [480, 780],
+        fallbackWidth: 480,
+        width: 780,
+        height: 1688,
+        alt: "The home page on a phone, with the menu button at the top and the headline and buttons stacked in one column.",
+        caption: "The same page on a phone, stacked into one column."
+      }
+    ],
+    github: "https://github.com/Joshiii7/portfolio",
+    live: "https://joshiii7-portfolio.vercel.app/",
+    metaDescription: "Portfolio Website: how this site is built with Angular 22, GSAP, and Vercel, with WebP images, per-page SEO, and a serverless contact form.",
+    bannerText: "The site you're looking at, and what it's built with."
   }
 ];
