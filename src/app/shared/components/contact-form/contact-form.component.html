@@ -72,6 +72,11 @@
     <input type="text" id="contactWebsite" formControlName="spam" tabindex="-1" autocomplete="off" />
   </div>
 
+  <div class="form-group form-recaptcha">
+    <div #recaptchaEl></div>
+    <p class="form-error" [class.is-visible]="recaptchaTouched() && !recaptchaToken()" role="alert">Please complete the reCAPTCHA check.</p>
+  </div>
+
   <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="sending()">{{ sending() ? 'Sending…' : 'Send Message' }}</button>
   <p
     class="form-status"

@@ -9,6 +9,8 @@ export interface ContactPayload {
   message: string;
   /** Honeypot: must stay empty. Bots fill it, the API silently drops those. */
   spam: string;
+  /** The completed reCAPTCHA widget's response token, verified server-side before sending. */
+  recaptchaToken: string;
 }
 
 export interface MailerResponse {
