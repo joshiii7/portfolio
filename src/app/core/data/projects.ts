@@ -4,6 +4,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "bislig-city-bpls",
     name: "Bislig City BPLS",
+    summary: "A centralized system for Bislig City's licensing office to process and track business permits online instead of on paper.",
     image: {
       base: "images/projects/bislig-city-bpls/cover",
       widths: [480, 768, 1200, 1440],
@@ -31,6 +32,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "bislig-city-car-rental",
     name: "Bislig City Car Rental",
+    summary: "An online car rental system for Bislig City covering vehicle listings, bookings, and fleet monitoring.",
     image: {
       base: "images/projects/bislig-city-car-rental/cover",
       widths: [480, 768, 1200, 1440],
@@ -58,6 +60,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "ascb-attendance-payroll",
     name: "ASCB Attendance & Payroll System",
+    summary: "An attendance and payroll system that automates time tracking and salary computation for ASCB staff.",
     image: {
       base: "images/projects/ascb-attendance-payroll/cover",
       widths: [480, 768, 1200, 1440],
@@ -85,6 +88,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "sh-merchantile-inventory",
     name: "SH Merchantile Inventory System",
+    summary: "An inventory management system with real-time reporting for stock, sales, and purchases.",
     image: {
       base: "images/projects/sh-merchantile-inventory/cover",
       widths: [480, 768, 1200, 1440],
@@ -111,6 +115,7 @@ export const CAPSTONE_PROJECTS: CapstoneProject[] = [
   {
     slug: "mis-grading-system",
     name: "MIS Grading System",
+    summary: "An academic grading system for faster grade encoding and student performance tracking.",
     image: {
       base: "images/projects/mis-grading-system/cover",
       widths: [480, 768, 1200, 1440],

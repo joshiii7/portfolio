@@ -3,6 +3,8 @@ import { TextLink } from '../../shared/utils/text-link';
 export interface CapstoneProject {
   slug: string;
   name: string;
+  /** One sentence, for the cards. */
+  summary: string;
   /** The screenshot for the cards and the top of the case study. */
   image: ProjectImage;
   problem: string;
