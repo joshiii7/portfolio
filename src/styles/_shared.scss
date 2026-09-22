@@ -53,6 +53,18 @@
     }
 }
 
+// Service summaries run different lengths, so without this the "Learn More" button lands at a
+// different height on every card. Flex column + margin-top: auto pins it to the same baseline
+// across a row instead, using the equal card height .card's own height: 100% already gives it.
+.service-card {
+    display: flex;
+    flex-direction: column;
+
+    .btn {
+        margin-top: auto;
+    }
+}
+
 
 .btn-phone {
     display: inline-flex;
