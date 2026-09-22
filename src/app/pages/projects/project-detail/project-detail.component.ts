@@ -1,24 +1,33 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.js';
 import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
+import { ProjectImage } from '../../../core/models/project.model';
 import { ContentService } from '../../../core/services/content.service';
+import { DeviceFrameComponent } from '../../../shared/components/device-frame/device-frame.component';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
-import { ProjectPictureComponent } from '../../../shared/components/project-picture/project-picture.component';
+import { ProjectCarouselComponent } from '../../../shared/components/project-carousel/project-carousel.component';
+import { splitOnLinkPlaceholder } from '../../../shared/utils/text-link';
 
 /**
- * One project, written up like an article: the site's page banner, the project in a browser frame, a sticky
- * "at a glance" rail beside the story, and a link on to the next project. My own builds
- * (ShowcaseProject) tell the story through highlights and screenshots; client work
- * (CapstoneProject) tells it as problem, build, result.
+ * One project, written up like an article: the site's page banner, breadcrumbs, a horizontal strip
+ * of quick facts, then the story itself as a single column of alternating text/image sections (no
+ * sidebar, no separate hero screenshot), and a carousel of other projects at the end. My own builds
+ * (ShowcaseProject) tell it through highlights and a full gallery of screenshots; capstone work
+ * (CapstoneProject) tells it as problem, build, result. Screenshots open in Fancybox (see
+ * ngAfterViewInit) rather than a hand-rolled lightbox. Fancybox is imported statically (not lazily)
+ * so it's bound and ready the instant the page renders, with no load-order race to debug; this
+ * component only ever loads inside the already-lazy project-detail route chunk, so the page weight
+ * it adds never reaches any other route.
  */
 @Component({
   selector: 'app-project-detail',
-  imports: [PageBannerComponent, ProjectPictureComponent, RouterLink],
+  imports: [DeviceFrameComponent, PageBannerComponent, ProjectCarouselComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './project-detail.component.scss',
   templateUrl: './project-detail.component.html',
 })
-export class ProjectDetailComponent {
+export class ProjectDetailComponent implements AfterViewInit, OnDestroy {
   protected readonly photos = WORKSPACE_PHOTOS;
   private readonly content = inject(ContentService);
 
@@ -37,7 +46,8 @@ export class ProjectDetailComponent {
     return p && 'problem' in p ? p : null;
   });
 
-  /** The problem / build / result of a client project, in reading order. */
+  /** The problem / build / result of a capstone project, in reading order. Capstone projects only
+   *  ever get the one cover screenshot, so all three chapters share it as their alternating-section image. */
   protected readonly chapters = computed(() => {
     const p = this.capstone();
     return p
@@ -49,23 +59,37 @@ export class ProjectDetailComponent {
       : [];
   });
 
-  /** Text in the browser frame's address bar: the real address for a live project, else its name. */
-  protected readonly frameLabel = computed(() => {
-    const p = this.entry();
-    if (!p) return '';
-    if ('live' in p && p.live) return p.live.replace(/^https?:\/\//, '').replace(/\/$/, '');
-    return p.name;
-  });
-
-  /** The project after this one in the list, wrapping around, so the last page still leads somewhere. */
-  protected readonly next = computed(() => {
-    const list = this.content.featuredProjects;
-    const i = list.findIndex((p) => p.slug === this.slug());
-    return i === -1 || list.length < 2 ? null : list[(i + 1) % list.length];
-  });
-
   /** What the browser should assume about the sizes it will show the screenshots at. */
-  protected readonly coverSizes = '(min-width: 1200px) 1100px, 92vw';
-  protected readonly shotSizes = '(min-width: 1024px) 760px, 92vw';
-  protected readonly phoneSizes = '(min-width: 768px) 300px, 70vw';
+  protected readonly shotSizes = '(min-width: 1024px) 640px, 92vw';
+
+  /** Splits a caption paragraph on its `{link}` placeholder so the link renders as a router link. */
+  protected captionParts(paragraph: string): [string, string] {
+    return splitOnLinkPlaceholder(paragraph);
+  }
+
+  /** Which paragraph (of possibly several) is the one that carries the `{link}` placeholder. */
+  protected hasLinkPlaceholder(paragraph: string): boolean {
+    return paragraph.includes('{link}');
+  }
+
+  /** The full-size file Fancybox should open: the largest width this screenshot ships. */
+  protected fullImageUrl(image: ProjectImage): string {
+    return `${image.base}-${Math.max(...image.widths)}.webp`;
+  }
+
+  /** Every other project, for the carousel at the end of the page. */
+  protected readonly relatedProjects = computed(() => this.content.featuredProjects.filter((entry) => entry.slug !== this.slug()));
+
+  ngAfterViewInit(): void {
+    // Bound globally (Fancybox's own default target, document.body) rather than scoped to this
+    // component's host: the simplest, most standard usage, and the one Fancybox itself is tested
+    // against. Matching elements are found by live selector at click time, so this survives
+    // Angular re-rendering the gallery (a slug change reusing this same route/component) without
+    // needing to rebind.
+    Fancybox.bind('[data-fancybox]');
+  }
+
+  ngOnDestroy(): void {
+    Fancybox.unbind('[data-fancybox]');
+  }
 }

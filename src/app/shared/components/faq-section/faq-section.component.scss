@@ -6,27 +6,22 @@
     background-color: var(--color-faq-bg);
 }
 
-// Heading and paragraphs on the left, questions on the right from desktop width.
+// A single centered column: heading, intro, Contact button, then the question list, all centered
+// as a block on the page rather than split into a left rail and a right list.
 .faq-layout {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2.5rem;
-
-    @include bp($bp-lg) {
-        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-        gap: 4rem;
-        align-items: start;
-    }
 }
 
 .faq-intro {
-    @include bp($bp-lg) {
-        position: sticky;
-        top: calc(var(--header-height, #{$header-height}) + 1.5rem);
-    }
+    max-width: 42rem;
+    text-align: center;
 
     .section-title {
         margin-bottom: 1.25rem;
-        text-align: left;
+        text-align: center;
     }
 
     p {
@@ -39,10 +34,20 @@
         }
     }
 
-    a {
+    // Scoped to the inline "Send me a message" link inside a paragraph, not the .btn below it.
+    p a {
         color: var(--color-accent);
         text-decoration: underline;
     }
+}
+
+// .faq-contact needs no spacing rule of its own: the shared .btn class already sets
+// margin-top: 1.5rem, which is exactly the gap wanted here below the intro paragraph.
+
+// The question list itself stays a centered block, not stretched edge to edge of the container.
+.faq-list {
+    width: 100%;
+    max-width: 46rem;
 }
 
 .faq-eyebrow {

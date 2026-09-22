@@ -1,0 +1,83 @@
+@use "variables" as *;
+
+:host {
+    display: block;
+}
+
+.carousel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.carousel__swiper {
+    min-width: 0;
+    // Room for the card's own hover lift and focus ring, which would otherwise clip against
+    // Swiper's overflow: hidden.
+    padding: 0.75rem 0 1rem;
+}
+
+// Swiper sizes/positions .swiper-wrapper and .swiper-slide itself (transform, flex basis) at
+// runtime; these rules only set what Swiper leaves to CSS — each slide's width, and everything
+// inside it.
+.swiper-slide {
+    width: 14rem;
+    height: auto;
+
+    @include bp($bp-sm) {
+        width: 20rem;
+    }
+}
+
+.carousel__card {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform 0.25s ease;
+    // Stops the browser's native drag-a-picture ghost from fighting Swiper's own drag handling.
+    -webkit-user-drag: none;
+
+    &:hover,
+    &:focus-visible {
+        transform: translateY(-4px);
+    }
+
+    img {
+        pointer-events: none;
+    }
+}
+
+.carousel__desc {
+    margin: 0.75rem 0 0;
+    padding: 0 0.25rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.carousel__arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+
+    &:hover:not(.swiper-button-disabled) {
+        background: rgba(var(--color-accent-rgb), 0.3);
+    }
+
+    // Swiper's Navigation module adds/removes this class itself at either end of the track.
+    &.swiper-button-disabled {
+        opacity: 0.35;
+        cursor: default;
+    }
+}

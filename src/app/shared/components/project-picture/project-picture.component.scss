@@ -25,8 +25,22 @@ img {
     object-position: top;
 }
 
-// Inside a browser or phone frame, or a card, the container supplies the rounded corners.
-:host-context(.device) img,
-:host-context(.project-card) img {
+// Inside a card, the container supplies the rounded corners. The carousel card has none at all.
+:host-context(.project-card) img,
+:host-context(.carousel__card) img {
     border-radius: 0;
+}
+
+// Inside a device frame's screen area, fill it (object-fit: cover) instead of the screenshot's
+// own proportions, so a screenshot whose ratio doesn't match the device crops instead of leaving
+// gaps; the frame itself supplies the rounded corners.
+:host-context(.device-frame-viewport) {
+    height: 100%;
+}
+
+:host-context(.device-frame-viewport) img {
+    height: 100%;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: top center;
 }

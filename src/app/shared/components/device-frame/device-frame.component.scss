@@ -1,0 +1,128 @@
+@use "variables" as *;
+
+// Device frame: an iMac silhouette for desktop-shaped screenshots, an iPhone silhouette for
+// phone-shaped ones (device-frame.component.ts decides which one a given screenshot gets, from
+// its own width/height). Screen ratios are pinned to the real hardware (16:9, 9:19.5) rather than
+// to the screenshot's own proportions, so every project's screenshots sit inside a matching,
+// recognizable frame; project-picture.component.scss's `.device-frame-viewport` rule crops the
+// screenshot to fill that area with object-fit: cover instead of stretching it.
+// ---------------------------------------------------------------------------
+:host {
+    display: block;
+}
+
+// iMac
+// ---------------------------------------------------------------------------
+.imac {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.imac-screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 2.2%;
+    border-radius: $radius-lg;
+    background: var(--color-surface-raised);
+    box-shadow:
+        0 0 0 1px var(--color-border),
+        $shadow-soft;
+
+    // The camera centered in the bezel above the screen.
+    &::before {
+        content: '';
+        position: absolute;
+        top: 1%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color-bg);
+        transform: translateX(-50%);
+    }
+}
+
+.imac-viewport {
+    width: 100%;
+    height: 100%;
+    border-radius: $radius-sm;
+    overflow: hidden;
+    background: var(--color-bg);
+}
+
+.imac-chin {
+    width: 100%;
+    height: 7%;
+    border-radius: 0 0 $radius-md $radius-md;
+    background: linear-gradient(180deg, var(--color-surface-raised), var(--color-surface));
+}
+
+.imac-neck {
+    width: 13%;
+    height: 6%;
+    background: var(--color-surface);
+    clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+}
+
+.imac-base {
+    width: 42%;
+    height: 10px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background: var(--color-surface-raised);
+    box-shadow: 0 14px 18px -8px rgba(var(--black-rgb), 0.5);
+}
+
+// iPhone
+// ---------------------------------------------------------------------------
+// A phone silhouette reads wrong stretched wide, so unlike the iMac (sized by whatever container
+// it's dropped in) this one caps its own width and centers itself.
+.iphone {
+    position: relative;
+    width: 100%;
+    max-width: 15rem;
+    margin: 0 auto;
+    aspect-ratio: 9 / 19.5;
+    padding: 1.4%;
+    border-radius: 2.3rem;
+    background: var(--color-surface-raised);
+    box-shadow:
+        0 0 0 1px var(--color-border),
+        $shadow-soft;
+}
+
+.iphone-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 2.1rem;
+    overflow: hidden;
+    background: var(--color-bg);
+}
+
+.iphone-island {
+    position: absolute;
+    z-index: 1;
+    top: 2.6%;
+    left: 50%;
+    width: 28%;
+    height: 3.2%;
+    border-radius: $radius-pill;
+    background: var(--color-surface-raised);
+    transform: translateX(-50%);
+}
+
+.iphone-home {
+    position: absolute;
+    z-index: 1;
+    bottom: 1.6%;
+    left: 50%;
+    width: 34%;
+    height: 4px;
+    border-radius: $radius-pill;
+    background: rgba(var(--color-text-rgb), 0.75);
+    transform: translateX(-50%);
+}

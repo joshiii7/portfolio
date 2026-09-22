@@ -1,19 +1,56 @@
 @use "variables" as *;
 
-// Project page: written like an article rather than a card. The site's page banner, the project
-// in a browser frame, then a story column with a sticky "at a glance" rail beside it.
+// Project page: written like an article rather than a card. The site's page banner, breadcrumbs, a
+// full-width quick-facts band, then a story column of alternating text/image sections.
 // ---------------------------------------------------------------------------
 :host {
     display: block;
 }
 
-// Stage: the project in a browser frame, straight under the page banner
+// Breadcrumbs: straight under the page banner, replacing a "back to all projects" link with the
+// full Home / Projects / [name] trail.
 // ---------------------------------------------------------------------------
-.stage {
-    padding: 2.5rem 0 0;
+.breadcrumbs {
+    padding-top: 1.5rem;
 
     @include bp($bp-md) {
-        padding-top: 3.5rem;
+        padding-top: 2rem;
+    }
+
+    ol {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.85rem;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        color: var(--color-text-muted);
+
+        &:not(:last-child)::after {
+            content: '/';
+            margin: 0 0.5rem;
+            opacity: 0.5;
+        }
+
+        &:last-child {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    a {
+        color: var(--color-text-muted);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
     }
 }
 
@@ -29,175 +66,74 @@
     }
 }
 
-// Browser and phone frames
-// ---------------------------------------------------------------------------
-.device {
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    border-radius: $radius-lg;
-    background: var(--color-surface);
-    box-shadow: $shadow-soft;
-    text-align: left;
-
-    img {
-        display: block;
-        width: 100%;
-        height: auto;
-    }
-
-    &--hero {
-        max-width: 68rem;
-        margin: 0 auto;
-        box-shadow:
-            0 40px 80px rgba(var(--black-rgb), 0.5),
-            0 0 0 1px rgba(var(--color-text-rgb), 0.04),
-            0 0 6rem rgba(var(--color-accent-rgb), 0.22);
-
-        // Tilted back at the top of the page, then it settles flat as the visitor scrolls.
-        @media (prefers-reduced-motion: no-preference) {
-            @supports (animation-timeline: scroll()) {
-                animation: settle linear both;
-                animation-timeline: scroll(root);
-                animation-range: 0 32rem;
-            }
-        }
-    }
-
-    &--phone {
-        width: 100%;
-        max-width: 15rem;
-        border: 0.5rem solid var(--color-surface-raised);
-        border-radius: 2rem;
-        box-shadow: 0 0 0 1px var(--color-border), $shadow-soft;
-    }
-}
-
-@keyframes settle {
-    from {
-        transform: perspective(1400px) rotateX(9deg) scale(0.94);
-    }
-
-    to {
-        transform: perspective(1400px) rotateX(0) scale(1);
-    }
-}
-
-.device-bar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.7rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface-raised);
-}
-
-.lights {
-    display: flex;
-    gap: 0.4rem;
-
-    i {
-        width: 0.7rem;
-        height: 0.7rem;
-        border-radius: 50%;
-        background: var(--color-border);
-    }
-
-    i:nth-child(1) {
-        background: var(--color-error);
-    }
-
-    i:nth-child(2) {
-        background: var(--color-extra);
-    }
-
-    i:nth-child(3) {
-        background: var(--color-correct);
-    }
-}
-
-.address {
-    flex: 1;
-    max-width: 26rem;
-    margin: 0 auto;
-    padding: 0.2rem 0.9rem;
-    border-radius: $radius-pill;
-    background: var(--color-bg);
-    color: var(--color-text-muted);
-    font-size: 0.78rem;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-// Story: rail + text
+// Story: a single column, no sidebar — the facts band above already carries the "at a glance" info.
 // ---------------------------------------------------------------------------
 .story {
-    display: grid;
-    gap: 2.5rem;
     padding-top: 3.5rem;
     padding-bottom: 4rem;
 
-    @include bp($bp-lg) {
-        grid-template-columns: 16rem minmax(0, 1fr);
-        gap: 4rem;
+    @include bp($bp-md) {
         padding-top: 5rem;
         padding-bottom: 6rem;
     }
 }
 
-.rail {
-    align-self: start;
-    padding: 1.25rem 1.25rem 1.5rem;
-    border: 1px solid var(--color-border);
-    border-radius: $radius-md;
+// Quick facts: full-bleed band (border top/bottom, background spanning the viewport edge to edge),
+// with its content capped at the same 80rem/1.5rem gutter as everything else via the .container
+// class on .facts itself, so the row of cells still lines up with the page's other content.
+.facts-band {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
     background: var(--color-surface);
+    margin-top: 1rem;
+}
 
-    @include bp($bp-lg) {
-        position: sticky;
-        top: calc(var(--header-height, #{$header-height}) + 1.5rem);
+.facts {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @include bp($bp-sm) {
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    }
+}
+
+.fact {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+
+    &:first-child {
+        border-top: 0;
     }
 
-    dl {
-        margin: 1rem 0 0;
-    }
+    @include bp($bp-sm) {
+        border-top: 0;
+        border-left: 1px solid var(--color-border);
 
-    dt {
-        margin-top: 1rem;
-        color: var(--color-text-muted);
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
-    dd {
-        margin: 0.3rem 0 0;
-        font-size: 0.95rem;
+        &:first-child {
+            border-left: 0;
+        }
     }
 
     .tag-list {
-        margin: 0;
+        margin: 0.5rem 0 0;
         padding: 0;
         list-style: none;
     }
 }
 
-.rail-title {
-    font-size: 1.05rem;
+.fact-label {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
-.rail-back {
-    display: inline-block;
-    margin-top: 1.5rem;
-    color: var(--color-accent);
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
+.fact-value {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
 }
 
 .prose {
@@ -212,47 +148,72 @@
         font-size: clamp(1.4rem, 2.6vw, 1.75rem);
     }
 
+    // Standalone section headings ("What it is", "What's inside", "Take a look") center themselves.
+    // An alternating chapter/shot heading lives inside .split-text instead, paired with the text
+    // beside it, so it's excluded here rather than centering awkwardly next to its screenshot.
+    > section:not(.split) > h2 {
+        text-align: center;
+    }
+
+    // Capped for a readable line length. Only reached by the two full-width showcase intro
+    // sections ("What it is", "What's inside") — inside a .split section this is already narrower
+    // than 48rem, since it shares the row with the screenshot.
     .lead {
+        max-width: 48rem;
         color: var(--color-text);
         font-size: clamp(1rem, 1.6vw, 1.125rem);
         line-height: 1.75;
     }
+
+    // "What it is" is the one place a .lead sits centered under a centered heading, like a section
+    // intro rather than the start of a left-aligned column.
+    > section:not(.split) > .lead {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
 }
 
-// What's inside: big outlined numerals, counted by the browser so the list stays a real <ol>.
-.chapters {
+// What's inside: a card per highlight instead of a stacked numbered list, each with its own
+// outlined index number, centered above the text instead of pinned to the left.
+.highlight-cards {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
     margin: 0;
     padding: 0;
     list-style: none;
-    counter-reset: chapter;
 
-    li {
-        position: relative;
-        display: grid;
-        grid-template-columns: 4rem 1fr;
-        align-items: start;
-        gap: 1rem;
-        padding: 1.25rem 0;
-        border-top: 1px solid var(--color-border);
+    @include bp($bp-sm) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include bp($bp-lg) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.highlight-card {
+    text-align: left;
+
+    p {
+        margin: 0;
         color: var(--color-text-muted);
         font-size: 0.95rem;
         line-height: 1.65;
-        counter-increment: chapter;
-
-        &:last-child {
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        &::before {
-            content: counter(chapter, decimal-leading-zero);
-            color: transparent;
-            font-family: $font-heading;
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1;
-            -webkit-text-stroke: 1px var(--color-accent);
-        }
     }
+}
+
+.highlight-index {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: transparent;
+    font-family: $font-heading;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    -webkit-text-stroke: 1px var(--color-accent);
 }
 
 // Client write-up: the result gets pulled out as the payoff.
@@ -269,105 +230,139 @@
     }
 }
 
-// Screenshots
+// Alternating text/image sections
 // ---------------------------------------------------------------------------
-.shot {
-    margin: 0 0 2.5rem;
+// Shared by the client write-up's chapters and the showcase gallery's screenshots: a two-column
+// layout where every even section swaps which side the image lands on. The swap is done with
+// `order` on the two halves rather than a per-section modifier class, so it applies to however
+// many sections a project has without any page ever having to compute or bind one.
+.split {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
 
-    figcaption {
-        margin-top: 0.85rem;
-        color: var(--color-text-muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
+    @include bp($bp-md) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 3rem;
+
+        .split-text {
+            order: 1;
+        }
+
+        .split-media {
+            order: 2;
+        }
     }
 
-    &--phone {
-        display: grid;
-        gap: 1.25rem;
-        align-items: center;
-        justify-items: center;
-        text-align: center;
-
+    &:nth-of-type(even) {
         @include bp($bp-md) {
-            grid-template-columns: auto 1fr;
-            justify-items: start;
-            gap: 2rem;
-            text-align: left;
+            .split-text {
+                order: 2;
+            }
 
-            figcaption {
-                margin-top: 0;
-                font-size: 0.95rem;
+            .split-media {
+                order: 1;
             }
         }
     }
 }
 
-// Next project
-// ---------------------------------------------------------------------------
-.next {
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface);
-    padding: 3rem 0;
+.split-media {
+    width: 100%;
 
-    @include bp($bp-md) {
-        padding: 4.5rem 0;
+    app-device-frame {
+        width: 100%;
     }
 }
 
-.next-link {
-    display: grid;
-    gap: 0.5rem;
-    color: var(--color-text);
+// Every screenshot doubles as the Fancybox trigger: a plain, unstyled link around the frame so it
+// stays keyboard-reachable, with just a cursor and a slight lift to say it's clickable.
+.shot-trigger {
+    display: block;
+    width: 100%;
+    color: inherit;
     text-decoration: none;
+    cursor: zoom-in;
+    transition: transform 0.25s ease;
+
+    &:hover,
+    &:focus-visible {
+        transform: translateY(-4px);
+    }
+}
+
+// Take a look: a full-width band per screenshot, edge to edge, butted directly against the next
+// one (no gap between them) so the alternating background reads as one continuous strip of beats
+// rather than separate floating cards. Neither .gallery nor .shot carries a .container class, so
+// they're already full width by default — only their own inner .split.container wrapper (see the
+// template) caps the actual content at the shared 80rem/1.5rem gutter.
+// ---------------------------------------------------------------------------
+.gallery {
+    margin-top: 3.5rem;
 
     @include bp($bp-md) {
-        grid-template-columns: 1fr auto;
-        column-gap: 2rem;
+        margin-top: 5rem;
     }
 
-    &:hover .next-arrow {
-        transform: translateX(0.75rem);
-        color: var(--color-accent);
-    }
-
-    &:hover .next-name {
-        color: var(--color-accent);
+    > .container > h2 {
+        margin-bottom: 2rem;
+        text-align: center;
+        font-size: clamp(1.4rem, 2.6vw, 1.75rem);
     }
 }
 
-.next-label {
-    grid-column: 1 / -1;
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+.shot {
+    padding: 2.5rem 0;
+    background: var(--color-surface);
+
+    &:nth-of-type(even) {
+        background: var(--color-surface-raised);
+
+        @include bp($bp-md) {
+            .split-text {
+                order: 2;
+            }
+
+            .split-media {
+                order: 1;
+            }
+        }
+    }
+
+    .split-text {
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+
+        p {
+            margin: 0;
+        }
+
+        p + p {
+            margin-top: 1rem;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+    }
 }
 
-.next-name {
-    font-family: $font-heading;
-    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
-    font-weight: 600;
-    line-height: 1.2;
-    transition: color 0.3s ease;
-}
-
-.next-text {
-    max-width: 36rem;
-    color: var(--color-text-muted);
-    line-height: 1.55;
-}
-
-.next-arrow {
-    display: none;
-    font-size: 2rem;
-    line-height: 1;
-    transition: transform 0.3s ease, color 0.3s ease;
+// Related projects: a full-width carousel closing out the page, in place of the single
+// "Next project" link this used to end on.
+// ---------------------------------------------------------------------------
+.related {
+    padding: 3rem 0 4rem;
+    border-top: 1px solid var(--color-border);
 
     @include bp($bp-md) {
-        display: block;
-        grid-column: 2;
-        grid-row: 2 / span 2;
-        align-self: center;
+        padding: 4rem 0 5rem;
+    }
+
+    h2 {
+        margin-bottom: 2rem;
+        text-align: center;
+        font-size: clamp(1.4rem, 2.6vw, 1.75rem);
     }
 }

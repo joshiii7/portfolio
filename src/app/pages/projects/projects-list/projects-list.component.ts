@@ -12,7 +12,7 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
   template: `
     <app-page-banner
       title="Selected Projects"
-      text="A selection of my work: business systems built for real organizations, and public projects I built myself."
+      text="A selection of my work: capstone systems built for real organizations, and public projects I built myself."
       [photo]="photos.homeOffice" focal="center"
     />
 
@@ -28,7 +28,7 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
         </div>
 
         <div class="project-group">
-          <h2 data-aos="fade-up">Business &amp; Client <span class="heading-accent">Projects</span></h2>
+          <h2 data-aos="fade-up">Capstone <span class="heading-accent">Projects</span></h2>
           <div class="grid grid-3">
             @for (project of content.capstoneProjects; track project.slug; let i = $index) {
               <app-project-card [project]="project" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />

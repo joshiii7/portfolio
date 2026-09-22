@@ -13,44 +13,40 @@
       }
     </app-page-banner>
 
-    <section class="stage">
-      <div class="container">
-        <div class="device device--hero">
-          <div class="device-bar" aria-hidden="true">
-            <span class="lights"><i></i><i></i><i></i></span>
-            <span class="address">{{ frameLabel() }}</span>
-          </div>
-          @if (showcase(); as s) {
-            <app-project-picture [image]="s.images[0]" [sizes]="coverSizes" [eager]="true" />
-          } @else if (capstone(); as c) {
-            <app-project-picture [image]="c.image" [sizes]="coverSizes" [eager]="true" />
-          }
+    <nav class="breadcrumbs container" aria-label="Breadcrumb">
+      <ol>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/projects">Projects</a></li>
+        <li aria-current="page">{{ p.name }}</li>
+      </ol>
+    </nav>
+
+    <div class="facts-band">
+      <div class="facts container" [attr.aria-label]="'About ' + p.name">
+        <div class="fact">
+          <span class="fact-label">Type</span>
+          <span class="fact-value">{{ showcase() ? 'Personal project' : 'Capstone project' }}</span>
+        </div>
+        <div class="fact">
+          <span class="fact-label">Built with</span>
+          <ul class="tag-list">
+            @for (tool of p.tools; track tool) {
+              <li class="tag">{{ tool }}</li>
+            }
+          </ul>
+        </div>
+        <div class="fact">
+          <span class="fact-label">Status</span>
+          <span class="fact-value">{{ p.status }}</span>
+        </div>
+        <div class="fact">
+          <span class="fact-label">Key feature</span>
+          <span class="fact-value">{{ p.keyFeature }}</span>
         </div>
       </div>
-    </section>
+    </div>
 
     <div class="container story">
-      <aside class="rail" [attr.aria-label]="'About ' + p.name">
-        <h2 class="rail-title">At a glance</h2>
-        <dl>
-          <dt>Type</dt>
-          <dd>{{ showcase() ? 'Personal project' : 'Client project' }}</dd>
-          <dt>Built with</dt>
-          <dd>
-            <ul class="tag-list">
-              @for (tool of p.tools; track tool) {
-                <li class="tag">{{ tool }}</li>
-              }
-            </ul>
-          </dd>
-          @if (showcase(); as s) {
-            <dt>Screenshots</dt>
-            <dd>{{ s.images.length }}</dd>
-          }
-        </dl>
-        <a class="rail-back" routerLink="/projects">&larr; All projects</a>
-      </aside>
-
       <div class="prose">
         @if (showcase(); as s) {
           <section data-aos="fade-up">
@@ -60,60 +56,87 @@
 
           <section data-aos="fade-up">
             <h2>What&rsquo;s inside</h2>
-            <ol class="chapters">
-              @for (item of s.highlights; track item) {
-                <li>{{ item }}</li>
+            <ol class="highlight-cards">
+              @for (item of s.highlights; track item; let i = $index) {
+                <li class="card highlight-card">
+                  <span class="highlight-index" aria-hidden="true">{{ i + 1 }}</span>
+                  <p>{{ item }}</p>
+                </li>
               }
             </ol>
           </section>
-
-          <section>
-            <h2>Take a look</h2>
-            @for (image of s.images.slice(1); track image.base) {
-              @if (image.height > image.width) {
-                <figure class="shot shot--phone" data-aos="fade-up">
-                  <div class="device device--phone">
-                    <app-project-picture [image]="image" [sizes]="phoneSizes" />
-                  </div>
-                  <figcaption>{{ image.caption }}</figcaption>
-                </figure>
-              } @else {
-                <figure class="shot" data-aos="fade-up">
-                  <div class="device">
-                    <div class="device-bar" aria-hidden="true">
-                      <span class="lights"><i></i><i></i><i></i></span>
-                      <span class="address">{{ frameLabel() }}</span>
-                    </div>
-                    <app-project-picture [image]="image" [sizes]="shotSizes" />
-                  </div>
-                  <figcaption>{{ image.caption }}</figcaption>
-                </figure>
-              }
-            }
-          </section>
         } @else {
-          @for (chapter of chapters(); track chapter.title; let last = $last) {
-            <section class="chapter" [class.chapter--result]="last" data-aos="fade-up">
-              <h2>{{ chapter.title }}</h2>
-              <p [class.lead]="!last" [class.pull]="last">{{ chapter.text }}</p>
+          @for (chapter of chapters(); track chapter.title; let last = $last; let i = $index) {
+            <section class="chapter split" [class.chapter--result]="last" data-aos="fade-up">
+              <div class="split-text">
+                <h2>{{ chapter.title }}</h2>
+                <p [class.lead]="!last" [class.pull]="last">{{ chapter.text }}</p>
+              </div>
+              @if (capstone(); as c) {
+                <div class="split-media">
+                  <a
+                    class="shot-trigger"
+                    [attr.data-fancybox]="'chapter-' + i"
+                    [href]="fullImageUrl(c.image)"
+                    [attr.data-caption]="c.image.alt"
+                    [attr.aria-label]="'View larger screenshot: ' + c.image.alt"
+                  >
+                    <app-device-frame [image]="c.image" [sizes]="shotSizes" />
+                  </a>
+                </div>
+              }
             </section>
           }
         }
       </div>
     </div>
 
-    @if (next(); as n) {
-      <section class="next">
+    @if (showcase(); as s) {
+      <section class="gallery">
         <div class="container">
-          <a class="next-link" [routerLink]="['/projects', n.slug]">
-            <span class="next-label">Next project</span>
-            <span class="next-name">{{ n.name }}</span>
-            <span class="next-text">{{ n.bannerText }}</span>
-            <span class="next-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <h2>Take a look</h2>
         </div>
+        @for (image of s.images; track image.base) {
+          <figure class="shot">
+            <div class="split container" data-aos="fade-up">
+              <figcaption class="split-text">
+                @for (paragraph of image.caption; track $index) {
+                  <p>
+                    @if (image.captionLink; as link) {
+                      @if (hasLinkPlaceholder(paragraph)) {
+                        {{ captionParts(paragraph)[0] }}<a [routerLink]="link.route">{{ link.text }}</a>{{ captionParts(paragraph)[1] }}
+                      } @else {
+                        {{ paragraph }}
+                      }
+                    } @else {
+                      {{ paragraph }}
+                    }
+                  </p>
+                }
+              </figcaption>
+              <div class="split-media">
+                <a
+                  class="shot-trigger"
+                  data-fancybox="project-gallery"
+                  [href]="fullImageUrl(image)"
+                  [attr.data-caption]="image.alt"
+                  [attr.aria-label]="'View larger screenshot: ' + image.alt"
+                >
+                  <app-device-frame [image]="image" [sizes]="shotSizes" [eager]="$first" />
+                </a>
+              </div>
+            </div>
+          </figure>
+        }
       </section>
     }
+
+    <section class="related">
+      <div class="container">
+        <h2>Related Projects</h2>
+        <app-project-carousel [projects]="relatedProjects()" />
+      </div>
+    </section>
   </article>
 } @else {
   <app-page-banner
