@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Faq } from '../../../core/models/faq.model';
+import { splitOnLinkPlaceholder } from '../../utils/text-link';
 
 /**
  * Exclusive accordion: opening one item closes whichever other item is open.
@@ -27,7 +28,6 @@ export class AccordionComponent {
 
   /** Splits an answer on its `{link}` placeholder so the link renders as a router link. */
   protected parts(faq: Faq): [string, string] {
-    const [before, after = ''] = faq.a.split('{link}');
-    return [before, after];
+    return splitOnLinkPlaceholder(faq.a);
   }
 }

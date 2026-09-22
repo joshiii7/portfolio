@@ -52,6 +52,15 @@
         }
     }
 
+    // Not a link like the email/phone lines above it, so it needs the same muted colour and size
+    // restated directly rather than inherited from the `a` rule.
+    .footer-hours {
+        display: flex;
+        align-items: center;
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+    }
+
     // The generic footer link colour above would turn the mark grey, so restate the logo colour
     // here (and on hover, which would otherwise switch to the accent).
     .logo {

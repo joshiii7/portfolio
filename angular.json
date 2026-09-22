@@ -54,6 +54,8 @@
             ],
             "styles": [
               "node_modules/aos/dist/aos.css",
+              "node_modules/@fancyapps/ui/dist/fancybox/fancybox.css",
+              "node_modules/swiper/swiper.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {

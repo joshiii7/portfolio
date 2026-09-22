@@ -6,7 +6,8 @@
     background-color: var(--color-faq-bg);
 }
 
-// Heading and paragraphs on the left, questions on the right from desktop width.
+// Side by side from desktop width: heading, intro, and the Contact button on the left, the
+// question list on the right. Stacks on smaller screens.
 .faq-layout {
     display: grid;
     gap: 2.5rem;
@@ -39,10 +40,18 @@
         }
     }
 
-    a {
+    // Scoped to the inline "Send me a message" link inside a paragraph, not the .btn below it.
+    p a {
         color: var(--color-accent);
         text-decoration: underline;
     }
+}
+
+// .faq-contact needs no spacing rule of its own: the shared .btn class already sets
+// margin-top: 1.5rem, which is exactly the gap wanted here below the intro paragraph.
+
+.faq-list {
+    width: 100%;
 }
 
 .faq-eyebrow {

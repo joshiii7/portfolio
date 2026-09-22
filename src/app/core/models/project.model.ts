@@ -1,12 +1,20 @@
+import { TextLink } from '../../shared/utils/text-link';
+
 export interface CapstoneProject {
   slug: string;
   name: string;
+  /** One sentence, for the cards. */
+  summary: string;
   /** The screenshot for the cards and the top of the case study. */
   image: ProjectImage;
   problem: string;
   solution: string;
   result: string;
   tools: string[];
+  /** Shown in the project page's facts band, e.g. "Completed", "Live", "In progress". */
+  status: string;
+  /** Shown in the project page's facts band: one short standout feature, e.g. "Automated payroll". */
+  keyFeature: string;
   metaDescription: string;
   bannerText: string;
 }
@@ -22,11 +30,13 @@ export interface ProjectImage {
   width: number;
   height: number;
   alt: string;
-  /** Short line shown under the screenshot on the project page (only used for screenshots in a gallery). */
-  caption?: string;
+  /** Paragraphs shown under the screenshot in the "Take a look" gallery. */
+  caption?: string[];
+  /** When set, one paragraph in `caption` contains a `{link}` placeholder that renders as a router link. */
+  captionLink?: TextLink;
 }
 
-/** A project I built myself (as opposed to client work), shown with real screenshots and links. */
+/** A project I built myself (as opposed to capstone work), shown with real screenshots and links. */
 export interface ShowcaseProject {
   slug: string;
   name: string;
@@ -40,6 +50,10 @@ export interface ShowcaseProject {
   images: ProjectImage[];
   github?: string;
   live?: string;
+  /** Shown in the project page's facts band, e.g. "Completed", "Live", "In progress". */
+  status: string;
+  /** Shown in the project page's facts band: one short standout feature, e.g. "Live code editor". */
+  keyFeature: string;
   metaDescription: string;
   bannerText: string;
 }

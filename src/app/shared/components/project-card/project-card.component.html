@@ -1,40 +1,10 @@
-@if (showcase(); as p) {
-  <app-project-picture [image]="p.images[0]" [sizes]="teaserSizes" [crop]="true" />
-  <h3>{{ p.name }}</h3>
-  <p>{{ p.summary }}</p>
+<a class="project-card-link" [routerLink]="['/projects', project().slug]">
+  <app-project-picture [image]="cardImage()" [sizes]="teaserSizes" [crop]="true" />
+  <h3>{{ project().name }}</h3>
+  <p>{{ project().summary }}</p>
   <div class="project-tags">
-    @for (tool of p.tools; track tool) {
+    @for (tool of project().tools; track tool) {
       <span class="tag">{{ tool }}</span>
     }
   </div>
-  <div class="project-links">
-    <a [routerLink]="['/projects', p.slug]">View Project &rarr;</a>
-    @if (p.live) {
-      <a [href]="p.live" target="_blank" rel="noopener" [attr.aria-label]="'Live site for ' + p.name + ' (opens in a new tab)'">Live Site &nearr;</a>
-    }
-    @if (p.github) {
-      <a [href]="p.github" target="_blank" rel="noopener" [attr.aria-label]="'GitHub repository for ' + p.name + ' (opens in a new tab)'">GitHub &nearr;</a>
-    }
-  </div>
-} @else if (capstone(); as p) {
-  <app-project-picture [image]="p.image" [sizes]="teaserSizes" [crop]="true" />
-  <h3>{{ p.name }}</h3>
-  @if (variant() !== 'related') {
-    <div class="project-detail">
-      <span class="label">Problem</span>
-      <p>{{ p.problem }}</p>
-    </div>
-  }
-  <div class="project-detail">
-    <span class="label">Result</span>
-    <p>{{ p.result }}</p>
-  </div>
-  <div class="project-tags">
-    @for (tool of p.tools; track tool) {
-      <span class="tag">{{ tool }}</span>
-    }
-  </div>
-  <div class="project-links">
-    <a [routerLink]="['/projects', p.slug]">Read Full Case Study &rarr;</a>
-  </div>
-}
+</a>

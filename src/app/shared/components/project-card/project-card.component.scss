@@ -3,14 +3,26 @@
 // Projects (case study cards)
 // ---------------------------------------------------------------------------
 // The card's own padding is removed so the screenshot runs edge to edge (overflow: hidden gives it
-// the card's rounded top corners). Everything else gets its side padding here instead.
+// the card's rounded top corners); everything else gets its side padding here instead. The whole
+// card is one <a>, so its hover/focus state is what .card's own hover lift already responds to.
 :host {
+    display: block;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    // Darker than the shared .card background (--color-surface): #0d1117, the site's own base
+    // --color-bg, so these cards read as a shade darker than the surface behind them.
+    background: var(--color-bg);
+}
+
+.project-card-link {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0;
+    height: 100%;
     padding-bottom: 1.75rem;
-    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
     text-align: left;
 
     > :not(app-project-picture) {
@@ -22,31 +34,11 @@
         margin-top: 0.5rem;
     }
 
-    > p {
+    p {
+        margin: 0;
         color: var(--color-text-muted);
         font-size: 0.95rem;
         line-height: 1.55;
-    }
-
-    .project-detail {
-        margin-top: 0.25rem;
-
-        .label {
-            display: block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 700;
-            color: var(--color-accent);
-            margin-bottom: 0.15rem;
-        }
-
-        p {
-            margin: 0;
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
     }
 
     .project-tags {
@@ -55,39 +47,5 @@
         gap: 0.5rem;
         margin-top: auto;
         padding-top: 0.5rem;
-    }
-
-    // "Read Full Case Study" / "View Live Demo": same frosted CTA treatment
-    // as the site's buttons, sized down to fit inside a compact card.
-    .project-links {
-        margin-top: 0.5rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-
-        a {
-            margin-top: 0;
-            display: inline-block;
-            padding: 0.4rem 0.9rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            min-height: 36px;
-            text-decoration: none;
-            color: var(--color-text);
-            // No backdrop-filter here: the card behind is a flat colour, so a blur shows nothing
-            // and would cost a filter pass per button.
-            background: rgba(var(--color-text-rgb), 0.05);
-            transition: transform 0.3s ease, background 0.3s ease;
-
-            &:hover {
-                background: rgba(var(--color-text-rgb), 0.12);
-                transform: scale(1.05);
-            }
-
-            &:active {
-                transform: scale(0.98);
-            }
-        }
     }
 }

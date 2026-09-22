@@ -86,6 +86,35 @@ function smtpPassword() {
   return setting('SMTP_PASS').replace(/\s+/g, '');
 }
 
+/**
+ * Verifies the widget's response token with Google directly (the token itself is single-use and
+ * meaningless without this call). The client-side checkbox alone proves nothing: a script could
+ * post to this endpoint without ever loading the widget, so this is the check that actually counts.
+ */
+async function verifyRecaptcha(token, ip) {
+  const secret = setting('RECAPTCHA_SECRET_KEY');
+  if (!secret) {
+    console.error('send-mail: RECAPTCHA_SECRET_KEY must be set');
+    return false;
+  }
+  if (!token) return false;
+
+  try {
+    const params = new URLSearchParams({ secret, response: token });
+    if (ip && ip !== 'unknown') params.set('remoteip', ip);
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+    });
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error('send-mail: reCAPTCHA verification request failed', error);
+    return false;
+  }
+}
+
 function createTransport() {
   const port = Number(setting('SMTP_PORT')) || 465;
   return nodemailer.createTransport({
@@ -131,6 +160,10 @@ module.exports = async function handler(req, res) {
   const errors = validate(data);
   if (errors.length) {
     return res.status(400).json({ code: 400, errors });
+  }
+
+  if (!(await verifyRecaptcha(clean(body.recaptchaToken), ip))) {
+    return res.status(400).json({ code: 400, errors: ['Please complete the reCAPTCHA check and try again.'] });
   }
 
   if (!setting('SMTP_HOST') || !setting('SMTP_USER') || !smtpPassword()) {

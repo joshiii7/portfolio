@@ -45,7 +45,7 @@
         <p class="section-intro" data-aos="fade-up" data-aos-delay="100">Real case studies close to the kind of system described above.</p>
         <div class="grid grid-3">
           @for (project of related(); track project.slug; let i = $index) {
-            <app-project-card [project]="project" variant="related" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
+            <app-project-card [project]="project" data-aos="fade-up" [attr.data-aos-delay]="(i % 3) * 100" />
           }
         </div>
       </div>
