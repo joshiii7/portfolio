@@ -43,7 +43,7 @@ jobs:
         # GitHub Pages serves 404.html for unknown paths; it is a copy of the
         # app shell, so deep links like /portfolio/projects/bislig-city-bpls
         # boot the router instead of showing a 404 page.
-        run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
+        run: cp dist/portfolio/browser/index.csr.html dist/portfolio/browser/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

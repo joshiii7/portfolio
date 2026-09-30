@@ -21,14 +21,14 @@ const projectDescription: ResolveFn<string | undefined> = (route: ActivatedRoute
 export const routes: Routes = [
   {
     path: '',
-    title: 'Joshi Adlawan | Full-Stack Software Developer',
+    title: 'Joshi Angelo Z. Adlawan | Full-Stack Software Developer',
     data: { cta: CTA.home },
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'about',
-    title: 'About',
-    data: { description: "Learn about Joshi Adlawan's background, approach, and experience as a full-stack software developer.", cta: CTA.about },
+    title: 'Joshi Angelo Z. Adlawan | Full-Stack Software Developer',
+    data: { description: 'Joshi Angelo Z. Adlawan is a full-stack software developer and TVET Trainer in web development from Hinatuan, Surigao del Sur, Philippines.', cta: CTA.about },
     loadComponent: () => import('./pages/about/about.component').then((m) => m.AboutComponent),
   },
   {

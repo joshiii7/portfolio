@@ -8,7 +8,7 @@ export interface NavLink {
 export const SITE = {
   name: 'Joshi Adlawan',
   handle: '@joshiangelo',
-  legalName: 'Joshi Angelo Adlawan',
+  legalName: 'Joshi Angelo Z. Adlawan',
   email: 'adlawanjoshiangelo@gmail.com',
   phone: '+63 938 294 3739',
   phoneHref: 'tel:+639382943739',

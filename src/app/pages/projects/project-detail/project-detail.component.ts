@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, computed, inject, input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, computed, inject, input, PLATFORM_ID } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.js';
 import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
@@ -80,7 +81,10 @@ export class ProjectDetailComponent implements AfterViewInit, OnDestroy {
   /** Every other project, for the carousel at the end of the page. */
   protected readonly relatedProjects = computed(() => this.content.featuredProjects.filter((entry) => entry.slug !== this.slug()));
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     // Bound globally (Fancybox's own default target, document.body) rather than scoped to this
     // component's host: the simplest, most standard usage, and the one Fancybox itself is tested
     // against. Matching elements are found by live selector at click time, so this survives

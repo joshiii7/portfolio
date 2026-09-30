@@ -1,28 +1,36 @@
 <app-page-banner
-  title="About Joshi"
-  text="A quick look at my background, how I approach a project, and what I've been working on."
+  title="Joshi Angelo Z. Adlawan"
+  text="Full-Stack Software Developer · TVET Trainer, Web Development NCIII"
   [photo]="photos.awardsNight"
   focal="center"
 />
 
 <div class="aos-scope">
+  <section class="section-py about-profile">
+    <div class="container about-summary" data-aos="fade-up">
+      <p>Joshi Angelo Z. Adlawan is a full-stack software developer from Hinatuan, Surigao del Sur, Philippines, with a background in design. He is currently a TVET Trainer in web development at Andres Soriano Colleges of Bislig. He represented the Philippines in Web Technologies at WorldSkills ASEAN Manila 2025 and won silver in Web Technologies at the 2024 Philippine National Skills Competition. He builds web, mobile, and desktop software for organizations that need technology built around how they actually work.</p>
+      <a routerLink="/contact" class="btn btn-primary btn-lg">Contact Joshi Adlawan</a>
+    </div>
+  </section>
+
   <section class="section-py bg-secondary">
     <div class="container">
       <div class="grid grid-2 about-grid">
-        <div class="about-image" data-aos="fade-right">
+        <div class="about-bio" data-aos="fade-right">
+          <h2 class="about-bio__title">How I <span class="heading-accent">work</span></h2>
+          <p>I'm a full-stack software developer who builds web applications, mobile applications, and desktop software for organizations that need technology built around how they actually work, not the other way around.</p>
+          <p>My background is in design, so usability and functionality are never an afterthought. What I enjoy most is taking a manual, time-consuming process, like permit processing, inventory tracking, or payroll computation, and turning it into something faster, more reliable, and easier for people to actually use every day.</p>
+          <p>I hold a Computer Science foundation and a national-level certification in web development (TESDA NC III). Whatever the project, I aim for the same thing: software that's reliable, easy to use, and solves the actual problem it was built to solve.</p>
+        </div>
+        <div class="about-image" data-aos="fade-left" data-aos-delay="150">
           <picture>
             <source
               type="image/webp"
               srcset="images/portraits/joshi-adlawan-portrait-arms-crossed-640.webp 640w, images/portraits/joshi-adlawan-portrait-arms-crossed-960.webp 960w, images/portraits/joshi-adlawan-portrait-arms-crossed-1280.webp 1280w"
               sizes="(min-width: 1280px) 590px, (min-width: 576px) 46vw, 92vw"
             />
-            <img src="images/portraits/joshi-adlawan-portrait-arms-crossed-960.webp" alt="Joshi Angelo Adlawan" width="960" height="1440" loading="lazy" decoding="async" />
+            <img src="images/portraits/joshi-adlawan-portrait-arms-crossed-960.webp" alt="Joshi Angelo Z. Adlawan" width="960" height="1440" loading="lazy" decoding="async" />
           </picture>
-        </div>
-        <div class="about-bio" data-aos="fade-left" data-aos-delay="150">
-          <p>I'm a full-stack software developer who builds web applications, mobile applications, and desktop software for organizations that need technology built around how they actually work, not the other way around.</p>
-          <p>My background is in design, so usability and functionality are never an afterthought. What I enjoy most is taking a manual, time-consuming process, like permit processing, inventory tracking, or payroll computation, and turning it into something faster, more reliable, and easier for people to actually use every day.</p>
-          <p>I hold a Computer Science foundation and a national-level certification in web development (TESDA NC III). Whatever the project, I aim for the same thing: software that's reliable, easy to use, and solves the actual problem it was built to solve.</p>
         </div>
       </div>
     </div>
@@ -45,14 +53,15 @@
         }
       </div>
 
-      <ul class="achievement-list" data-aos="fade-up" data-aos-delay="100">
-        @for (item of content.achievements; track item.title + item.detail) {
-          <li>
+      <div class="grid grid-3 achievement-grid">
+        @for (item of content.achievements; track item.title + item.detail; let i = $index) {
+          <div class="card achievement-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
             <app-icon [name]="item.icon" />
-            <span><strong>{{ item.title }}</strong>, {{ item.detail }}</span>
-          </li>
+            <p class="achievement-card__title">{{ item.title }}</p>
+            <p class="achievement-card__detail">{{ item.detail }}</p>
+          </div>
         }
-      </ul>
+      </div>
     </div>
   </section>
 

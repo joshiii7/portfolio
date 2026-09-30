@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, TitleStrategy } from '@ang
 import { SITE } from '../data/site';
 
 const DEFAULT_DESCRIPTION =
-  'Joshi Adlawan, full-stack software developer building web, mobile, and desktop applications for businesses, institutions, and startups.';
+  'Joshi Angelo Z. Adlawan, full-stack software developer building web, mobile, and desktop applications for businesses, institutions, and startups.';
 
 /**
  * Per-route <title>, meta description, and social tags, so client-side
@@ -21,7 +21,7 @@ export class PageTitleStrategy extends TitleStrategy {
 
   override updateTitle(snapshot: RouterStateSnapshot): void {
     const raw = this.buildTitle(snapshot) ?? SITE.name;
-    const fullTitle = raw.includes(SITE.name) ? raw : `${raw} | ${SITE.name}`;
+    const fullTitle = raw.includes(SITE.name) || raw.includes(SITE.legalName) ? raw : `${raw} | ${SITE.name}`;
     const description = this.deepest(snapshot.root).data['description'] ?? DEFAULT_DESCRIPTION;
     const url = `${SITE.origin}${snapshot.url === '/' ? '/' : snapshot.url.split(/[?#]/)[0]}`;
 
@@ -30,6 +30,7 @@ export class PageTitleStrategy extends TitleStrategy {
     this.meta.updateTag({ property: 'og:title', content: fullTitle });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ name: 'twitter:url', content: url });
     this.meta.updateTag({ name: 'twitter:title', content: fullTitle });
     this.meta.updateTag({ name: 'twitter:description', content: description });
     this.setCanonical(url);
