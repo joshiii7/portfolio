@@ -2,29 +2,22 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, input, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ContactMailerService } from '../../../core/services/contact-mailer.service';
+import { environment } from '../../../../environments/environment';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/**
- * The public site key from the reCAPTCHA admin console (google.com/recaptcha/admin), site type
- * "Challenge (v2) — I'm not a robot Checkbox". Safe to keep in client code: unlike the secret key
- * (RECAPTCHA_SECRET_KEY, used server-side in api/send-mail.js), the site key is meant to be public.
- * This placeholder must be replaced with a real key before the widget will render.
- */
-const RECAPTCHA_SITE_KEY = '6LeZ_8gtAAAAAIlbvO_GqY_NO51isiGrIVt5TyC7';
-
-/** The slice of the global `grecaptcha` object (loaded from Google's own script) this form uses. */
-interface Grecaptcha {
+/** The slice of the global `turnstile` object (loaded from Cloudflare's own script) this form uses. */
+interface Turnstile {
   render(
     container: HTMLElement,
     params: { sitekey: string; size?: 'normal' | 'compact'; callback: (token: string) => void; 'expired-callback': () => void; 'error-callback': () => void },
-  ): number;
-  reset(widgetId?: number): void;
+  ): string;
+  reset(widgetId?: string): void;
 }
 
 declare global {
   interface Window {
-    grecaptcha?: Grecaptcha;
+    turnstile?: Turnstile;
   }
 }
 
@@ -78,9 +71,9 @@ const MESSAGES: Record<FieldName, Record<string, string>> = {
  * A valid submit posts to the /api/send-mail function; the button is disabled
  * while it is in flight and the result is announced in the status region.
  * `spam` is a honeypot field hidden from people; the API drops any submission that fills it.
- * The reCAPTCHA checkbox is a second, visible line of defense (the honeypot alone is invisible to
- * a visitor, so it does nothing to reassure a human that the form is being taken seriously); its
- * token is only trusted once api/send-mail.js verifies it with Google server-side.
+ * The Cloudflare Turnstile widget is a second line of defense (the honeypot alone is invisible to
+ * a visitor); its token is single-use, expires after 5 minutes, and is only trusted once
+ * api/send-mail.js verifies it with Cloudflare server-side.
  */
 @Component({
   selector: 'app-contact-form',
@@ -99,12 +92,12 @@ export class ContactFormComponent implements AfterViewInit {
   protected readonly sending = signal(false);
   private readonly mailer = inject(ContactMailerService);
   private readonly formEl = viewChild.required<ElementRef<HTMLFormElement>>('formEl');
-  private readonly recaptchaEl = viewChild.required<ElementRef<HTMLElement>>('recaptchaEl');
+  private readonly turnstileEl = viewChild.required<ElementRef<HTMLElement>>('turnstileEl');
 
   /** The completed widget's response token, set by its callback; empty means not completed yet. */
-  protected readonly recaptchaToken = signal('');
-  protected readonly recaptchaTouched = signal(false);
-  private recaptchaWidgetId?: number;
+  protected readonly turnstileToken = signal('');
+  protected readonly turnstileTouched = signal(false);
+  private turnstileWidgetId?: string;
   /** Shared across every instance, so a second contact form on the same page reuses the one script tag. */
   private static scriptLoading?: Promise<void>;
 
@@ -117,17 +110,17 @@ export class ContactFormComponent implements AfterViewInit {
   });
 
   ngAfterViewInit(): void {
-    this.loadRecaptchaScript().then(() => this.renderRecaptcha());
+    this.loadTurnstileScript().then(() => this.renderTurnstile());
   }
 
-  private loadRecaptchaScript(): Promise<void> {
-    if (window.grecaptcha) return Promise.resolve();
+  private loadTurnstileScript(): Promise<void> {
+    if (window.turnstile) return Promise.resolve();
     if (!ContactFormComponent.scriptLoading) {
       ContactFormComponent.scriptLoading = new Promise((resolve) => {
-        const onloadName = '__recaptchaOnload';
+        const onloadName = '__turnstileOnload';
         (window as unknown as Record<string, () => void>)[onloadName] = () => resolve();
         const script = document.createElement('script');
-        script.src = `https://www.google.com/recaptcha/api.js?onload=${onloadName}&render=explicit`;
+        script.src = `https://challenges.cloudflare.com/turnstile/v0/api.js?onload=${onloadName}&render=explicit`;
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
@@ -136,17 +129,16 @@ export class ContactFormComponent implements AfterViewInit {
     return ContactFormComponent.scriptLoading;
   }
 
-  private renderRecaptcha(): void {
-    this.recaptchaWidgetId = window.grecaptcha?.render(this.recaptchaEl().nativeElement, {
-      sitekey: RECAPTCHA_SITE_KEY,
-      // The standard-size widget (304px) is too wide for the compact Home hero card.
-      size: this.compact() ? 'compact' : 'normal',
+  private renderTurnstile(): void {
+    this.turnstileWidgetId = window.turnstile?.render(this.turnstileEl().nativeElement, {
+      sitekey: environment.turnstileSiteKey,
+      size: 'normal',
       callback: (token) => {
-        this.recaptchaToken.set(token);
-        this.recaptchaTouched.set(true);
+        this.turnstileToken.set(token);
+        this.turnstileTouched.set(true);
       },
-      'expired-callback': () => this.recaptchaToken.set(''),
-      'error-callback': () => this.recaptchaToken.set(''),
+      'expired-callback': () => this.turnstileToken.set(''),
+      'error-callback': () => this.turnstileToken.set(''),
     });
   }
 
@@ -179,9 +171,9 @@ export class ContactFormComponent implements AfterViewInit {
       return;
     }
 
-    if (!this.recaptchaToken()) {
-      this.recaptchaTouched.set(true);
-      this.showStatus('error', 'Please complete the reCAPTCHA check before sending.');
+    if (!this.turnstileToken()) {
+      this.turnstileTouched.set(true);
+      this.showStatus('error', 'Please complete the verification check before sending.');
       return;
     }
 
@@ -190,18 +182,18 @@ export class ContactFormComponent implements AfterViewInit {
     const { name, email, subject, message, spam } = this.form.getRawValue();
 
     this.mailer
-      .send({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim(), spam, recaptchaToken: this.recaptchaToken() })
+      .send({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim(), spam, turnstileToken: this.turnstileToken() })
       .subscribe({
         next: () => {
           this.sending.set(false);
           this.form.reset();
-          this.resetRecaptcha();
+          this.resetTurnstile();
           this.showStatus('success', SUCCESS_MESSAGE);
         },
         error: (response: HttpErrorResponse) => {
           this.sending.set(false);
           // A failed check is worth a fresh widget: the token is single-use either way.
-          this.resetRecaptcha();
+          this.resetTurnstile();
           // Validation and rate-limit responses carry a readable message; anything else is generic.
           const detail = response.status === 400 || response.status === 429 ? response.error?.errors?.[0] : '';
           this.showStatus('error', detail || ERROR_MESSAGE);
@@ -209,10 +201,10 @@ export class ContactFormComponent implements AfterViewInit {
       });
   }
 
-  private resetRecaptcha(): void {
-    if (this.recaptchaWidgetId !== undefined) window.grecaptcha?.reset(this.recaptchaWidgetId);
-    this.recaptchaToken.set('');
-    this.recaptchaTouched.set(false);
+  private resetTurnstile(): void {
+    if (this.turnstileWidgetId !== undefined) window.turnstile?.reset(this.turnstileWidgetId);
+    this.turnstileToken.set('');
+    this.turnstileTouched.set(false);
   }
 
   private showStatus(kind: 'success' | 'error', text: string): void {
