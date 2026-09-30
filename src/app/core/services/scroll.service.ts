@@ -1,4 +1,5 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -19,6 +20,9 @@ export class ScrollService {
   readonly showTopButton = computed(() => this.scrollY() > SHOW_TOP_BUTTON_AFTER_PX);
 
   constructor() {
+    // Prerendering has no window; scroll only matters in the browser.
+    if (!isPlatformBrowser(inject(PLATFORM_ID))) return;
+
     window.addEventListener(
       'scroll',
       () => {

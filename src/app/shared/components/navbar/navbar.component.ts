@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, HostListener, NgZone, inject, signal, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, HostListener, NgZone, PLATFORM_ID, inject, signal, viewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NAV_LINKS, SITE } from '../../../core/data/site';
 import { HeaderHeightService } from '../../../core/services/header-height.service';
@@ -16,6 +17,7 @@ export class NavbarComponent implements AfterViewInit {
   private readonly headerHeight = inject(HeaderHeightService);
   private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly header = viewChild.required<ElementRef<HTMLElement>>('header');
   private readonly toggleButton = viewChild.required<ElementRef<HTMLButtonElement>>('toggle');
 
@@ -24,6 +26,7 @@ export class NavbarComponent implements AfterViewInit {
   protected readonly menuOpen = signal(false);
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     this.headerHeight.register(this.header().nativeElement);
     this.zone.runOutsideAngular(() => this.watchScroll());
   }

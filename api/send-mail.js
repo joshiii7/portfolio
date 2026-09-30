@@ -87,14 +87,14 @@ function smtpPassword() {
 }
 
 /**
- * Verifies the widget's response token with Google directly (the token itself is single-use and
- * meaningless without this call). The client-side checkbox alone proves nothing: a script could
- * post to this endpoint without ever loading the widget, so this is the check that actually counts.
+ * Verifies the widget's response token with Cloudflare directly (the token itself is single-use and
+ * meaningless without this call). The client-side widget alone proves nothing: a script could
+ * post to this endpoint without ever loading it, so this is the check that actually counts.
  */
-async function verifyRecaptcha(token, ip) {
-  const secret = setting('RECAPTCHA_SECRET_KEY');
+async function verifyTurnstile(token, ip) {
+  const secret = setting('TURNSTILE_SECRET_KEY');
   if (!secret) {
-    console.error('send-mail: RECAPTCHA_SECRET_KEY must be set');
+    console.error('send-mail: TURNSTILE_SECRET_KEY must be set');
     return false;
   }
   if (!token) return false;
@@ -102,7 +102,7 @@ async function verifyRecaptcha(token, ip) {
   try {
     const params = new URLSearchParams({ secret, response: token });
     if (ip && ip !== 'unknown') params.set('remoteip', ip);
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString(),
@@ -110,7 +110,7 @@ async function verifyRecaptcha(token, ip) {
     const result = await response.json();
     return result.success === true;
   } catch (error) {
-    console.error('send-mail: reCAPTCHA verification request failed', error);
+    console.error('send-mail: Turnstile verification request failed', error);
     return false;
   }
 }
@@ -162,8 +162,8 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ code: 400, errors });
   }
 
-  if (!(await verifyRecaptcha(clean(body.recaptchaToken), ip))) {
-    return res.status(400).json({ code: 400, errors: ['Please complete the reCAPTCHA check and try again.'] });
+  if (!(await verifyTurnstile(clean(body.turnstileToken), ip))) {
+    return res.status(400).json({ code: 400, errors: ['Please complete the verification check and try again.'] });
   }
 
   if (!setting('SMTP_HOST') || !setting('SMTP_USER') || !smtpPassword()) {

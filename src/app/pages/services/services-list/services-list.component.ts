@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild, PLATFORM_ID } from '@angular/core';
 import { WORKSPACE_PHOTOS } from '../../../core/data/photos';
 import { SERVICES_FAQS } from '../../../core/data/faqs';
 import { ContentService } from '../../../core/services/content.service';
@@ -43,7 +44,10 @@ export class ServicesListComponent implements AfterViewInit, OnDestroy {
     { title: 'Review & Launch', text: 'We review the finished work together, make any final adjustments, and launch.' },
   ];
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     this.zone.runOutsideAngular(() => this.setupProcessTimeline());
   }
 

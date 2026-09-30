@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, PLATFORM_ID, inject, viewChild } from '@angular/core';
 
 /**
  * A thin accent bar at the top of every page that fills as you scroll. It only sets a
@@ -15,9 +16,11 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, 
 export class ScrollProgressComponent implements AfterViewInit, OnDestroy {
   private readonly bar = viewChild.required<ElementRef<HTMLElement>>('bar');
   private readonly zone = inject(NgZone);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private cleanup?: () => void;
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     this.zone.runOutsideAngular(() => this.start());
   }
 

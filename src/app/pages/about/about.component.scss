@@ -18,13 +18,35 @@
     object-fit: cover;
 }
 
-.about-bio p {
-    color: var(--color-text-muted);
-    line-height: 1.8;
-    font-size: clamp(1rem, 2vw, 1.15rem);
+// Third-person bio, centered under the banner with a contact button.
+.about-summary {
+    max-width: 80rem;
+    text-align: center;
 
-    & + p {
-        margin-top: 1.25rem;
+    p {
+        color: var(--color-text);
+        line-height: 1.8;
+        font-size: clamp(1rem, 2vw, 1.15rem);
+        margin-bottom: 2rem;
+    }
+}
+
+// "How I work": first-person text beside the portrait.
+.about-bio__title {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    color: var(--color-text);
+    margin-bottom: 1.25rem;
+}
+
+.about-bio {
+    p {
+        color: var(--color-text-muted);
+        line-height: 1.8;
+        font-size: clamp(1rem, 2vw, 1.15rem);
+
+        & + p {
+            margin-top: 1.25rem;
+        }
     }
 }
 
@@ -55,37 +77,29 @@
     }
 }
 
-.achievement-list {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    max-width: 900px;
-    margin: 2.5rem auto 0;
+.achievement-grid {
+    margin-top: 1.5rem;
+}
 
-    li {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        background: var(--color-surface);
-        border: 1px solid rgba(var(--color-accent-rgb), 0.25);
-        border-radius: $radius-pill;
-        padding: 0.6rem 1.1rem;
-        font-size: 0.85rem;
-        color: var(--color-text-muted);
-    }
+.achievement-card {
+    padding: 1.5rem;
 
     ::ng-deep svg {
-        flex-shrink: 0;
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 2rem;
+        height: 2rem;
         color: var(--color-accent);
     }
 
-    strong {
-        color: var(--color-text);
+    &__title {
         font-weight: 600;
+        color: var(--color-text);
+        margin-top: 0.75rem;
+    }
+
+    &__detail {
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+        margin-top: 0.35rem;
     }
 }
 

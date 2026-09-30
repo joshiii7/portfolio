@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, signal, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, inject, signal, viewChild, PLATFORM_ID } from '@angular/core';
 import { ContentService } from '../../../core/services/content.service';
 import { MOTION } from '../../../core/services/motion-conditions';
 import { MotionService } from '../../../core/services/motion.service';
@@ -65,7 +66,10 @@ export class ToolsMarqueeComponent implements AfterViewInit, OnDestroy {
     this.syncSpeed?.();
   }
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     this.zone.runOutsideAngular(() => this.setupMotion());
   }
 

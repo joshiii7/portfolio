@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, input, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, input, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
@@ -61,7 +62,10 @@ export class ProjectCarouselComponent implements AfterViewInit, OnDestroy {
     return 'images' in project ? project.summary : project.result;
   }
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return; // prerendering has no window
     this.swiper = new Swiper(this.swiperRef().nativeElement, {
       modules: [Navigation],
       slidesPerView: 'auto',

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 /**
  * The mobile header is a stack of rows (logo, phone CTA, menu toggle bar), so
@@ -21,6 +22,8 @@ export class HeaderHeightService {
   private stale = false;
 
   constructor() {
+    // Prerendering has no window; the header is only measured in the browser.
+    if (!isPlatformBrowser(inject(PLATFORM_ID))) return;
     window.addEventListener('resize', () => this.sync());
   }
 
