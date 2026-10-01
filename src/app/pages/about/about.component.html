@@ -43,7 +43,7 @@
         <p class="section-intro">Professional web development work, teaching, and nationally recognized results in web technologies competitions.</p>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-4">
         @for (role of content.roles; track role.title + role.org; let i = $index) {
           <div class="card role-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
             <p class="role-card__title">{{ role.title }}</p>
@@ -53,15 +53,47 @@
         }
       </div>
 
-      <div class="grid grid-3 achievement-grid">
-        @for (item of content.achievements; track item.title + item.detail; let i = $index) {
-          <div class="card achievement-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
-            <app-icon [name]="item.icon" />
-            <p class="achievement-card__title">{{ item.title }}</p>
-            <p class="achievement-card__detail">{{ item.detail }}</p>
-          </div>
-        }
+      <div class="journey" data-aos="fade-up">
+        <h3 class="journey__title">My competition <span class="heading-accent">journey</span></h3>
+        <p class="journey__intro">Four competitions as a competitor, each one a step up from the last, and then one more from the other side as an expert.</p>
       </div>
+
+      <ol class="journey__list" #journeyList>
+        @for (stage of content.competitionJourney; track stage.level + stage.year; let i = $index; let odd = $odd) {
+          <li class="stage" [class.stage--flip]="odd" [class.stage--reached]="i < reached()" data-aos="fade-up">
+            <figure class="stage__photo">
+              <a
+                class="stage__link"
+                data-fancybox="competition-journey"
+                [href]="stage.photo.src"
+                [attr.data-caption]="stage.alt"
+                [attr.aria-label]="'View larger photo: ' + stage.alt"
+              >
+                <picture>
+                  <source
+                    type="image/webp"
+                    [attr.srcset]="srcset(stage.photo)"
+                    sizes="(min-width: 992px) 480px, 92vw"
+                  />
+                  <img [src]="stage.photo.src" [alt]="stage.alt" [attr.width]="stage.photo.width" [attr.height]="stage.photo.height" loading="lazy" decoding="async" />
+                </picture>
+              </a>
+            </figure>
+            <div class="stage__body">
+              <span class="stage__step" aria-hidden="true">{{ i + 1 }}</span>
+              <p class="stage__year">{{ stage.year }}</p>
+              <h4 class="stage__level">{{ stage.level }}</h4>
+              <p class="stage__result">
+                <app-icon name="medal" />
+                {{ stage.result }}
+              </p>
+              @for (paragraph of stage.story; track $index) {
+                <p class="stage__story">{{ paragraph }}</p>
+              }
+            </div>
+          </li>
+        }
+      </ol>
     </div>
   </section>
 

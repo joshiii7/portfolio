@@ -51,9 +51,8 @@
 }
 
 // ---------------------------------------------------------------------------
-// Experience & Background (About page): compact role cards for current
-// positions, plus a scannable badge row for competition/certification
-// history, replacing the old one-long-paragraph-per-entry timeline.
+// Experience & Background (About page): compact cards for current positions and
+// certification, then the competition journey as a numbered, scroll-driven timeline.
 // ---------------------------------------------------------------------------
 .role-card {
     padding: 1.5rem;
@@ -77,30 +76,176 @@
     }
 }
 
-.achievement-grid {
-    margin-top: 1.5rem;
-}
-
-.achievement-card {
-    padding: 1.5rem;
-
-    ::ng-deep svg {
-        width: 2rem;
-        height: 2rem;
-        color: var(--color-accent);
-    }
+// Competition journey: the four competitions as a numbered ladder, photo and
+// text alternating sides, joined by a thin accent line on wide screens.
+.journey {
+    margin-top: 4rem;
+    text-align: center;
 
     &__title {
-        font-weight: 600;
+        font-size: clamp(1.4rem, 3vw, 1.9rem);
         color: var(--color-text);
-        margin-top: 0.75rem;
     }
 
-    &__detail {
+    &__intro {
         color: var(--color-text-muted);
-        font-size: 0.9rem;
-        margin-top: 0.35rem;
+        margin-top: 0.5rem;
+    }
+
+    &__list {
+        list-style: none;
+        margin: 2.5rem 0 0;
+        padding: 0;
+        display: grid;
+        gap: 2.5rem;
+        position: relative;
+
+        @media (min-width: 992px) {
+            gap: 4rem;
+
+            // The faint track, plus a brighter fill on top of it that grows with scroll.
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 2px;
+                transform: translateX(-50%);
+            }
+
+            &::before {
+                bottom: 0;
+                background: var(--color-text-muted);
+                opacity: 0.25;
+            }
+
+            &::after {
+                height: calc(var(--journey-progress, 0) * 100%);
+                background: var(--color-accent);
+                box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.6);
+            }
+        }
     }
 }
 
-// ---------------------------------------------------------------------------
+.stage {
+    display: grid;
+    gap: 1.25rem;
+    align-items: center;
+
+    @media (min-width: 992px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+
+        &--flip .stage__photo {
+            order: 2;
+        }
+    }
+
+    &__photo {
+        margin: 0;
+
+        // The photo is the Fancybox trigger: a plain link so it stays keyboard-reachable.
+        .stage__link {
+            display: block;
+            cursor: zoom-in;
+            transition: transform 0.25s ease;
+
+            &:hover,
+            &:focus-visible {
+                transform: translateY(-4px);
+            }
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: $radius-lg;
+            // Photos arrive in 4:3 and 16:9; one frame keeps the ladder even.
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+    }
+
+    &__body {
+        position: relative;
+    }
+
+    // Numbered marker that sits on the centre line (wide screens only).
+    &__step {
+        display: none;
+
+        @media (min-width: 992px) {
+            display: grid;
+            place-items: center;
+            position: absolute;
+            z-index: 1; // above the scroll line, which paints after the stages
+            top: 50%;
+            left: -3rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: var(--color-bg);
+            border: 2px solid var(--color-text-muted);
+            color: var(--color-text-muted);
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+    }
+
+    // Once the scroll line passes a marker it fills in with the accent colour.
+    &--reached &__step {
+        @media (min-width: 992px) {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #fff;
+            box-shadow: 0 0 0 4px rgba(var(--color-accent-rgb), 0.25);
+        }
+    }
+
+    &--flip &__step {
+        @media (min-width: 992px) {
+            left: auto;
+            right: -3rem;
+            transform: translate(50%, -50%);
+        }
+    }
+
+    &__year {
+        color: var(--color-accent);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+    }
+
+    &__level {
+        color: var(--color-text);
+        font-size: clamp(1.3rem, 3vw, 1.7rem);
+        margin-top: 0.15rem;
+    }
+
+    &__result {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--color-text);
+        font-weight: 600;
+        margin-top: 0.75rem;
+
+        ::ng-deep svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--color-accent);
+        }
+    }
+
+    &__story {
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        margin-top: 0.75rem;
+    }
+}
