@@ -8,7 +8,7 @@ const WORKSPACE_DIR = `${PHOTOS_DIR}/workspace`;
  * The WebP renditions of a photo: one `<name>-<width>.webp` file per width, in the same folder, so
  * the file name carries the description and its suffix carries the size.
  */
-const webpVariants = (dir: string, name: string, widths: readonly number[]): PhotoVariant[] =>
+export const webpVariants = (dir: string, name: string, widths: readonly number[]): PhotoVariant[] =>
   widths.map((width) => ({ src: `${dir}/${name}-${width}.webp`, width }));
 
 /** WorldSkills ASEAN Manila 2025 photo used as a decorative banner background. */
